@@ -1,0 +1,45 @@
+form{font-size: 12px;}
+/* consignee */
+.conframe{ width: 100%; height: 100%; padding-top: 0.75em; position: relative;}
+.list{ height: 78px;  border-bottom: 1px solid #dbdbdb; background: #fff; padding-left: 0.625em}
+.conframe a:first-child .list{ border-top: 1px solid #dbdbdb}
+.list ul{ width: 82%; }
+.angle{ width: 8px; height: 100%; margin-left: 30px; position: relative;}
+.angle img{ position: absolute; top:50%; left: 0; margin-top: -4px; width: 8px}
+.con_tit{ font-size: 15px; font-weight: bold; padding-top: 4px}
+.con_tit span{ height: 33px; line-height: 33px}
+.con_tit span:last-child{ font-size: 14px;  line-height: 34px }
+.con_content{ font-size: 12px; color: #3d3e40}
+.emptyadd{ margin-top: 38%; text-align: center; }
+.emptyadd p{ color: #5e656f; padding: 20px 0 16px 0}
+.emptyadd img{ width: 96px;}
+.emptyadd a{ border:1px solid #ff3f00; border-radius:3px; -webkit-border-radius:3px; -moz-border-radius:3px; font-size: 14px; color: #ff3f00 ; padding: 5px 8px}
+.conerror{ display: none;  padding-left:15px; font-size: 12px; padding-top: 10px; color: #ff3e00; padding-bottom: 10px}
+/* end consignee */
+
+/* consignadd */
+.insertadd li,.consigndel{ border-bottom: 1px solid #efefef; height: 43px; line-height: 43px; text-indent: 20px; background: #fff url(../images/notice.png) no-repeat 8px center;background-size:1.5%;}
+.insertadd li:last-child{ background: #fff;}
+.insertadd li.showstar{ background: #fff url(../images/notice.png) no-repeat 8px center;background-size:1.5%;}
+.insertadd span{ color: #c2c1c6; font-size: 15px; width: 26%; text-indent: 0; text-align: left; display: inline-block; }
+
+.insertadd input{ height: 40px; font-size:14px; width: 63%}
+.insertadd textarea{ height: 51px; font-size:14px; width: 63%; padding-top: 12px; line-height: 20px; }
+.insertadd .txtarea{ height: 64px; background: #fff url(../images/notice.png) no-repeat 8px 18px;background-size:1.5%;}
+.txtarea span{ vertical-align: top; }
+.insertadd select{ appearance:none; -webkit-appearance:none; -moz-appearance:none; -ms-appearance:none;  border:none; outline:none; font-size: 15px; -margin-left: 24px; padding-right: 5px;}
+
+.save{ height:2.625em; background: #1a1a1a; text-align: center; color: #ffffff; line-height: 2.625em; border-radius: 0.1875em; -webkit-border-radius: 0.1875em; -moz-border-radius: 0.1875em; margin: 0.75em; }
+
+.protips{ display: none; padding: 30px 10px;  width: 64%; background: rgba(0,0,0,0.8); line-height: 29px; position: absolute; top: 80%; left: 50%; margin-left: -33%; border-radius: 3px; -webkit-border-radius: 3px; -moz-border-radius: 3px; -ms-border-radius: 3px; color: #ffffff; font-size: 13px; text-align: center; z-index: 1}
+.pronotice{ display: none; height: 69px; width: 66%; background: rgba(0,0,0,0.8); line-height: 69px; position: absolute; top: 80%; left: 50%; margin-left: -33%; border-radius: 3px; -webkit-border-radius: 3px; -moz-border-radius: 3px; -ms-border-radius: 3px; color: #ffffff; font-size: 13px; text-align: center; z-index: 1}
+/* consignadd end */
+
+
+.consigndel{ background: #fff; border-top: 1px solid #efefef; margin-top: 16px; color: #ff0000; font-size: 15px;font-weight:bold;}
+.overseas{ margin: 10px; }
+.overseas img{ width: 100%}
+.choose{ width: 22px; height: 100%; margin-left: 28px; position: relative;}
+.choose img{ vertical-align: middle; position: absolute; top: 50%; left: 0; margin-top: -11px; width: 22px; height: 22px;}
+
+.off{ display: none}

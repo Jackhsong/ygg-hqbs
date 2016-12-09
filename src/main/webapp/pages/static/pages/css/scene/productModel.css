@@ -1,0 +1,43 @@
+.wrap, body, html{background:#fff;overflow-x:hidden;}
+.quphone{position:relative;display:none;}
+.quphone span{width:82px;height:31px;right:18px;top:20px;}
+.bannerWrap{background:url("../../images/scene/holder_logo.png") no-repeat center center #fff;background-size: 45%;}
+.goods{width: 95%;margin: 0 auto;margin-top:30px;}
+.goods li{margin-top: 20px;padding-bottom:5px;}
+.goods li:last-child .link{border-bottom: none;}
+.goods .link{display: block;padding-bottom: 16px;border-bottom: 1px solid #d1d1d1;text-decoration: none;}
+.goods .goodsTit{ color:#2a2a2a;display: block;font-size: 16px;width: 95%;margin: 20px auto 10px;line-height: 130%;}
+.goods .goodsDesc{color: #666666;line-height: 130%;font-size: 13px;margin:0 auto 13px auto;width:95%;}
+.goods .goodsDesc i{color: #333333;}
+.goods .img{display: block;height: 21.25rem;background:url("../../images/scene/holder_logo.png") no-repeat center center #f9f9f9;background-size: 45%;/*border:1px solid #f0f0f0;*/}
+.goods .img img{width: 100%;display: inline-block;vertical-align: middle;height: 21.25rem;}
+.goods .overCircle,.goods .startCircle{top: 35%;right:35%;border-radius:100%;width: 100px;height: 100px;line-height: 100px;text-align: center;font-size: 22px;}
+.goods .overCircle{background: rgba(0,0,0,0.5);color: #fff;}
+.goods .startCircle{background: rgba(235,235,235,0.5);color: #f06252;line-height: 110%;}
+.goods .startCircle i{display:inline-block;margin-top: 25%;}
+.goods .priceBox{height: 35px; line-height: 35px;width:94%;margin:0 auto;}
+.goods .arrow{width: 31px;height: 31px;display: inline-block;margin-top: 2px;}
+.goods .newPrice{color: #333333;font-family: 'Arial','microsoft yahei';font-size: 24px;margin-left:-5px;}
+.goods .oldPrice{font-size: 16px;color: #999999;display: inline-block;margin:2px 0 0 8px;}
+.goods .goodsTit .hot{display:inline-block;background:url(../../images/scene/left-kuote.png) no-repeat left 1px;padding-left:7px;background-size:5px;margin-right:5px;}
+.goods .goodsTit .hot i{display:inline-block;background:url(../../images/scene/right-kuote.png) no-repeat right 6px;font-weight:normal;background-size:5px;padding-right:7px;}
+.groupImg .doubleImg a{width:50%;}
+.moreGoods{background: #f9f9f9;}
+.moreGoods .moreHeader{padding: 20px 0;}
+.moreGoods li{width: 46%;margin-left:2.8%;background:#fff;margin-bottom: 10px;border-top-left-radius: 3px;border-top-right-radius: 3px;padding-bottom:10px;}
+.moreGoods li .img{display: block;height: 12rem;background:url("../../images/scene/holder_logo.png") no-repeat center center #f9f9f9;background-size: 45%;}
+.moreGoods li .img,.moreGoods li .img img{border-top-left-radius: 3px;border-top-right-radius: 3px;height: 10.3rem;}
+.moreGoods .link{text-decoration: none;}
+.moreGoods .link .moreGoodsTit{height:50px;overflow:hidden;color: #333333;font-size: 13px;line-height: 130%;width:90%;margin: 0 auto;padding:10px 0px 0px;display: block;}
+.moreGoods .priceBox{height: 34px;line-height: 34px;width: 90%;margin: 0 auto;}
+.moreGoods .newPrice{color: #333333;font-size: 17px;margin-left:-5px;}
+.moreGoods .oldPrice{color: #999999;font-size: 12px;margin-left: 8px;margin-top: 1px;}
+.moreGoods .buyCar{width: 22px;margin-top: 5px;}
+.moreGoods .overCircle,.moreGoods .startCircle{top: 32%;right:32%;border-radius:100%;width: 75px;height: 75px;line-height: 75px;text-align: center;font-size: 18px;}
+.moreGoods .overCircle{background: rgba(0,0,0,0.5);color: #fff;}
+.moreGoods .startCircle{background: rgba(235,235,235,0.5);color: #f06252;line-height: 110%;}
+.moreGoods .startCircle i{display:inline-block;margin-top: 25%;}
+@media only screen and (min-width: 800px){
+    .goods .overCircle,.goods .startCircle{right:40%;}
+    .moreGoods .overCircle,.moreGoods .startCircle{right:35%;}
+}

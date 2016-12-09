@@ -1,0 +1,93 @@
+@charset "utf-8";
+/* CSS Document */
+body, h1, h2, h3, h4, h5, h6, hr, p, blockquote,dl, dt, dd, ul, ol, li,pre,button, input, textarea,th, td,header,nav,footer,aside,a,b,i,span,em{ margin: 0; padding: 0;}
+html{height:100%;font-size: 62.5%}
+body{font:1.2rem/1.2 'Microsoft Yahei',Tahoma,Helvetica,Arial,Sans-serif;color:#000;max-width:750px;height: 100%;margin:0 auto;position: relative;}
+ul,ol{list-style: none}
+a{color:#666;text-decoration: none; outline: none;-webkit-tap-highlight-color:transparent;}
+a:hover{ text-decoration:none;}
+a:visited{ text-decoration:none;}
+img{border:none;vertical-align: middle}
+input,select,button{ outline: none}
+a,span,i,b,em{display: inline-block; font-style: normal}
+
+.body{
+	background:#f9f9f9;
+    overflow-x: hidden;
+}
+
+.full-row{
+	padding: 0px;
+}
+.banner{
+	margin-bottom:1px;
+}
+.banner img{
+	height:240px;
+	width:750px;
+}
+.swiper-slide a{width: 100%;padding-top: 60%;background:no-repeat center top;background-size:cover;}
+.notice{
+	background:#6196ee;
+	border-bottom:1px solid #fff;
+
+}
+.notice .notice-txt{
+	height:46px;
+	background:#6196ee;
+	font-size:18px;
+	color:#fff;
+	line-height:46px;
+	margin-bottom:0px;
+
+  -webkit-animation-duration: 5s;
+  -webkit-animation-delay: 1s;
+  -moz-animation-duration: 5s;
+  -moz-animation-delay: 1s;
+  animation-duration: 5s;
+  animation-delay: 1s;
+}
+
+.main-pic-01{
+	margin-bottom:2px;
+}
+.main-pic-01 img{
+	width:750px;
+	height:200px;
+}
+.title{
+	margin-bottom:11.5px;
+	text-align:center;
+}
+.title .title-txt{
+	width:100%;
+	font-size:30px;
+	color:#fff;
+	line-height:70px;
+	background:url(../images/zuoan_homepage_new_bj.png) left top no-repeat;
+	background-size:100% auto;
+}
+.card{
+	background:#fff;
+	border:1px #eaeaea solid;
+	padding:1px 1px 1px 1px;
+	margin-top:1px;
+	margin-left:-13px;
+	margin-right:-12px;
+}
+.card-txt{
+	font-size:14px;
+	color:#ff5b00;
+	line-height:40px;
+	font-weight: 700;
+}
+.card-btn  img{
+width:30px;height:30px;margin-top:3px;
+}
+.product{
+	margin-bottom:5px;
+}
+
+.product > div{
+	margin-bottom:5px;
+}

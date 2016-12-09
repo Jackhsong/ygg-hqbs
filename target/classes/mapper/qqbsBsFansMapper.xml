@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper  
+   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">  
+    <mapper namespace="QqbsBsFansMapper">
+    
+    <insert id="insertBsFans" parameterType="QqbsBsFansEntity" useGeneratedKeys="true" keyProperty="id">
+ 		<![CDATA[
+        	insert into qqbs_fans_bs(account_id,fans_account_id,level,fans_image,fans_nickname,create_time) 
+        	values(#{accountId},#{fansAccountId},#{level},#{fansImage},#{fansNickname},now())
+        ]]>
+	</insert>
+</mapper>  

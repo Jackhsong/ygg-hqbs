@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper  
+   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">  
+    <mapper namespace="ProductCommonMapper">  
+    
+    <!-- 根据商品id查询对应的商品常用信息-->
+    <select id="findProductCommonInfoById" parameterType="int"  resultType="ProductCommonEntity">
+     SELECT id as id ,
+     type,
+     product_id as productId ,
+     medium_image  as  mediumImage ,
+     small_image  as  smallImage , 
+     name  as  name ,
+     short_name as shortName ,
+     market_price  as marketPrice ,
+     sales_price as salesPrice ,
+     sell_count  as sellCount  ,
+     partner_distribution_price as partnerDistributionPrice
+     FROM product_common 
+     WHERE product_id=#{productid} LIMIT 1
+    </select>
+   
+   <select id="findProductSellCountById" parameterType="int" resultType="int">
+      SELECT  
+      sell_count  as sellCount 
+      FROM product_common 
+      WHERE product_id=#{productid} LIMIT 1
+   </select>
+   
+   <select id="findProductSellCountByIds"   resultType="map">
+      SELECT  
+      product_id  as productid , 
+      sell_count  as productsellcount 
+      FROM product_common 
+      WHERE  1=1 and 
+      product_id in 
+      <foreach item="item" index="index" collection="list" open="(" separator="," close=")">  
+          #{item}  
+      </foreach>
+   </select>
+   
+   
+    <!--根据商品id列表查询对应的商品常用信息列表 -->
+    <select id="findProductCommonsInfoById" parameterType="map"  resultType="ProductCommonEntity">
+     SELECT id as id ,
+     type,
+     product_id as productId ,
+     medium_image  as  mediumImage ,
+     small_image  as  smallImage , 
+     name  as  name ,
+     short_name as shortName ,
+     market_price  as marketPrice ,
+     sales_price as salesPrice ,
+     sell_count  as sellCount  ,
+     selling_point as sellingPoint
+     FROM product_common 
+     WHERE product_id IN  
+     <foreach item="item" index="index" collection="ids" open="(" separator="," close=")">  
+          #{item}  
+     </foreach>  
+    </select>
+    
+    <update id="updateSellCountById" parameterType="map">
+       UPDATE product_common 
+       SET sell_count=#{sellCount} 
+       WHERE product_id=#{productId}
+    </update>
+</mapper>  

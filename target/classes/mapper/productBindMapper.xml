@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper  
+   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">  
+    <mapper namespace="ProductBindMapper">  
+    
+    <!-- 根据商品id查询对应的商品绑定信息 -->
+    <select id="findProductBindInfoById" parameterType="int"  resultType="ProductBindEntity">
+     SELECT sale_window_id  as saleWindowId
+     FROM product_bind 
+     WHERE product_id=#{productId} LIMIT 1
+    </select>
+   
+    
+</mapper>  

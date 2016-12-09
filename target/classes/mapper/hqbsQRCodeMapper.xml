@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper  
+   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="HqbsQRCodeMapper">
+	<resultMap type="QRCodeEntity" id="qrCodeEntitytMap">
+		<id column="id" property="id" />
+		<result column="account_id" property="accountId" />
+		<result column="qrcode_url" property="qrCodeUrl" />
+		<result column="creator" property="creator" />
+		<result column="create_time" property="createTime" />
+		<result column="update_time" property="updateTime" />
+
+	</resultMap>
+	<sql id="QRCodeQuery">
+		id as id,
+		account_id as accountId ,
+		qrcode_url as qrCodeUrl,
+		creator as creator,
+		create_time as createTime,
+		update_time as updateTime
+	</sql>
+
+	<select id="findQRCodeByAccountId" parameterType="int"
+		resultType="QRCodeEntity">
+		SELECT
+		<include refid="QRCodeQuery"></include>
+		FROM qqbs_qrcode WHERE account_Id =#{accountId} LIMIT 1
+	</select>
+</mapper>  

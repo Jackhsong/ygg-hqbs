@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper  
+   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">  
+    <mapper namespace="ReserveDownloadMapper">  
+    
+     
+     <select id="findReserveDownLoad" parameterType="map" resultType="ReserveDownloadEntity">
+        select id as id ,
+		phonenum as phonenum ,
+        create_time as createtime 
+        from  yggapp_reserve_download   
+        where phonenum=#{phonenum}
+     </select>
+    
+     <insert id="insertReserveDownload" parameterType="map">
+         insert into yggapp_reserve_download(phonenum,create_time) 
+         values(#{phonenum},#{createtime,jdbcType=TIMESTAMP}) 
+     </insert>
+    
+</mapper>  

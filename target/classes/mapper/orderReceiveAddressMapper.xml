@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper  
+   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">  
+    <mapper namespace="OrderReceiveAddressMapper">  
+    
+     <insert id="addAddress" parameterType="OrderReceiveAddressEntity" useGeneratedKeys="true" keyProperty="id">
+     INSERT INTO order_receive_address(full_name,mobile_number,detail_address,id_card,province,city,district) 
+     VALUES(#{fullName},#{mobileNumber},#{detailAddress},#{idCard},#{province},#{city},#{district})
+     </insert>
+       
+     <select id="findAddressById" parameterType="int" resultType="OrderReceiveAddressEntity">
+      SELECT id as id ,
+      full_name  as fullName ,
+      mobile_number  as mobileNumber ,
+      detail_address  as detailAddress ,
+      province  as province ,
+      city  as city ,
+      district  as district 
+      FROM order_receive_address 
+      WHERE id=#{id} LIMIT 1
+     </select>
+      
+</mapper>  

@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper  
+   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">  
+    <mapper namespace="LotteryActivityMapper">  
+     
+	<select id="findLotteryActivityById" parameterType="int"  resultType="LotteryActivityEntity" >
+		SELECT 
+			id,
+			`name`,
+			start_time AS startTime,
+			end_time AS endTime,
+			remark,
+			limit_share_num AS limitShareNum,
+			limit_num AS limitNum,
+			share_num AS shareNum,
+			create_time AS createTime,
+			limit_type AS limitType
+		FROM 
+			lottery_activity 
+		WHERE 
+			id=#{id}
+			AND is_available=1
+	</select>
+	
+	<select id="findLotteryPrizeByLotteryActivityId" parameterType="int"  resultType="LotteryPrizeEntity" >
+		SELECT 
+			id,
+			lottery_activity_id AS lotteryActivityId,
+			num,
+			probability,
+			type,
+			coupon_id AS couponId,
+			point,
+			create_time AS createTime,
+			validity_days_type AS validityDaysType,
+			days AS days
+		FROM 
+			lottery_prize 
+		WHERE 
+			lottery_activity_id=#{id}
+			AND is_available=1
+	</select>
+	
+	<insert id="addLotteryRecord" parameterType="map">
+      INSERT INTO `lottery_record`(username,lottery_activity_id,lottery_prize_id,create_time) 
+      VALUES(#{username},#{lotteryActivityId},#{lotteryPrizeId},now())
+    </insert> 
+    
+    <insert id="addRelationLotteryActivityAndAccount" parameterType="map">
+      INSERT INTO `relation_lottery_activity_and_account`(username,lottery_activity_id,left_count,used_count,increase_num,create_time,record_day) 
+      VALUES(#{username},#{lotteryActivityId},#{leftCount},#{usedCount},#{increaseNum},now(),#{recordDay})
+    </insert> 
+     
+     <select id="findAccountActInfoByUsernameAndLAId" parameterType="map"  resultType="map" >
+		SELECT 
+			left_count AS leftCount,
+			used_count AS usedCount,
+			increase_num AS increaseNum
+		FROM 
+			relation_lottery_activity_and_account 
+		WHERE 
+			username=#{username}
+			AND lottery_activity_id=#{lotteryActivityId}
+			<if test="recordDay != null">AND record_day=#{recordDay}</if>
+		FOR UPDATE
+	</select>
+	
+	<update id="updateAccountActInfoByUsernameAndLAId" parameterType="map">
+     	UPDATE `relation_lottery_activity_and_account` 
+     	<set>
+          <if test="leftCount != null"> left_count=#{leftCount}, </if>
+          <if test="increaseNum != null"> increase_num=#{increaseNum}, </if>
+          <if test="usedCount != null"> used_count=#{usedCount} </if>
+     	</set>
+     	WHERE 
+     		username=#{username}
+			AND lottery_activity_id=#{lotteryActivityId}
+			<if test="recordDay != null">AND record_day=#{recordDay}</if>
+     </update>
+     
+     <select id="findAccountActInfoByAccountIdAndLAId" parameterType="map"  resultType="map" >
+		SELECT 
+			rlaaa.left_count AS leftCount,
+			rlaaa.used_count AS usedCount,
+			rlaaa.increase_num AS increaseNum
+		FROM 
+			relation_lottery_activity_and_account rlaaa,
+			account a
+		WHERE 
+			rlaaa.username=a.name
+			AND a.id=#{accountId}
+			AND rlaaa.lottery_activity_id=#{lotteryActivityId}
+			<if test="recordDay != null">AND rlaaa.record_day=#{recordDay}</if>
+	</select>
+	
+	<select id="findGiftActivityById" parameterType="int"  resultType="GiftActivityEntity" >
+		SELECT 
+			id,
+			`name`,
+			start_time AS startTime,
+			end_time AS endTime,
+			remark,
+			limit_num AS limitNum,
+			create_time AS createTime
+		FROM 
+			gift_activity 
+		WHERE 
+			id=#{id}
+			AND is_available=1
+	</select>
+	
+	<select id="countGiftRecordByPara" parameterType="map"  resultType="int" >
+		SELECT 
+			count(id)
+		FROM 
+			gift_record 
+		WHERE
+			1=1
+			<if test="username != null"> and username=#{username} </if>
+			<if test="giftActivityId != null"> and gift_activity_id=#{giftActivityId} </if>
+			<if test="type != null"> and type=#{type} </if>
+	</select>
+	
+	<insert id="addGiftRecord" parameterType="map">
+      INSERT INTO `gift_record`(username,gift_activity_id,type,create_time) 
+      VALUES(#{username},#{giftActivityId},#{type},now())
+    </insert> 
+    
+    <select id="findGiftPrizeByGiftActivityIdAndDrawWay" parameterType="map"  resultType="GiftPrizeEntity" >
+		SELECT 
+			id,
+			gift_activity_id AS giftActivityId,
+			num,
+			coupon_id AS couponId,
+			draw_way AS drawWay,
+			create_time AS createTime
+		FROM 
+			gift_prize 
+		WHERE 
+			is_available=1
+			AND gift_activity_id=#{giftActivityId}
+			AND draw_way=#{drawWay}
+	</select>
+
+	<update id="reducePrizeNum" parameterType="map">
+		UPDATE `lottery_prize` SET num=num-1 WHERE num=#{oldNum} AND id=#{id}
+	</update>
+     
+</mapper>  

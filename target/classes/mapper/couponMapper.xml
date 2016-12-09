@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper  
+   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">  
+<mapper namespace="CouponMapper">
+	<select id="findCouponById" parameterType="int" resultType="CouponEntity">
+		SELECT
+			id,
+			coupon_detail_id AS couponDetailId,
+			total,
+			type,
+			start_time AS startTime,
+			end_time AS endTime,
+			remark,
+			create_time AS createTime,
+			update_time AS updateTime
+		FROM
+			coupon
+		WHERE
+			id = #{couponId}		
+	</select>     
+</mapper>  

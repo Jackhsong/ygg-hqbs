@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper  
+   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">  
+    <mapper namespace="ProductCountMapper">  
+    
+    <select id="findProductCountInfoById" parameterType="int"  resultType="ProductCountEntity">
+      SELECT sell as sell ,
+      stock as stock ,
+      `lock` as  `lock` ,
+      restriction as restriction,
+      stock_algorithm  as stockAlgorithm
+      FROM product_count 
+      WHERE product_id=#{productId} LIMIT 1
+    </select>
+    
+    <select id="findCountInfoById"  parameterType="int"  resultType="ProductCountEntity">
+        SELECT id as id,
+        sell as sell ,
+        stock as stock ,
+        `lock` as `lock`,
+        restriction as restriction,
+        stock_algorithm as stockAlgorithm
+        FROM product_count 
+        WHERE product_id=#{productId} LIMIT 1
+    </select>
+    
+    <select id="findSellCountByProductId" parameterType="int" resultType="java.lang.Integer">
+       select sell  
+       from product_count  
+       where product_id  = #{productId}
+    </select>
+    
+    <select id="findProductCountSumByCommonId" parameterType="int"  resultType="ProductCountEntity">
+      SELECT SUM(p.stock) as stock,SUM(p.lock) as `lock`
+      FROM product_count AS p 
+      INNER JOIN (SELECT product_id FROM relation_activities_common_and_product WHERE activities_common_id=#{acid} ) AS r  
+      ON p.product_id=r.product_id
+    </select>
+    
+    <select id="findProductCountSumByCustomId" parameterType="int"  resultType="ProductCountEntity">
+      SELECT SUM(p.stock) as stock,SUM(p.lock) as `lock` 
+      FROM product_count AS p 
+      INNER JOIN (SELECT product_id FROM relation_activities_custom_and_product WHERE activities_custom_id=#{id}) AS r 
+      ON p.product_id=r.product_id
+    </select>
+    
+    <select id="findProductCountByProductIds"  resultType="ProductCountEntity">
+        select  id as id ,
+        product_id as productId ,
+        sell  as sell ,
+        stock as stock ,
+        `lock`  as `lock`  ,
+        stock_algorithm as stockAlgorithm
+        from product_count  
+        where product_id in 
+        <foreach item="item" index="index" collection="list" open="(" separator="," close=")">  
+           #{item}  
+        </foreach>  
+        for update 
+    </select>
+    
+    <select id="findProductCountSumByProductIds" resultType="ProductCountEntity">
+      SELECT SUM(stock) as stock,SUM(`lock`) as `lock` 
+      FROM product_count 
+      WHERE product_id IN 
+      <foreach item="item" index="index" collection="list" open="(" separator="," close=")">  
+           #{item}  
+      </foreach>  
+    </select>
+    
+    <!-- <delete id="deleteLockCountByPIdAndAId" parameterType="map">
+       DELETE FROM cart_lock_count 
+       WHERE order_id=#{orderId} 
+       AND product_id=#{productId}
+    </delete> -->
+    
+    <update id="updateProductCountByProductId" parameterType="map">
+       update product_count 
+       set `lock`=#{newLock}
+       where product_id =#{productId} 
+    </update>
+    
+    
+    <!-- 查询在无效效时间内，而又时有效的账号ID  -->
+    <select id="findAccountIdsAndNoValid" resultType="java.lang.Integer">
+      select d.order_id  as orderId
+      from order_lock_time as d 
+      where (now() - d.valid_time) &gt;0 
+      and d.is_valid=1
+    </select>
+    
+    <select id="findTempLockCountProductIdsByAccountId" parameterType="int" resultType="int">
+      select product_id as productId 
+      from temp_cart_lock_count 
+      where temp_account_id=#{tempaccountid}
+    </select>
+    
+    <select id="findLockCountProductIdsByAccountId" parameterType="int" resultType="int">
+        select product_id as productId 
+        from order_lock_count 
+        where order_id=#{ordeid}
+    </select>
+    
+    <select id="findLockCountByPIdAndAId" parameterType="map" resultType="java.lang.Integer">
+        SELECT product_count  as productcount
+        FROM order_lock_count 
+        WHERE order_id=#{orderId} 
+        AND product_id=#{productId} LIMIT 1
+    </select>
+    
+     <delete id="deleteLockCountByPIdAndAId" parameterType="map">
+        DELETE FROM order_lock_count
+        WHERE order_id=#{orderId} AND product_id=#{productId}
+    </delete> 
+    
+    <update id="updateOrderStatusByOrderid" parameterType="map">
+        update `order` set status =#{status} 
+        where id =#{orderId} 
+    </update>
+    
+    <update id="updateIsValidByOrderId" parameterType="map">
+         UPDATE order_lock_time 
+         SET is_valid=#{isValid}
+         WHERE order_id=#{orderId} 
+    </update>
+    
+    <update id="updateCountInfo" parameterType="map">
+        UPDATE product_count 
+        SET `lock`=#{newlock} ,
+        stock=#{stock},
+        sell=#{sell}
+        WHERE id=#{id}
+    </update>
+    
+    <select id="findCountInfoByIdForUpdate" parameterType="int" resultType="ProductCountEntity">
+          SELECT id as id , 
+           product_id as productId ,
+           sell  as sell ,
+           stock as stock ,
+           restriction as restriction ,
+          `lock`  as `lock`  ,
+           stock_algorithm as stockAlgorithm
+           FROM product_count 
+           WHERE product_id=#{productId} 
+           LIMIT 1 FOR UPDATE
+    </select>
+    
+    <select id="findCountInfosByIdsForUpdate"  resultType="ProductCountEntity">
+      SELECT id as id ,
+      sell as sell , 
+      stock as stock ,
+      `lock` as `lock`,
+      product_id as productId ,
+      restriction as restriction,
+      stock_algorithm  as stockAlgorithm
+      FROM product_count 
+      WHERE product_id IN 
+       <foreach item="item" index="index" collection="list" open="(" separator="," close=")">  
+           #{item}  
+        </foreach> 
+        ORDER BY product_id FOR UPDATE
+    </select>
+</mapper>  

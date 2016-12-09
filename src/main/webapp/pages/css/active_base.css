@@ -1,0 +1,58 @@
+body, h1, h2, h3, h4, h5, h6, hr, p, blockquote,dl, dt, dd, ul, ol, li,pre,button, input, textarea,th, td,header,nav,footer,aside,article,a,b,i,span,em{ margin: 0; padding: 0;}
+html{height:100%;font-size:calc(100vw/3.75)}
+body{font:.12rem/1.6 'Microsoft Yahei',Tahoma,Helvetica,Arial,Sans-serif;color:#000;max-width:640px;margin:0 auto;}
+ul,ol{list-style: none}
+a{color:#666;text-decoration: none; outline: none;-webkit-tap-highlight-color:transparent;}
+a:hover{color:#333}
+img{border:none;vertical-align: middle}
+input,select,button{ outline: none;font-family:  'Microsoft Yahei',Tahoma,Helvetica,Arial,Sans-serif;}
+a,span,i,b,em{display: inline-block; font-style: normal;-webkit-tap-highlight-color:transparent;}
+
+/*public*/
+.left{float: left}
+.right{float: right;}
+.t_c{text-align: center;}
+.t_l{text-align: left;}
+.t_r{text-align: right}
+.dp-none{display: none;}
+.dp-block{display: block;}
+.clearfix:after{content:"";display: block; clear: both;}
+.body-auto{max-width:640px; margin: 0 auto}
+
+/*font-size*/
+.f-12{font-size: .12rem}
+.f-13{font-size: .13rem}
+.f-14{font-size: .14rem}
+.f-16{font-size: .16rem}
+.f-18{font-size: .18rem}
+.f-20{font-size: .20rem}
+.f-24{font-size: .24rem}
+
+/*color/background-color*/
+.col-fff{color:#fff}
+.col-888{color:#888}
+.col-333{color:#333}
+.col-000{color:#000}
+.col-0b0{color:#0b0}
+.col-1a{color:#1a1a1a}
+.bg-fff{background:#fff}
+
+/*margin/padding/border*/
+.mt-10{margin-top:.1rem}
+.mb-5{margin-bottom:.05rem}
+.mb-10{margin-bottom:.1rem}
+.mb-15{margin-bottom:.15rem}
+.mb-20{margin-bottom:.20rem}
+.ml-5{margin-left:.05rem}
+.ml-10{margin-left:.1rem}
+.mt-10{margin-top:.1rem;}
+.mt-15{margin-top:.15rem;}
+.mt-20{margin-top:.2rem;}
+.mt-50{margin-top:.5rem;}
+.pl-10{padding-left:.1rem;}
+
+
+
+/*垂直居中*/
+.vertical-center-outer:after { display: inline-block; content: ''; height: 100%; vertical-align: middle;}
+.vertical-center {display: inline-block; vertical-align: middle;}

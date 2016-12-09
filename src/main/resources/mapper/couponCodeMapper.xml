@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper  
+   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">  
+    <mapper namespace="CouponCodeMapper">  
+    
+     <cache
+        eviction="FIFO"
+        flushInterval="60000"
+        size="512"
+        readOnly="true" />
+        
+        
+      <sql id="CouponCodeSql">
+        id as id,
+        coupon_detail_id as couponDetailId,
+        `type` as `type`,
+        same_max_count as sameMaxCount ,
+        start_time as startTime ,
+        end_time as endTime ,
+        remark as remark ,
+        is_available  as isAvailable,
+        change_type as changeType,
+        change_count as changeCount
+      </sql>
+      
+     <select id="findCouponById" parameterType="int" resultType="map">
+      SELECT 
+      coupon_detail_id,
+      start_time,
+      end_time,
+      remark 
+      FROM coupon WHERE id=#{id}
+     </select>
+     
+     <select id="findCouponCodeDetailByCode" parameterType="string" resultType="map">
+       SELECT id,
+       account_id,
+       coupon_code_id,
+       is_used 
+       FROM coupon_code_detail WHERE code=#{code}
+     </select>
+      
+      <update id="updateCouponCodeDetail2Used" parameterType="map">
+         UPDATE coupon_code_detail 
+         SET is_used=1,
+         account_id=#{accountId},
+         coupon_account_id=#{couponAccountId}
+         WHERE id=#{couponCodeDetailId}
+      </update>
+      
+      <select id="findInfoById" parameterType="int" resultType="CouponCodeEntity">
+        SELECT  
+        <include refid="CouponCodeSql"></include> 
+        FROM coupon_code WHERE id=#{couponCodeId}
+      </select>
+  
+      <select id="findInfoByCommonCode" parameterType="string" resultType="CouponCodeEntity">
+        SELECT  
+        <include refid="CouponCodeSql"></include> 
+        FROM coupon_code WHERE code=#{commonCode} and type=2
+      </select>
+      
+      <select id="findCodeCountByAidAndId" parameterType="map" resultType="map">
+         SELECT count(*) as count 
+         FROM coupon_code_detail 
+         WHERE account_id=#{accountId} 
+         and coupon_code_id=#{couponCodeId}
+      </select>
+      
+      <select id="findCommonCodeCountByAidAndId"  parameterType="map" resultType="map">
+          SELECT count(*) as count 
+          FROM coupon_code_common 
+          WHERE account_id=#{accountId} 
+          and coupon_code_id=#{couponCodeId}
+      </select>
+      
+      <insert id="addCouponCodeCommon" parameterType="map">
+          INSERT INTO coupon_code_common(account_id,coupon_code_id,coupon_account_id)
+          VALUES(#{accountId},#{couponCodeId},#{couponAccountId})
+      </insert>
+      
+      <select id="findCouponCodeGiftBag" parameterType="int" resultType="map">
+          SELECT coupon_detail_id AS couponDetailId,change_count AS changeCount FROM coupon_code_gift_bag WHERE coupon_code_id=#{couponCodeId}
+      </select>
+     
+</mapper>  

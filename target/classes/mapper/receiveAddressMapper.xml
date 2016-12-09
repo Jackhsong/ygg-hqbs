@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper  
+   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">  
+    <mapper namespace="ReceiveAddressMapper">  
+    
+    
+    <insert id="addAddress" parameterType="ReceiveAddressEntity"   useGeneratedKeys="true" keyProperty="id">
+       INSERT INTO receive_address(account_id,full_name,mobile_number,detail_address,id_card,province,city,district,is_default)
+        VALUES(#{accountId},#{fullName},#{mobileNumber},#{detailAddress},#{idCard},#{province},#{city},#{district},#{isDefault})
+    </insert>
+    
+     
+    <select id="findLastAddressIdByAccountId"  parameterType="int" resultType="java.lang.Integer">
+      SELECT id 
+      FROM receive_address 
+      WHERE account_id=#{id} 
+      ORDER BY update_time DESC LIMIT 1
+    </select>
+    
+    <select id="findReceiveAddressById" parameterType="int" resultType="ReceiveAddressEntity">
+        SELECT  
+        <include refid="allReceiveAddressSqlId"/>
+        FROM receive_address
+        WHERE id=#{id}  LIMIT 1 
+    </select>
+    
+    <sql id="allReceiveAddressSqlId">
+       id as id ,
+       account_id as  accountId ,
+       full_name  as fullName ,
+       mobile_number as mobileNumber ,
+       detail_address as  detailAddress ,
+       id_card  as idCard ,
+       province as province ,
+       city  as city ,
+       district  as  district ,
+       is_default as isDefault 
+    </sql>
+    
+    <select id="findAllAddressByAccountId"   parameterType="int"  resultType="ReceiveAddressEntity">
+      SELECT  
+      <include refid="allReceiveAddressSqlId"/>
+      FROM receive_address
+      WHERE account_id=#{id} ORDER BY update_time DESC
+    </select>
+    
+    <update id="updateAddress" parameterType="map">
+       UPDATE receive_address 
+       SET full_name=#{fullname},mobile_number=#{mobilenumber},detail_address=#{detailaddress},
+       id_card=#{idcard},province=#{province},city=#{city},district=#{district} 
+       WHERE id=#{id} AND account_id=#{accountid}
+    </update>
+    
+    <update id="updateDefaultAddress" parameterType="map">
+       UPDATE receive_address 
+       SET is_default=#{isdefault} 
+       WHERE id=#{id} AND account_id=#{accountid}
+    </update>
+    
+    <delete id="deleteAddress" parameterType="map">
+       DELETE FROM receive_address 
+       WHERE id=#{id} AND account_id=#{accountid}
+    </delete>
+    
+    <select id="findAddressByAccountIdAndId"   resultType="ReceiveAddressEntity">
+       SELECT 
+       <include refid="allReceiveAddressSqlId"/> 
+       FROM receive_address 
+       WHERE id=#{id} AND account_id=#{accountid} LIMIT 1
+    </select>
+    
+    <select id="findDefaultAddressByAccountId" parameterType="int" resultType="ReceiveAddressEntity">
+       SELECT  
+       <include refid="allReceiveAddressSqlId"/>
+       FROM receive_address
+       WHERE account_id=#{accountId} 
+       AND is_default=1 LIMIT 1
+    </select>
+    
+    <update id="updateUnDefaultAddress" parameterType="int">
+        UPDATE receive_address SET is_default=0 WHERE account_id=#{accountId}
+    </update>
+</mapper>  

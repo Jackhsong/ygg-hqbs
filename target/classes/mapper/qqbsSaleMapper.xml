@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper  
+   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">  
+<mapper namespace="QqbsSaleMapper">
+	<resultMap type="QqbsSaleWindowEntity" id="BrandMap">
+    	<id column="id" property="id" />
+    	<result column="type" property="type" />
+    	<result column="display_id" property="displayId" />
+    	<result column="sale_time_type" property="saleTimeType" />
+    	<result column="sale_flag_id" property="saleFlagId" />
+    	<result column="name" property="name" />
+    	<result column="desc" property="desc" />
+    	<result column="image" property="image" />
+    	<result column="start_time" property="startTime" />
+    	<result column="end_time" property="endTime" />
+    	<result column="is_display" property="isDisplay" />
+    	<result column="is_display_flag" property="isDisplayFlag" />
+    	<result column="order" property="order" />
+    	<result column="update_time" property="updateTime" />
+    	<result column="create_time" property="createTime" />
+    </resultMap>
+	 <!-- 查询品牌信息 -->
+     <select id="findAllBrandByPara" parameterType="map"  resultMap="BrandMap">
+     	SELECT * FROM `qqbs_sale_window` 
+     	WHERE is_display = 1 and <![CDATA[start_time < now()]]> and <![CDATA[end_time > now()]]> order by `order` desc
+     </select>
+</mapper>

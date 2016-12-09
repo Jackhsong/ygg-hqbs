@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper  
+   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">  
+    <mapper namespace="CollectMapper">  
+    
+     <insert id="addAccountCollectProduct" parameterType="map" >
+       INSERT INTO account_collect_product(account_id,product_id) 
+       	VALUES(#{accountId},#{productId})
+     </insert>
+     
+     <insert id="addAccountCollectActivitiesCommon" parameterType="map">
+       INSERT INTO account_collect_activities_common(account_id,activities_common_id) 
+       	VALUES(#{accountId},#{activitiesCommonId})
+     </insert>
+     
+     <insert id="addAccountCollectSale" parameterType="map">
+       INSERT INTO account_collect_sale(account_id,sale_id) 
+       	VALUES(#{accountId},#{saleId})
+     </insert>
+     
+</mapper>  

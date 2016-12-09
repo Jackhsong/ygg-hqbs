@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper  
+   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">  
+    <mapper namespace="HqbsFansOrderMapper">
+    <resultMap type="QqbsFansOrderEntity" id="BrandMap">
+    	<id column="id" property="id" />
+    	<result column="fans_order_id" property="fansOrderId" />
+    	<result column="account_id" property="accountId" />
+    	<result column="fans_account_id" property="fansAccountId" />
+    	<result column="fans_image" property="fansImage" />
+    	<result column="fans_nickname" property="fansNickname" />
+    	<result column="level" property="level" />
+    	<result column="number" property="number" />
+    	<result column="withdraw_cash" property="withdrawCash" />
+    	<result column="real_price" property="realPrice" />
+    	<result column="status" property="status" />
+    	<result column="ex_status" property="exStatus" />
+    	<result column="create_time" property="createTime" />
+    </resultMap>
+     <sql id="query">
+		id as id,
+		fans_order_id as fansOrderId,
+		account_id as accountId,
+		fans_account_id as fansAccountId,
+		fans_image as fansImage,
+		fans_nickname as fansNickname,
+		level as level,
+		number as number,
+		FORMAT(withdraw_cash,2) as withdrawCash,
+		FORMAT(real_price,2) as realPrice,
+		status as status,
+		ex_status as exStatus,
+		create_time as createTime,
+		update_time as updateTime
+     </sql>
+     
+     <insert id="insertFans" parameterType="QqbsFansOrderEntity" useGeneratedKeys="true" keyProperty="id">
+ 		<![CDATA[
+        	insert into qqbs_fans_order(fans_order_id,
+        								account_id,
+        								fans_account_id,
+        								fans_image,
+        								fans_nickname,
+        								level,
+        								number,
+        								withdraw_cash,
+        								real_price,
+        								status,
+        								ex_status,
+        								create_time) 
+        	values(#{fansOrderId},
+        		   #{accountId},
+        		   #{fansAccountId},
+        		   #{fansImage},
+        		   #{fansNickname},
+        		   #{level},
+        		   #{number},
+        		   #{withdrawCash},
+        		   #{realPrice},
+        		   #{status},
+        		   #{exStatus},
+        		   now())
+        ]]>
+	</insert>
+	<select id="getFansOrderList" parameterType="map" resultType="QqbsFansOrderView">
+         SELECT
+          <include refid="query"></include>
+         FROM qqbs_fans_order 
+         WHERE 1=1 
+         <if test="accountId != null">and account_id=#{accountId}</if>
+         <if test="fansAccountId != null and fansAccountId != -1">and fans_account_id=#{fansAccountId}</if>
+         <if test="num != null">and (number=#{num} or fans_account_id=#{num})</if>
+         <if test="level != null">and level=#{level}</if>
+         order by id desc
+         <if test="start != null">limit #{start},#{size}</if>
+    </select>
+    <select id="getFansOrderPrice" parameterType="int" resultType="float">
+		SELECT COALESCE(SUM(real_price),0) FROM
+				qqbs_fans_order hfo
+		WHERE hfo.account_id = #{accountId}
+	</select>
+	<select id="getFansOrderCount" parameterType="int" resultType="int">
+		SELECT count(*) FROM
+				qqbs_fans_order hfo
+		WHERE hfo.account_id = #{accountId}
+	</select>
+	<!-- 临时使用  第一次发布后  删除 -->
+	<select id="getOrderList" parameterType="map" resultType="QqbsFansOrderEntity">
+        SELECT 	od.id as fansOrderId ,
+        		hf.account_id as accountId,
+        		od.account_id as fansAccountId ,
+				qa.image AS fansImage,
+				qa.nickname AS fansNickname,
+				hf.level AS level,
+				od.number as number,
+				od.real_price AS realPrice,
+				od.create_time as createTime						
+				FROM
+				`order` AS od
+				inner join qqbs_fans AS hf  on od.account_id = hf.fans_account_id 
+				inner join qqbs_account qa on hf.fans_account_id = qa.account_id
+				WHERE  od.account_id = hf.fans_account_id AND od.id in ('1641030',
+																		'1641031') 
+    </select>
+    <select id="getFansOrder" parameterType="map" resultType="QqbsFansOrderView">
+         SELECT
+          <include refid="query"></include>
+         FROM qqbs_fans_order 
+         WHERE 1=1 
+         <if test="accountId != null">and account_id=#{accountId}</if>
+         <if test="id != null and id != -1">and id=#{id}</if>
+    </select>
+    
+    <!-- Spread临时使用  第一次发布后  删除 -->
+	<select id="getSpreadList" parameterType="map" resultType="QqbsLiShiShuJu">
+        	SELECT 	
+        		od.account_id as accountId,
+        		od.father_account_id as fatherAccountId ,
+				od.status AS status,
+				od.create_datetime as createTime						
+			FROM 
+				`spread` AS od
+				WHERE od.status = '0' 
+    </select>
+    <!-- 临时使用  第一次发布后  删除 -->
+	<select id="getOrderListSpread" parameterType="map" resultType="QqbsFansOrderEntity">
+        SELECT 	od.id as fansOrderId ,
+        		od.account_id as fansAccountId ,
+				od.number as number,
+				od.real_price AS realPrice,
+				od.create_time as createTime						
+				FROM
+				`order` AS od 
+				WHERE od.STATUS IN (2, 3, 4) and account_id = #{accountId}
+    </select>
+    <update id="updateSpread" parameterType="map" >
+        update `spread` set status = '1' where account_id=#{accountId}
+	</update>
+	<select id="getFansOrderByError" parameterType="map" resultType="QqbsFansOrderEntity">
+         SELECT id as id,
+				fans_order_id as fansOrderId,
+				account_id as accountId,
+				fans_account_id as fansAccountId,
+				fans_image as fansImage,
+				fans_nickname as fansNickname,
+				level as level,
+				number as number
+		 FROM qqbs_fans_order 
+         WHERE  fans_order_id=#{fansOrderId} and account_id=#{accountId} and fans_account_id=#{fansAccountId} and level=#{level} limit 1
+    </select>
+</mapper>  

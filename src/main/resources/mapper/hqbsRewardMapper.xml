@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper  
+   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">  
+    <mapper namespace="HqbsRewardMapper">
+    <resultMap type="QqbsRewardEntity" id="BrandMap">
+    	<id column="id" property="id" />
+    	<result column="account_id" property="accountId" />
+    	<result column="total_reward" property="totalReward" />
+		<result column="already_cash" property="alreadyCash" />
+		<result column="withdraw_cash" property="withdrawCash" />
+    	<result column="create_time" property="createTime" />
+    </resultMap>
+     <sql id="query">
+		id as id,
+		account_id as accountId,
+		total_reward as totalReward,
+		already_cash as alreadyCash,
+		withdraw_cash as withdrawCash,
+		create_time as createTime,
+		update_time as updateTime
+     </sql>
+     <select id="getByAccountId" parameterType="string" resultType="QqbsRewardEntity">
+         SELECT
+          <include refid="query"></include>
+         FROM qqbs_reward WHERE account_id=#{accountId} LIMIT 1
+     </select>
+     <select id="getByAccountIdForUpdate" parameterType="string" resultType="QqbsRewardEntity">
+         SELECT
+          <include refid="query"></include>
+         FROM qqbs_reward WHERE account_id=#{accountId} for update
+     </select>
+     <update id="updateHqbsReward" parameterType="map" >
+     <![CDATA[
+        update qqbs_reward 
+        ]]>
+        <set>
+            <if test="totalReward != null" >total_reward = #{totalReward},</if>
+            <if test="alreadyCash != null" >already_cash = #{alreadyCash},</if>
+             update_time = now(),
+            <if test="withdrawCash != null" >withdraw_cash = #{withdrawCash}</if>
+        </set>
+        where id=#{id}
+	</update>
+</mapper>  

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper  
+   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">  
+    <mapper namespace="OrderWeixinPayMapper">  
+    
+    <insert id="replaceIntoOrderWeixinPay" parameterType="OrderWeixinPayEntity" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO order_weixin_pay(order_id,pay_mark,create_time) 
+        VALUES(#{orderId},#{payMark},now())
+    </insert> 
+     
+     <update id="updateOrderWeixinPay" parameterType="OrderWeixinPayEntity">
+        UPDATE order_weixin_pay 
+        SET is_pay=#{isPay},pay_tid=#{payTid} 
+        WHERE order_id=#{orderId}
+     </update>
+     
+     <select id="findOrderWeixinPayByMark" parameterType="map" resultType="OrderWeixinPayEntity">
+        SELECT id as id ,order_id as orderId ,is_pay as isPay
+        FROM order_weixin_pay 
+        WHERE pay_mark=#{payMark}
+     </select>
+     
+     <select id="findOrderWeixinPayByOrderId" parameterType="int" resultType="OrderWeixinPayEntity">
+       SELECT id as id ,order_id as orderId ,is_pay as isPay,pay_mark as payMark
+        FROM order_weixin_pay 
+        WHERE order_id=#{orderId}
+     </select>
+</mapper>  

@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns="http://java.sun.com/xml/ns/javaee" 
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee 
+	http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd" 
+	id="WebApp_ID" 
+	version="3.0">
+  
+  <display-name>ygghqbs</display-name>
+	
+   <!-- log4j 配置 -->
+   <context-param>  
+         <param-name>log4jConfigLocation</param-name>  
+         <param-value>classpath:log4j.properties</param-value>  
+     </context-param>  
+  
+  <context-param>
+		<param-name>webAppRootKey</param-name>
+		<param-value>F:\workspace\yggwebapp\WebRoot</param-value>
+	</context-param>
+  
+  <!-- 指定spring相关文件的位置 -->
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>classpath:spring.xml</param-value>
+	</context-param>
+  <!-- 配置字符集过滤器 -->
+	<filter>
+		<filter-name>encodingFilter</filter-name>
+		<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+		<init-param>
+			<param-name>encoding</param-name>
+			<param-value>UTF-8</param-value>
+		</init-param>
+		<init-param>  
+             <param-name>forceEncoding</param-name>  
+            <param-value>true</param-value>  
+        </init-param> 
+	</filter>
+	<filter-mapping>       
+	      <filter-name>encodingFilter</filter-name>        
+	      <url-pattern>/*</url-pattern>    
+	</filter-mapping> 
+	
+     <!-- log4j listener -->
+	<listener>  
+          <listener-class>org.springframework.web.util.Log4jConfigListener</listener-class>  
+    </listener>
+	<!-- 开启spring功能 -->
+	<listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	</listener>
+	<!-- 防止内存溢出监听器 -->
+	<listener>
+		<listener-class>org.springframework.web.util.IntrospectorCleanupListener</listener-class>
+	</listener>
+	
+	<!-- 配置spring mvc -->
+	<servlet>
+		<servlet-name>springMvc</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<init-param>
+			<param-name>contextConfigLocation</param-name>
+			<param-value>classpath:yggservlet-mvc.xml</param-value>
+		</init-param>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	<!-- 配置spring mvc mapping -->
+	<servlet-mapping>
+		<servlet-name>springMvc</servlet-name>
+		<url-pattern>/</url-pattern>
+	</servlet-mapping>
+	
+	
+	<!-- 加载freemarker 模版的路径　以后生成静态的Html  -->
+	<servlet>
+		<servlet-name>freeMarketHtml</servlet-name>
+		<servlet-class>com.ygg.webapp.servlet.LaunchServlet</servlet-class>
+		<init-param>
+			<param-name>templateDir</param-name>
+			<param-value>/pages/</param-value>
+		</init-param>
+		<init-param>
+			<param-name>downLoadDir</param-name>
+			<param-value>/alidata/server/apache-tomcat-7.0.57/downloaddir/</param-value>
+		</init-param>
+		 <!-- <init-param>
+			<param-name>yggcontextPath</param-name>
+			<param-value>http://m.gegejia.com/ygg</param-value>
+		</init-param>  -->
+		<load-on-startup>10</load-on-startup>
+	</servlet>
+        
+	<!-- 配置静态资源不经过spring mvc -->
+    <servlet-mapping>
+		<servlet-name>default</servlet-name>
+		<url-pattern>/pages/error/*</url-pattern> <!-- 对于过error下的几个页面直接放行显示 -->
+	</servlet-mapping> 
+	<servlet-mapping>
+		<servlet-name>default</servlet-name>
+		<url-pattern>/da4eb8ad81173dc8abb3662a3fe411de.html</url-pattern> <!-- 对此页面　直接放行显示 -->
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>default</servlet-name>
+		<url-pattern>*.css</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>default</servlet-name>
+		<url-pattern>*.js</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>default</servlet-name>
+		<url-pattern>*.json</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>default</servlet-name>
+		<url-pattern>*.gif</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>default</servlet-name>
+		<url-pattern>*.png</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>default</servlet-name>
+		<url-pattern>*.jpg</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>default</servlet-name>
+		<url-pattern>*.ico</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>default</servlet-name>
+		<url-pattern>*.doc</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>default</servlet-name>
+		<url-pattern>*.xls</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>default</servlet-name>
+		<url-pattern>*.docx</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>default</servlet-name>
+		<url-pattern>*.xlsx</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>default</servlet-name>
+		<url-pattern>*.txt</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>default</servlet-name>
+		<url-pattern>*.swf</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>default</servlet-name>
+		<url-pattern>*.eot</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>default</servlet-name>
+		<url-pattern>*.svg</url-pattern>
+	</servlet-mapping>	
+	<servlet-mapping>
+		<servlet-name>default</servlet-name>
+		<url-pattern>*.woff</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>default</servlet-name>
+		<url-pattern>*.ttf</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>default</servlet-name>
+		<url-pattern>*.m4a</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>default</servlet-name>
+		<url-pattern>*.mp3</url-pattern>
+	</servlet-mapping>
+	
+	<!-- 配置session超时时间，单位分钟 -->
+	<session-config>
+		<session-timeout>30</session-timeout>
+	</session-config>
+	
+  <welcome-file-list>
+    <welcome-file>index.html</welcome-file>
+    <welcome-file>index.htm</welcome-file>
+    <welcome-file>index.jsp</welcome-file>
+  </welcome-file-list>
+  
+   <error-page>
+		<error-code>403</error-code>
+		<location>/pages/error/403.html</location>
+	</error-page>
+	<error-page>
+		<error-code>404</error-code>
+		<location>/pages/error/404.html</location>
+	</error-page>
+	<error-page>
+		<error-code>405</error-code>
+		<location>/pages/error/405.html</location>
+	</error-page>
+	<error-page>
+		<error-code>500</error-code>
+		<location>/pages/error/500.html</location>
+	</error-page>
+
+</web-app>

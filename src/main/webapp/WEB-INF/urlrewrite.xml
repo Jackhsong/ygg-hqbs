@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+ <!DOCTYPE urlrewrite PUBLIC "-//tuckey.org//DTD UrlRewrite 3.0//EN"
+         "http://tuckey.org/res/dtds/urlrewrite3.0.dtd">
+<!-- Configuration file for UrlRewriteFilter http://tuckey.org/urlrewrite/ -->
+<urlrewrite>
+    <rule>
+        <from casesensitive="false">/sale-(.*).htm</from >
+        <to encode="true" type="forward">/cnty/toac/$1</to>
+    </rule> 
+    <rule>
+        <from casesensitive="false">/item-(.*).htm</from >
+        <to encode="true" type="forward">/product/single/$1</to>
+    </rule> 
+    <rule>
+        <from casesensitive="false">/css/(.*)</from >
+        <to encode="true" type="forward">/pages/css/$1</to>
+    </rule>     
+</urlrewrite>

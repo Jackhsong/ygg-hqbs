@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper  
+   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">  
+    <mapper namespace="HqbsFansMapper">
+    <resultMap type="QqbsFansEntity" id="BrandMap">
+    	<id column="id" property="id" />
+    	<result column="account_id" property="accountId" />
+    	<result column="fans_account_id" property="fansAccountId" />
+		<result column="level" property="level" />
+		<result column="fans_image" property="fansImage" />
+    	<result column="fans_nickname" property="fansNickname" />
+    	<result column="create_time" property="createTime" />
+    </resultMap>
+     <sql id="query">
+		id as id,
+		account_id as accountId,
+		fans_account_id as fansAccountId,
+		level as level,
+		fans_image as fansImage,
+		fans_nickname as fansNickname,
+		create_time as createTime,
+		update_time as updateTime
+     </sql>
+     
+     <insert id="insertFans" parameterType="QqbsFansEntity" useGeneratedKeys="true" keyProperty="id">
+ 		<![CDATA[
+        	insert into qqbs_fans(account_id,fans_account_id,level,fans_image,fans_nickname,create_time) 
+        	values(#{accountId},#{fansAccountId},#{level},#{fansImage},#{fansNickname},now())
+        ]]>
+	</insert>
+	<select id="getFansCount" parameterType="map" resultType="int">
+		SELECT COUNT(*) from qqbs_fans 
+		where account_id=#{accountId}
+		<if test="level != null">and level=#{level}</if>
+	</select>
+	<select id="getFansList" parameterType="map" resultType="QqbsFansEntity">
+         SELECT
+          <include refid="query"></include>
+         FROM qqbs_fans 
+         WHERE 1=1 
+         <if test="accountId != null">and account_id=#{accountId}</if>
+         <if test="fansAccountId != null">and fans_account_id=#{fansAccountId}</if>
+         <if test="level != null">and level=#{level}</if>
+         order by id desc
+         <if test="start != null">limit #{start},#{size}</if>
+     </select>
+	<select id="getFansOrderCount" parameterType="int" resultType="int">
+		SELECT count(*) FROM
+				`order` AS od,
+	        	qqbs_fans AS hf 
+		WHERE
+			od.account_id = hf.fans_account_id
+			AND od.STATUS IN (2, 3, 4)
+			AND hf.account_id = #{accountId}
+	</select>
+	<select id="getFansOrderPrice" parameterType="int" resultType="float">
+		SELECT sum(real_price) FROM
+				`order` AS od,
+	        	qqbs_fans AS hf 
+		WHERE
+			od.account_id = hf.fans_account_id
+			AND od.STATUS IN (2, 3, 4)
+			AND hf.account_id = #{accountId}
+	</select>
+	<select id="getFansLists" parameterType="map" resultType="QqbsFansEntity">
+         SELECT
+          <include refid="query"></include>
+         FROM qqbs_fans 
+         WHERE 1=1 
+         <if test="accountId != null">and account_id=#{accountId}</if>
+         <if test="fansAccountId != null">and fans_account_id=#{fansAccountId}</if>
+         <if test="levels != null">
+   			and `level` in 
+			<foreach collection="levels" item="item" index="index" open="(" separator="," close=")"> 
+		    	#{item}
+		   	</foreach>
+		</if>
+         order by id desc
+         <if test="start != null">limit #{start},#{size}</if>
+     </select>
+</mapper>  

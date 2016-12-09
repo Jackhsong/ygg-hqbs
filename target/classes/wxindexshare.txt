@@ -1,0 +1,32 @@
+<script>
+wx.config({
+		    debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+		    appId: 'wxshare_appid', // 必填，公众号的唯一标识
+		    timestamp: wxshare_timestamp, // 必填，生成签名的时间戳
+		    nonceStr: 'wxshare_nonceStr', // 必填，生成签名的随机串
+		    signature: 'wxshare_signature',// 必填，签名，见附录1
+		    jsApiList: ['onMenuShareTimeline','onMenuShareAppMessage'] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+		});
+/*
+wx.error(function(res){
+		    // config信息验证失败会执行error函数，如签名过期导致验证失败，具体错误信息可以打开config的debug模式查看，也可以在返回的res参数中查看，对于SPA可以在这里更新签名。
+		    alert(res.errMsg);
+		});
+*/
+wx.ready(function () {
+			 // 获取“分享到朋友圈”按钮点击状态及自定义分享内容接口
+		     wx.onMenuShareTimeline({
+		         title: '左岸城堡，精选优品', // 分享标题
+		         link:'wxshare_link',
+		         imgUrl: 'http://yangege.b0.upaiyun.com/cf9c2a96add.jpg!v1cartProduct' // 分享图标
+		     });
+		     
+		     // 获取“分享给朋友”按钮点击状态及自定义分享内容接口
+			  wx.onMenuShareAppMessage({
+		      title: '左岸城堡，精选优品',
+		      desc: '左岸城堡，精选优品',
+		      link: 'wxshare_link',
+		      imgUrl: 'http://yangege.b0.upaiyun.com/cf9c2a96add.jpg!v1cartProduct'
+		    });
+});
+</script>

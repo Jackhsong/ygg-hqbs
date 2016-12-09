@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper  
+   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">  
+    <mapper namespace="GameActivityMapper">  
+     
+	<select id="findGameActivityById" parameterType="int"  resultType="GameActivityEntity" >
+		SELECT
+			`id`,
+			`game_name` AS gameName,
+			`game_logo` AS gameLogo,
+			`game_introduce` AS introduce,
+			`game_url` AS gameURL,
+			`receive_amount` AS receiveAmount,
+			`new_register` AS newRegister,
+			`total_money` AS totalMoney,
+			`new_buyer_money` AS newBuyerMoney,
+			`view_url` AS viewURL,
+			`is_send_msg` AS isSendMsg,
+			`msg_content` AS msgContent,
+			`is_available` AS isAvailable,
+			`create_time` AS createTime
+		FROM
+			game
+		WHERE
+			id = #{gameId}
+		AND is_available = 1
+	</select>
+	
+	<select id="findGamePrizeByGameId" parameterType="int" resultType="GamePrizeEntity">
+		SELECT
+			id,
+			game_id AS gameId,
+			coupon_id AS couponId,
+			validity_date_type AS validityDateType,
+			days,
+			create_time AS createTime,
+			update_time AS updateTime
+		FROM
+			game_prize
+		WHERE 
+			game_id=#{gameId}
+	</select>
+	
+	<select id="isReceived" parameterType="map" resultType="int">
+		SELECT 
+			COUNT(id) 
+		FROM 
+			relation_activity_and_received_mobile 
+		WHERE 
+			mobile_number=#{mobileNumber}
+		AND activity_id=#{activityId}
+		AND acitvity_type=#{activityType}
+	</select>
+	
+	<update id="updateGameReceiveAmount" parameterType="int">
+		UPDATE game SET receive_amount=receive_amount+1 WHERE id=#{gameId}
+	</update>
+	
+	<update id="updateGameNewRegisterAmount" parameterType="int">
+		UPDATE game SET new_register=new_register+1 WHERE id=#{gameId}
+	</update>
+	
+	<select id="findGameIdByNameFromRegisterCoupon" parameterType="map" resultType="int">
+		SELECT
+			t2.activity_id
+		FROM
+			register_mobile_coupon t1,
+			relation_activity_and_received_mobile t2
+		WHERE
+			t1.mobile_number = t2.mobile_number
+		AND t1.coupon_id = t2.coupon_id
+		AND t1.source_type=#{sourceType}
+		AND t2.mobile_number = #{mobileNumber}
+		AND t2.acitvity_type=#{acitvityType}
+		ORDER BY t2.id
+		LIMIT 1
+	</select>
+
+	<insert id="addRelationActivityAndAccount" parameterType="map">
+		INSERT INTO relation_activity_and_account(activity_id,account_id,acitvity_type) VALUES(#{activityId},#{accountId},#{activityType})
+	</insert>
+    
+   	<insert id="addRelationActivityAndReceivedMobile" parameterType="map">
+		INSERT INTO relation_activity_and_received_mobile (activity_id, mobile_number,coupon_id,acitvity_type) VALUES(#{activityId}, #{mobileNumber},#{couponId},#{activityType})
+	</insert>
+</mapper>  

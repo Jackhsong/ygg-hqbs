@@ -1,0 +1,47 @@
+ 
+ .fn-fl{float:left;}
+ .fn-fr{float:right;}
+ .fn-hide{display: none;}
+  .main{max-width: 640px;margin: 0 auto; background: #f2f2f2; position: relative;}
+  @media screen and (max-width: 640px) {.main{width:100%;}}
+  /*#lazyBg{background:#ccc; height: 10rem; width: 100%; position: absolute; left: 0; top:0;}
+  #lazyBg img{height: 1.67rem; width: 1.67rem; background-size:100%; margin: 2rem auto; }
+  #defaultImgX{ width: 100%; height: 0px; overflow: hidden;}
+  #defaultImgX img{ width: 100%; background-size:100%;  }*/
+  /*****banner*****/
+  #banner{max-width: 100%; }
+  #banner .swiper-container{ width:100%;position: relative; z-index: 3;}
+  /*#banner img{max-width: 100%;width: auto\9;height:auto; display:block; }*/
+  #banner .swiper-slide a{width: 100%;padding-top: 60%;background:no-repeat center top;background-size:cover;}
+  #banner .pagination { position: absolute; z-index: 5; text-align: center;  height: 1rem; width: 100%; bottom: 1rem;}
+  #banner .pagination .swiper-pagination-bullet{ background:#a8a093; border-radius: 50%; height: .8rem; width: .8rem; opacity: 0.8; vertical-align: top; }
+  #banner .pagination .swiper-pagination-bullet-active{ background: #000; }
+  /*****商品列表*****/
+  #productList{ padding-bottom:7.6rem;}
+  #productList a{ margin-top: 1rem; display: block;overflow: hiden;}
+  #productList a .imgX{width: 100%;padding-top:48%;position: relative; overflow: hidden;background:no-repeat center;background-size:contain;} 
+  /*#productList a .imgX img{max-width: 100%;width: auto\9;height:auto;display: block;}*/
+  #productList a .imgX .timeBg01{ background:#000; position: absolute; top:0; right: 0; color: #fff; font-size: 1.2rem; opacity: 0.5; padding:0.3rem 0.5rem 0.3rem 2.2rem; border-bottom-left-radius:.5em; line-height: 1.4; }
+  #productList a .imgX .timeBg01 .clock{background: url("../../scripts/images/clock.png") no-repeat; width:1.2rem; height: 1.2rem; background-size:100%; display: inline-block; position: absolute; left: 0.5rem; top:0.4rem;}
+  #productList a .imgX .timeBg01 span{display: inline-block;}
+  #productList a .imgX .timeBg01 .dayNum{margin:0rem 0.2rem;}
+  #productList a .imgX .timeBg01 .timeX{margin-left: 0.1rem;font-size: 0;}
+  #productList a .imgX .timeBg01 .timeX span{font-size: 1.2rem;}
+  #productList a .imgX .begin{ background: url("../../scripts/images/begin.png") no-repeat; width: 7rem; height: 7rem; position: absolute;top:50%;left: 50%; margin:-3.5rem 0 0 -3.5rem; background-size:100%; }
+  #productList a .imgX .chance{ background: url("../../scripts/images/chance.png") no-repeat;width: 7rem; height: 7rem; position: absolute;top:50%;left: 50%; margin:-3.5rem 0 0 -3.5rem; background-size:100%; }
+  #productList a .imgX .finish{ background: url("../../scripts/images/finish.png") no-repeat;width: 7rem; height: 7rem; position: absolute;top:50%;left: 50%; margin:-3.5rem 0 0 -3.5rem; background-size:100%; }
+  #productList a .bottomX{ width: 100%; height: 2.6rem; line-height: 2.6rem; border-bottom:solid 1px #e0e0e0; background: #fff; }
+  #productList a .bottomX .fn-fl{ margin-left: 1rem; font-size: 1.2rem; }
+  #productList a .bottomX .fn-fl img{ height: 1.5rem; width: 1.5rem; vertical-align: middle; background-size:100%; }
+  #productList a .bottomX .fn-fl .text01{ margin-left: .5rem; color: #000;  font-size: 1.4rem;vertical-align: middle; }
+  #productList a .bottomX .fn-fr{ margin-right: .5rem; color: #666; font-size: 1.2rem; }
+  @media screen and (max-width: 320px){
+    #productList a .bottomX .fn-fl .text01{font-size: 1.3rem;}
+  }
+
+/*****回到顶部****/
+.topbar{bottom:6.8rem;right:1.5rem;position:fixed;width:4.2rem; height:4.2rem;border-radius: 50%;background:rgba(0,0,0,.7);color:#fff; text-align:center;box-sizing: border-box;font-size: 0;}
+.topbar img{ width:100%;}
+.listcount{display:none;position:absolute; z-index:5;left:0;top:0;width: 4.2rem;height: 4.2rem;border-radius: 50%;}
+.listcount span{font-size: 1.2rem;}
+.listcount p:first-child{width:3rem;border-bottom:1px solid #fff;padding-bottom:.3rem;margin:0 auto .3rem;}

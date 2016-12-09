@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper  
+   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">  
+    <mapper namespace="OrderProductRefundLogisticsMapper">  
+    
+     
+     <insert id="insertOrderProductRefundLogistic" parameterType="OrderProductRefundLogisticsEntity" useGeneratedKeys="true" keyProperty="id">
+         insert into order_product_refund_logistics(order_product_refund_id,channel,number) 
+         values(#{orderProductRefundId},#{channel},#{number})
+     </insert>
+     
+     <select id="queryOrderProductRefundLogisticByOId" parameterType="int" resultType="OrderProductRefundLogisticsEntity">
+        select oprl.channel as channel , oprl.number as number 
+        from  order_product_refund_logistics  oprl  
+        where oprl.order_product_refund_id = #{id}  LIMIT 1 
+     </select>
+     
+</mapper>  

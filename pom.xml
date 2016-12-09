@@ -1,0 +1,396 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.ygg</groupId>
+  <artifactId>ygg-hqbs</artifactId>
+  <packaging>war</packaging>
+  <version>0.0.1-SNAPSHOT</version>
+  <name>ygg-hqbs Maven Webapp</name>
+  <url>http://maven.apache.org</url>
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <spring.version>3.2.2.RELEASE</spring.version>
+  </properties>
+  
+  <dependencies>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>4.0</version>
+    </dependency>
+    <dependency>
+      <groupId>ant</groupId>
+      <artifactId>ant</artifactId>
+      <version>1.6.5</version>
+    </dependency>
+    <dependency>
+      <groupId>axis</groupId>
+      <artifactId>axis</artifactId>
+      <version>1.4</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.axis</groupId>
+      <artifactId>axis-jaxrpc</artifactId>
+      <version>1.4</version>
+    </dependency>
+    <dependency>
+      <groupId>commons-fileupload</groupId>
+      <artifactId>commons-fileupload</artifactId>
+      <version>1.2.1</version>
+    </dependency>
+    <dependency>
+      <groupId>commons-httpclient</groupId>
+      <artifactId>commons-httpclient</artifactId>
+      <version>3.1</version>
+    </dependency>
+    <dependency>
+      <groupId>commons-lang</groupId>
+      <artifactId>commons-lang</artifactId>
+      <version>2.4</version>
+    </dependency>
+    <dependency>
+      <groupId>commons-io</groupId>
+      <artifactId>commons-io</artifactId>
+      <version>2.4</version>
+    </dependency>
+    <dependency>
+      <groupId>com.aliyun.oss</groupId>
+      <artifactId>aliyun-sdk-oss</artifactId>
+      <version>2.0.3</version>
+    </dependency>
+    <dependency>
+      <groupId>com.alibaba</groupId>
+      <artifactId>druid</artifactId>
+      <version>1.0.4</version>
+    </dependency>
+    <dependency>
+      <groupId>com.alibaba</groupId>
+      <artifactId>fastjson</artifactId>
+      <version>1.1.33</version>
+    </dependency>
+    <dependency>
+      <groupId>org.freemarker</groupId>
+      <artifactId>freemarker</artifactId>
+      <version>2.3.20</version>
+    </dependency>
+    <dependency>
+      <groupId>joda-time</groupId>
+      <artifactId>joda-time</artifactId>
+      <version>2.4</version>
+    </dependency>
+    <dependency>
+      <groupId>log4j</groupId>
+      <artifactId>log4j</artifactId>
+      <version>1.2.17</version>
+    </dependency>
+    <dependency>
+      <groupId>org.mybatis</groupId>
+      <artifactId>mybatis</artifactId>
+      <version>3.1.1</version>
+    </dependency>
+    <dependency>
+      <groupId>org.mybatis</groupId>
+      <artifactId>mybatis-spring</artifactId>
+      <version>1.1.1</version>
+    </dependency>
+    <dependency>
+      <groupId>mysql</groupId>
+      <artifactId>mysql-connector-java</artifactId>
+      <version>5.1.18</version>
+    </dependency>
+    <dependency>
+      <groupId>org.quartz-scheduler</groupId>
+      <artifactId>quartz</artifactId>
+      <version>2.2.1</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.shiro</groupId>
+      <artifactId>shiro-core</artifactId>
+      <version>1.2.3</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.shiro</groupId>
+      <artifactId>shiro-spring</artifactId>
+      <version>1.2.3</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.shiro</groupId>
+      <artifactId>shiro-web</artifactId>
+      <version>1.2.3</version>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-aspects</artifactId>
+      <version>${spring.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-core</artifactId>
+      <version>${spring.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-context</artifactId>
+      <version>${spring.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-web</artifactId>
+      <version>${spring.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-webmvc</artifactId>
+      <version>${spring.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-tx</artifactId>
+      <version>${spring.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>com.thoughtworks.xstream</groupId>
+      <artifactId>xstream</artifactId>
+      <version>1.4.3</version>
+    </dependency>
+
+    <dependency>
+      <groupId>javax.servlet</groupId>
+      <artifactId>javax.servlet-api</artifactId>
+      <version>3.0.1</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.hamcrest</groupId>
+      <artifactId>hamcrest-core</artifactId>
+      <version>1.1</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.httpcomponents</groupId>
+      <artifactId>httpclient</artifactId>
+      <version>4.4</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.httpcomponents</groupId>
+      <artifactId>httpcore</artifactId>
+      <version>4.4</version>
+    </dependency>
+    <dependency>
+      <groupId>com.google.protobuf</groupId>
+      <artifactId>protobuf-java</artifactId>
+      <version>2.5.0</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.xmlbeans</groupId>
+      <artifactId>xmlbeans</artifactId>
+      <version>2.6.0</version>
+    </dependency>
+
+    <dependency>
+	    <groupId>com.google.code.gson</groupId>
+	    <artifactId>gson</artifactId>
+	    <version>1.7.1</version>
+	</dependency>
+	<dependency>
+	    <groupId>net.gplatform</groupId>
+	    <artifactId>Sdk4J</artifactId>
+	    <version>2.0</version>
+	</dependency>
+	<dependency>
+	    <groupId>dom4j</groupId>
+	    <artifactId>dom4j</artifactId>
+	    <version>1.6.1</version>
+	</dependency>
+	<dependency>
+	    <groupId>jaxen</groupId>
+	    <artifactId>jaxen</artifactId>
+	    <version>1.1</version>
+	</dependency>	
+	<dependency>
+	    <groupId>bouncycastle</groupId>
+	    <artifactId>bcprov-jdk16</artifactId>
+	    <version>140</version>
+	</dependency>
+	 <dependency>
+    	<groupId>org.slf4j</groupId>
+    	<artifactId>slf4j-log4j12</artifactId>
+    	<version>1.7.21</version>
+    </dependency>
+  </dependencies>
+
+
+  <build>
+    <finalName>${build.warname}</finalName>
+    <resources>
+      <resource>
+        <directory>src/main/resources</directory>
+        <includes>
+          <include>*.*</include>
+          <include>mapper/*.xml</include>
+        </includes>
+        <filtering>true</filtering>
+      </resource>
+    </resources>
+<plugins>
+   <plugin>
+    <artifactId>maven-compiler-plugin</artifactId>
+    <version>3.0</version>
+    <configuration>
+     <source>1.7</source>
+     <target>1.7</target>
+    </configuration>
+   </plugin>
+</plugins>    
+  </build>
+  
+  <profiles>
+  
+    <!-- 测试环境 -->
+    <profile>
+      <id>test</id>
+      <activation>
+        <!-- <activeByDefault>true</activeByDefault> -->
+      </activation>
+      
+      <properties>
+      
+     	<!-- 发布时打包名称 -->
+      	<build.warname>ygg-hqbs</build.warname>
+        <!-- 数据源 -->
+        <jdbc.url><![CDATA[jdbc:mysql://zuoan2016.mysql.rds.aliyuncs.com:3306/sale_platform?useUnicode=true&amp;characterEncoding=UTF8&amp;zeroDateTimeBehavior=convertToNull&amp;autoReconnect=true]]></jdbc.url>
+        <jdbc.username>fsafgasag</jdbc.username>
+        <jdbc.password>Gsdg52Gsdg52</jdbc.password>
+
+        <!-- 缓存 -->
+        <cache.type>memcache</cache.type>
+        <cache.host>121.121.212.90</cache.host>
+        <cache.port>11211</cache.port>
+       	
+       	<!-- 腾讯支付回调参数 -->
+      	<tenpay.return.url><![CDATA[http://zuoan.waibao58.com/ygg-hqbs/order/pay/tenpayreturnback]]></tenpay.return.url>
+      	<tenpay.notify.url><![CDATA[http://zuoan.waibao58.com/ygg-hqbs/order/pay/tenpaycallback]]></tenpay.notify.url>
+      	<tenpay.gate.url><![CDATA[https://gw.tenpay.com/gateway/pay.htm]]></tenpay.gate.url>
+      	<tenpay.partner>1350143201</tenpay.partner>
+      	<tenpay.partner.key>9e0ea2babdce394d7988e44b3cd8b3fa</tenpay.partner.key>
+      	<!-- 微信支付 -->
+      	<weixin.appid>wxfbd7404d637e0ea3</weixin.appid>
+      	<weixin.appsecret>b0cacab37071ecf777cfe41a4351b5a9</weixin.appsecret>
+      	<weixin.key>89332342452597507ef794cf7b0519d</weixin.key>
+      	<weixin.access.token.url><![CDATA[https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&amp;appid=wxfbd7404d637e0ea3&amp;secret=b0cacab37071ecf777cfe41a4351b5a9]]></weixin.access.token.url>
+      	<weixin.jsapi.ticket.url><![CDATA[https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token=YGG_ACCESS_TOKEN&amp;type=jsapi]]></weixin.jsapi.ticket.url>
+      	<weixin.unifiedorder.url><![CDATA[https://api.mch.weixin.qq.com/pay/unifiedorder]]></weixin.unifiedorder.url>
+      	<weixin.pay.url.one><![CDATA[http://test.gegejia.com/ygg-hqbs/order/confirm]]></weixin.pay.url.one>
+      	<weixin.pay.url.two><![CDATA[http://test.gegejia.com/ygg-hqbs/order/orderdetail]]></weixin.pay.url.two>
+      	<weixin.redirect.uri><![CDATA[http://test.gegejia.com/ygg-hqbs/index]]></weixin.redirect.uri>
+      	
+      	<!-- 支付宝 -->
+      	<ali.gate.url><![CDATA[http://wappaygw.alipay.com/service/rest.htm?]]></ali.gate.url>
+        <ali.global.gate.url><![CDATA[https://mapi.alipay.com/gateway.do?]]></ali.global.gate.url>
+      	<ali.callback.url><![CDATA[http://test.gegejia.com/ygg-hqbs/order/pay/alicallback]]></ali.callback.url>
+      	<ali.notify.url><![CDATA[http://test.gegejia.com/ygg-hqbs/order/pay/alinotifycallback]]></ali.notify.url>
+        <ali.global.callback.url><![CDATA[http://test.gegejia.com/ygg-hqbs/order/pay/aliGlobalcallback]]></ali.global.callback.url>
+        <ali.global.notify.url><![CDATA[http://test.gegejia.com/ygg-hqbs/order/pay/aliGlobalNotifycallback]]></ali.global.notify.url>
+      	<ali.merchant.url><![CDATA[http://test.gegejia.com]]></ali.merchant.url>
+      	<ali.seller.email><![CDATA[yangege@yangege.com]]></ali.seller.email>
+      	<ali.partner>208857542184590</ali.partner>
+      	<ali.global.partner>208857542184590</ali.global.partner>
+        <ali.global.split.partner>208857542184590</ali.global.split.partner>
+      	<ali.login.return.url><![CDATA[http://test.gegejia.com/ygg-hqbs/user/alipaycallback]]></ali.login.return.url>
+      	
+      	<!-- 银联支付 -->
+      	<union.fronturl><![CDATA[http://test.gegejia.com/ygg-hqbs/order/pay/unioncallback]]></union.fronturl>
+      	<union.backurl><![CDATA[http://test.gegejia.com/ygg-hqbs/order/pay/unionnotifycallback]]></union.backurl>
+      	<union.merid>898342457990228</union.merid>
+      	
+      	<!-- 微信分享 -->
+      	<share.home.url><![CDATA[http://test.gegejia.com/ygg-hqbs/index]]></share.home.url>
+      	<share.brand.url><![CDATA[http://test.gegejia.com/cnty/toac/#1]]></share.brand.url>
+      	<share.singleproduct.url><![CDATA[http://test.gegejia.com/product/single/#1]]></share.singleproduct.url>
+      	
+      	<!-- 系统配置 -->
+      	<domain.name><![CDATA[http://test.gegejia.com]]></domain.name>
+      	<fileupload.url><![CDATA[http://test.gegejia.com/ygg-hqbs/orderrefund/fileUpLoad]]></fileupload.url>
+        <admin.refund.sub.url><![CDATA[http://114.215.198.55:8099/yggManagerTest/outCall/subscribeLogistics]]></admin.refund.sub.url>
+        <admin.refund.cancel.url><![CDATA[http://114.215.198.55:8099/yggManagerTest/outCall/cancelRefund]]></admin.refund.cancel.url>
+      	<admin.account.id>70</admin.account.id>
+      	<test.default.user>false</test.default.user>
+      	<base.default.url><![CDATA[http://test.gegejia.com/${build.warname}]]></base.default.url>
+      </properties>
+    </profile>
+
+    <!-- 生产环境 -->
+    <profile>
+      <id>prod</id>
+		<activation>
+        	<activeByDefault>true</activeByDefault>
+      	</activation>
+      <properties>
+      
+      	<!-- 发布时打包名称 -->
+      	<build.warname>ygg-hqbs</build.warname>
+      	
+        <!-- 数据源 -->
+        <jdbc.url><![CDATA[jdbc:mysql://zuoan2016.mysql.rds.aliyuncs.com:3306/sale_platform?useUnicode=true&amp;characterEncoding=UTF8&amp;zeroDateTimeBehavior=convertToNull&amp;autoReconnect=true]]></jdbc.url>
+        <jdbc.username>fsafgasag</jdbc.username>
+        <jdbc.password>Gsdg52Gsdg52</jdbc.password>
+
+        <!-- 缓存 -->
+        <cache.type>memcache</cache.type>
+        <cache.host>120.26.89.246</cache.host>
+        <cache.port>11211</cache.port>
+       	
+       	<!-- 腾讯支付回调参数 -->
+      	<tenpay.return.url><![CDATA[http://zuoan.waibao58.com/ygg-hqbs/order/pay/tenpayreturnback]]></tenpay.return.url>
+      	<tenpay.notify.url><![CDATA[http://zuoan.waibao58.com/ygg-hqbs/order/pay/tenpaycallback]]></tenpay.notify.url>
+      	<tenpay.gate.url><![CDATA[https://gw.tenpay.com/gateway/pay.htm]]></tenpay.gate.url>
+      	<tenpay.partner>1272601501</tenpay.partner>
+      	<tenpay.partner.key>9e0ea2babdce394d7988e44b3cd8b3fa</tenpay.partner.key>
+      	
+      	<!-- 微信支付 -->
+      	<weixin.appid>wxfbd7404d637e0ea3</weixin.appid>
+      	<weixin.appsecret>b0cacab37071ecf777cfe41a4351b5a9</weixin.appsecret>
+      	<weixin.key>9e0ea2babdce394d7988e44b3cd8b3fa</weixin.key>
+      	<weixin.access.token.url><![CDATA[https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&amp;appid=wxfbd7404d637e0ea3&amp;secret=b0cacab37071ecf777cfe41a4351b5a9]]></weixin.access.token.url>
+      	<weixin.jsapi.ticket.url><![CDATA[https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token=YGG_ACCESS_TOKEN&amp;type=jsapi]]></weixin.jsapi.ticket.url>
+      	<weixin.unifiedorder.url><![CDATA[https://api.mch.weixin.qq.com/pay/unifiedorder]]></weixin.unifiedorder.url>
+      	<weixin.pay.url.one><![CDATA[http://zuoan.waibao58.com/ygg-hqbs/order/confirm]]></weixin.pay.url.one>
+      	<weixin.pay.url.two><![CDATA[http://zuoan.waibao58.com/ygg-hqbs/order/orderdetail]]></weixin.pay.url.two>
+      	<weixin.redirect.uri><![CDATA[http://zuoan.waibao58.com/ygg-hqbs/index]]></weixin.redirect.uri>
+      	
+      	<!-- 支付宝 -->
+      	<ali.gate.url><![CDATA[http://wappaygw.alipay.com/service/rest.htm?]]></ali.gate.url>
+        <ali.global.gate.url><![CDATA[https://mapi.alipay.com/gateway.do?]]></ali.global.gate.url>
+      	<ali.callback.url><![CDATA[http://wx.globalscanner.com/ygg-hqbs/order/pay/alicallback]]></ali.callback.url>
+      	<ali.notify.url><![CDATA[http://wx.globalscanner.com/ygg-hqbs/order/pay/alinotifycallback]]></ali.notify.url>
+        <ali.global.callback.url><![CDATA[http://wx.globalscanner.com/ygg-hqbs/order/pay/aliGlobalcallback]]></ali.global.callback.url>
+        <ali.global.notify.url><![CDATA[http://wx.globalscanner.com/ygg-hqbs/order/pay/aliGlobalNotifycallback]]></ali.global.notify.url>
+      	<ali.merchant.url><![CDATA[http://wx.globalscanner.com]]></ali.merchant.url>
+      	<ali.seller.email><![CDATA[yangege@yangege.com]]></ali.seller.email>
+      	<ali.partner>2088511596547590</ali.partner>
+        <ali.global.partner>2088511596547590</ali.global.partner>
+        <ali.global.split.partner>2088511596547590</ali.global.split.partner>
+      	<ali.login.return.url><![CDATA[http://wx.globalscanner.com/ygg-hqbs/user/alipaycallback]]></ali.login.return.url>
+      	
+      	<!-- 银联支付 -->
+      	<union.fronturl><![CDATA[http://wx.globalscanner.com/ygg-hqbs/order/pay/unioncallback]]></union.fronturl>
+      	<union.backurl><![CDATA[http://wx.globalscanner.com/ygg-hqbs/order/pay/unionnotifycallback]]></union.backurl>
+      	<union.merid><![CDATA[898320553990228]]></union.merid>
+      	
+      	<!-- 微信分享 -->
+      	<share.home.url><![CDATA[http://wx.globalscanner.com/ygg-hqbs/]]></share.home.url>
+      	<share.brand.url><![CDATA[http://m.gegejia.com/sale-#1.htm]]></share.brand.url>
+      	<share.singleproduct.url><![CDATA[http://m.gegejia.com/item-#1.htm]]></share.singleproduct.url>
+      	
+      	<!-- 系统配置 -->
+      	<domain.name><![CDATA[http://wx.globalscanner.com]]></domain.name>
+      	<fileupload.url><![CDATA[http://wx.globalscanner.com/ygg-hqbs/orderrefund/fileUpLoad]]></fileupload.url>
+        <admin.refund.sub.url><![CDATA[http://121.40.73.86:3335/yggManager/outCall/subscribeLogistics]]></admin.refund.sub.url>
+        <admin.refund.cancel.url><![CDATA[http://121.40.73.86:3335/yggManager/outCall/cancelRefund]]></admin.refund.cancel.url>
+      	<admin.account.id>66236</admin.account.id>
+      	<test.default.user>false</test.default.user>
+      	<base.default.url><![CDATA[http://wx.globalscanner.com/ygg-hqbs]]></base.default.url>
+      </properties>
+    </profile>
+  </profiles>
+</project>

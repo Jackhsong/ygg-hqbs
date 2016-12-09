@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper  
+   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">  
+    <mapper namespace="GateActivityMapper">  
+     
+	<select id="findGateActivity" parameterType="map"  resultType="GateActivityEntity" >
+		SELECT
+			id,
+			theme,
+			`desc`,
+			answer,
+			valid_time_start AS validTimeStart,
+			valid_time_end AS validTimeEnd,
+			url,
+			receive_tip AS receiveTip,
+			is_display AS isDisplay,
+			receive_amount AS receiveAmount,
+			create_time AS createTime
+		FROM
+			gate_activity
+		WHERE
+			is_display = 1
+		<if test="currentDate != null">
+			<![CDATA[AND valid_time_start <= #{currentDate}]]>
+			<![CDATA[AND valid_time_end >= #{currentDate}]]>
+		</if>
+		<if test="id != null">AND id=#{id}</if>
+		<if test="answer != null">AND answer=#{answer}</if>
+		ORDER BY create_time DESC
+		LIMIT 1
+	</select>
+	
+	<select id="findGatePrizeByGateId" parameterType="int" resultType="GatePrizeEntity">
+		SELECT
+			id,
+			gate_activity_id AS gateId,
+			coupon_id AS couponId,
+			valid_time_type AS validTimeType,
+			days,
+			create_time AS createTime
+		FROM
+			gate_prize
+		WHERE 
+			gate_activity_id=#{gateId}
+	</select>
+	
+	<select id="isReceived" parameterType="map" resultType="int">
+		SELECT 
+			COUNT(id) 
+		FROM 
+			relation_activity_and_received_mobile 
+		WHERE 
+			mobile_number=#{mobileNumber}
+		AND activity_id=#{activityId}
+		AND acitvity_type=#{activityType} 
+	</select>
+	
+	<insert id="addRelationActivityAndReceivedMobile" parameterType="map">
+		INSERT INTO relation_activity_and_received_mobile (activity_id, mobile_number,coupon_id,acitvity_type) VALUES(#{activityId}, #{mobileNumber},#{couponId},#{activityType})
+	</insert>
+	
+	<update id="updateGateReceiveAmount" parameterType="int">
+		UPDATE gate_activity SET receive_amount=receive_amount+1 WHERE id=#{gateId}
+	</update>
+	
+	<update id="updateGateNewRegisterAmount" parameterType="int">
+		UPDATE gate_activity SET new_register=new_register+1 WHERE id=#{gateId}
+	</update>
+	
+	<insert id="addRelationActivityAndAccount" parameterType="map">
+		INSERT INTO relation_activity_and_account(activity_id,account_id,acitvity_type) VALUES(#{activityId},#{accountId},#{activityType})
+	</insert>
+	
+	<select id="findNextOpenGateActivity" parameterType="map" resultType="GateActivityEntity">
+		SELECT
+			id,
+			theme,
+			`desc`,
+			answer,
+			valid_time_start AS validTimeStart,
+			valid_time_end AS validTimeEnd,
+			url,
+			receive_amount AS receiveAmount,
+			receive_tip AS receiveTip,
+			is_display AS isDisplay,
+			create_time AS createTime
+		FROM
+			gate_activity
+		WHERE
+			is_display = 1
+		<![CDATA[AND TIMESTAMPDIFF(SECOND,#{currentDate},valid_time_start)>0]]>
+		ORDER BY TIMESTAMPDIFF(SECOND,#{currentDate},valid_time_start) ASC
+		LIMIT 1	
+	</select>
+	
+	<select id="findGateIdByNameFromRegisterCoupon" parameterType="map" resultType="int">
+		SELECT
+			t2.activity_id
+		FROM
+			register_mobile_coupon t1,
+			relation_activity_and_received_mobile t2
+		WHERE
+			t1.mobile_number = t2.mobile_number
+		AND t1.coupon_id = t2.coupon_id
+		AND t1.source_type=#{sourceType}
+		AND t2.mobile_number = #{mobileNumber}
+		AND t2.acitvity_type=#{acitvityType}
+		ORDER BY t2.id
+		LIMIT 1	
+	</select>
+     
+</mapper>  

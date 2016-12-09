@@ -1,0 +1,262 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper  
+   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">  
+    <mapper namespace="AccountMapper">  
+    
+     <cache
+        eviction="FIFO"
+        flushInterval="60000"
+        size="512"
+        readOnly="true" />
+     
+      
+     <sql id="AccountQuery">
+         id as id ,
+         name as name,
+         pwd as pwd,
+         type as type ,
+         nickname as nickname,
+         mobile_number as mobileNumber,
+         image as image,
+         available_point as availablePoint ,
+         partner_status as partnerStatus ,
+         recommended_code as recommendedCode,
+         sub_recommended_count as subRecommendedCount,
+         total_recommended_point as totalRecommendedPoint,
+         apply_partner_status as  applyPartnerStatus,
+         recommended_count as recommendedCount ,
+         recommended_order_count as recommendedOrderCount ,
+         is_recommended  as   isRecommended ,
+         is_has_order    as   isHasOrder,
+         `level`,
+         total_success_price as totalSuccessPrice
+     </sql>
+      
+     <select id="findIdByNameAndType" parameterType="map" resultType="java.lang.Integer">
+      SELECT id 
+      FROM account 
+      WHERE name=#{name} AND type=#{type} LIMIT 1
+     </select>
+     
+      <select id="findByNameAndType" parameterType="map" resultType="AccountEntity">
+      SELECT id as id ,
+      name as name ,
+       pwd as pwd,
+      type as type ,
+      nickname as nickname,
+      mobile_number as mobileNumber ,
+      available_point as availablePoint
+      FROM account
+      WHERE name=#{name} AND type=#{type} LIMIT 1
+     </select>
+    
+    <select id="findAccountById" parameterType="int" resultType="AccountEntity">
+      SELECT
+      <include refid="AccountQuery"></include>
+      FROM account
+      WHERE id=#{id} LIMIT 1
+     </select>
+    
+    <select id="findAccountByPwd" parameterType="String" resultType="AccountEntity">
+      SELECT id as id ,
+      name as name ,
+      type as type ,
+      nickname as nickname,
+      mobile_number as mobileNumber ,
+      available_point as availablePoint
+      FROM account
+      WHERE pwd=#{pwd} LIMIT 1
+     </select>
+     
+     <update id="updateAccountById" parameterType="AccountEntity" >
+        UPDATE account 
+        SET pwd=#{pwd} ,
+        available_point = #{availablePoint},
+        image = #{image},
+        apply_partner_status=#{applyPartnerStatus},
+        recommended_count=#{recommendedCount},
+        sub_recommended_count=#{subRecommendedCount},
+        is_has_order=#{isHasOrder},
+        is_recommended=#{isRecommended},
+        total_recommended_point=#{totalRecommendedPoint},
+        recommended_order_count=#{recommendedOrderCount}
+        where id=#{id}
+     </update>
+
+    <update id="updateAccountInfoById" parameterType="map">
+        UPDATE `account`
+        <set>
+            <if test="level != null">`level`=#{level}, </if>
+            <if test="totalSuccessPrice != null">total_success_price=#{totalSuccessPrice}</if>
+        </set>
+        where id=#{id}
+    </update>
+    <insert id="addAccount" parameterType="AccountEntity" useGeneratedKeys="true" keyProperty="id">
+       INSERT INTO account(name,pwd,type,nickname,mobile_number,create_time,image,recommended_code,is_recommended,unionId) 
+       VALUES(#{name},#{pwd},#{type},#{nickname},#{mobileNumber},now(),#{image},#{recommendedCode},#{isRecommended},#{unionId})
+     </insert>
+     
+     <select id="findRegisterCouponIdByName" parameterType="string" resultType="map">
+        SELECT 
+        	coupon_id AS couponId,
+        	validity_days_type AS validityDaysType,
+        	days,
+        	source_type AS sourceType,
+        	reduce_price AS reducePrice
+        FROM 
+        	register_mobile_coupon 
+        WHERE 
+        	mobile_number=#{mobileNumber}
+     </select>
+     
+     <delete id="deleteRegisterCouponByName" parameterType="string" >
+         DELETE FROM register_mobile_coupon 
+         WHERE mobile_number=#{mobileNumber}
+     </delete>
+     
+     
+     <insert id="addAccountRecommendRelation" parameterType="map">
+        INSERT INTO 
+        account_recommend_relation(curr_account_id,father_account_id) 
+        VALUES(#{currAccountId},#{fatherAccountId})
+     </insert>
+     
+     <select id="addRegisterMobileCoupon" parameterType="map">
+        INSERT INTO register_mobile_coupon(mobile_number,coupon_id,validity_days_type,days,source_type,reduce_price)
+       	VALUES(#{mobileNumber},#{couponId},#{validityDaysType},#{days},#{sourceType},#{reducePrice})
+     </select>
+     
+     <insert id="addAccountPartnerRelation" parameterType="map">
+       INSERT INTO 
+       account_partner_relation(curr_account_id,father_account_id) 
+       VALUES(#{currAccountId},#{fatherAccountId})
+     </insert>
+     
+     <select id="findFatherPartnerAccountIdById" parameterType="int" resultType="int">
+         SELECT father_account_id 
+         FROM account_partner_relation 
+         WHERE curr_account_id=#{id}
+     </select> 
+     
+     <select id="findAccountByRecommendedCode" parameterType="string" resultType="AccountEntity">
+         SELECT
+          <include refid="AccountQuery"></include>
+         FROM account WHERE recommended_code=#{recommendedCode} LIMIT 1
+     </select>
+     
+     <select id="findFatherRecommendedAccountIdById" parameterType="int" resultType="int">
+        SELECT father_account_id 
+        FROM account_recommend_relation 
+        WHERE curr_account_id=#{id}
+     </select>
+     
+     <insert id="addAccountRecommendedReturnPoint" parameterType="AccountRecommendedReturnPointEntity" useGeneratedKeys="true" keyProperty="id">
+         INSERT INTO account_recommended_return_point(account_id,recommended_account_id,order_id,point,type,is_first_recommended)
+         VALUES(#{accountId},#{recommendedAccountId},#{orderId},#{point},#{type},#{isFirstRecommended})
+     </insert>
+     
+     <select id="findFatherAccountIdByMobileNumber" parameterType="string" resultType="int">
+     	SELECT 
+     		father_account_id AS fatherAccountId
+     	FROM 
+     		account_prep_recommend_relation 
+     	WHERE 
+     		curr_mobile_number=#{mobileNumber}
+     </select>
+     
+     <insert id="insertAccountPrepRecommendRelation" parameterType="map">
+     	INSERT INTO account_prep_recommend_relation(curr_mobile_number,father_account_id)
+        VALUES(#{currMobileNumber},#{fatherAccountId})
+     </insert>
+     
+     <delete id="deleteAccountPrepRecommendRelation" parameterType="string">
+     	DELETE FROM account_prep_recommend_relation WHERE curr_mobile_number=#{currMobileNumber}
+     </delete>
+     
+     <select id="countPrepRecommended" parameterType="map" resultType="int">
+     	SELECT 
+     		COUNT(id) 
+     	FROM 
+     		account_prep_recommend_relation 
+     	WHERE 
+     		father_account_id=#{accountId}
+     		<![CDATA[AND create_time >= #{begin} ]]>
+     		<![CDATA[AND create_time < #{end} ]]>
+     </select>
+     
+     <select id="findAccountNameById" parameterType="int" resultType="String">
+	     SELECT
+	     	name
+	     FROM account
+	     WHERE id=#{id} LIMIT 1
+     </select>
+     
+     <select id="findCollectSaleIdsByAid" parameterType="int" resultType="int">
+     	SELECT 
+     		sale_id 
+     	FROM 
+     		account_collect_sale 
+     	WHERE account_id=#{id} ORDER BY create_time DESC
+     </select>
+     
+     <select id="countAccountTotalOrderRealPrice" parameterType="int" resultType="map">
+     	SELECT SUM(real_price) AS totalPrice FROM `order` WHERE account_id=#{accountId} AND `status` IN(2,3,4);
+     </select>
+     
+    <select id="findPartnerTrainQuantityInfo" parameterType="int" resultType="map">
+        SELECT
+          father_account_id AS fatherAccountId,
+          COUNT(id) AS total
+        FROM
+          account_partner_train_relation
+        WHERE
+          father_account_id=(SELECT father_account_id FROM account_partner_train_relation WHERE curr_account_id=#{currAccountId})
+    </select>
+
+    <select id="findAccountBlack" parameterType="int" resultType="int">
+        SELECT id FROM account_blacklist WHERE account_id=#{accountId}
+    </select>
+    
+    <select id="findHuanXinInfoByName" parameterType="string" resultType="int">
+    	SELECT id FROM account_huanxin WHERE account_name=#{username} LIMIT 1
+    </select>
+    
+    <insert id="addHuanXinInfo" parameterType="string">
+    	INSERT INTO account_huanxin(account_name) VALUES(#{username})
+    </insert>
+    
+    <select id="findRegisterMobileCoupon" parameterType="map" resultType="RegisterMobileCouponEntity">
+		SELECT
+			id,
+			mobile_number AS mobileNumber,
+			coupon_id AS couponId,
+			validity_days_type AS validityDaysType,
+			days,
+			reduce_price AS reducePrice,
+			source_type AS sourceType
+		FROM
+			register_mobile_coupon
+		<trim prefix="WHERE" prefixOverrides="AND">
+			<if test="mobileNumber != null">AND mobile_number=#{mobileNumber}</if>
+			<if test="couponId != null">AND coupon_id=#{couponId}</if>
+			<if test="validityDaysType != null">AND validity_days_type=#{validityDaysType}</if>
+			<if test="sourceType != null">AND source_type=#{sourceType}</if>
+		</trim> 
+		ORDER BY id DESC 	
+    </select>
+    
+    <update id="updateIntegral" parameterType="map">
+     	UPDATE 
+     		`account` 
+     	SET 
+     		available_point=available_point+#{point} 
+     	WHERE 
+     		id=#{accountId}
+     </update>
+     
+    <insert id="insertIntegralRecord" parameterType="map">
+		INSERT INTO account_available_point_record (`account_id`, `operate_point`, `total_point`, `operate_type`, `arithmetic_type`, `create_time`) 
+		VALUES (#{accountId}, #{operatePoint}, #{totalPoint}, #{operateType}, #{arithmeticType}, now())
+    </insert>      
+</mapper>  

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper  
+   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">  
+    <mapper namespace="QqbsSpokespersonMapper">
+    <insert id="insert" parameterType="QqbsSpokesperson" useGeneratedKeys="true" keyProperty="id">
+ 		<![CDATA[
+        	insert into qqbs_spokesperson(account_id,
+        								sp_time,
+        								ex_status,
+        								create_time) 
+        	values(#{accountId},
+        		   #{spTime},
+        		   #{exStatus},
+        		   now())
+        ]]>
+	</insert>
+	<select id="getCount" parameterType="int" resultType="int">
+		SELECT count(*) FROM
+				qqbs_spokesperson qs
+		WHERE qs.account_id = #{accountId} and qs.delete=0 
+	</select>
+</mapper>  

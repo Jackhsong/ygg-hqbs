@@ -1,0 +1,33 @@
+*{margin:0;padding:0;}
+body{background: #f0f0f0}
+	li{list-style-type:none;}
+	a{text-decoration:none;color:#fff;outline:none;}
+	.main{width:640px;margin:0 auto;background-color:#f0f0f0;padding-bottom: 6rem;}
+	@media screen and (max-width:640px){.main{width:100%;}}
+	.touxiang{width:100%;height:19rem;background:url('../images/bg.png');background-size:100%;}
+	.touxiang .circleImg{width:8rem;height:8rem;border:2px solid #ccc;border-radius:50%;overflow:hidden;margin:0 auto 1rem;}
+	.touxiang .circleImg img{width:100%;}
+	.touxiang .desc{color:#fff;text-align:center;margin-top:1rem;}
+	.touxiang .desc p{color:#e0e0e0;font-size:1.6rem;}
+	.touxiang .desc ul{margin:0 auto; line-height: 1.4;} 
+	.touxiang .desc ul li p.id{font-size:1.4rem;color:#e0e0e0;}
+	.touxiang .desc ul li p.people{font-size:1.2rem;color: #a8a8a8;}
+	.list{width:100%;}
+	.list li{background-color:#fff;margin: 0 auto 1.2rem;font-size:1.5rem;}
+	.list li a{display: block;}
+	.list  .erweima {height:4.6rem;position:relative;}
+	.list  .erweima p{line-height:4.6rem;position:absolute;left:.5rem;}
+	.list  .erweima img.code{width:2rem;height:2rem;position:absolute;right:2.5rem;top:1.2rem;} 
+	.list  .erweima img.right{width:.8rem;position:absolute;right:0.5rem;top:1.5rem;} 
+    .list .tixian{position:relative;}
+    .list .tixian p{margin-left:0.5rem;line-height:4.6rem;color:#33383b;}
+    .list .tixian h1{border-bottom:.1rem solid #e6e6e6;margin:0 0.5rem;line-height:1;padding-bottom:1rem;font-size:3rem;font-weight:bold;}
+    .list .tixian .right{width:.8rem;position:absolute;right:0.5rem;top:5.2rem;}
+	.list .tixian .jl{color:#979ba1;font-size:1.2rem;line-height: 3;}
+	.list div{margin:0 0.5rem; color:#33383b;line-height:4.6rem;}
+	.list .my{border-bottom:.1rem solid #e6e6e6;margin:0 1rem;position:relative;}
+	.list div span.num{float:right;margin-right:2.4rem;font-size:1.4rem;color:#979ba1;}
+	.list div .rightIcon{width:.8rem;position:absolute;right:0;top:1.5rem;}
+	.list .sale{margin:0 1rem;position:relative;}
+	.main .tj{width:100%;color:#858585;text-align:center;margin-top:1.2rem;}
+	

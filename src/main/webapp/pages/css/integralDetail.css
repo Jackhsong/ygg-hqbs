@@ -1,0 +1,15 @@
+/* integralDetail */
+body{background:#f2f2f2;}
+body section{font-family:"microsoft yahei";}
+.list li{}
+.list i{font-style:normal;float:left;}
+.list .thead{width:100%;border-bottom:1px solid #d7d7d7;padding:10px 0;}
+.list .th,.list .td{width:31%;text-align:center;}
+.list .th{color:#31363a;font-size:1em;}
+.list .td{color:#5d626b;border-bottom:1px solid #ececec;height:37px;padding:10px 0;}
+.list .td em{color:#a3a3a3;font-size:14px;font-family:"Arial";display:block;line-height:150%;}
+.list .th:nth-child(1),.list .td:nth-child(1){text-align:left;margin-left:4%;}
+.list strong,.list b{font-weight:normal;}
+.list strong,.list em{font-family:"Arial";}
+.list strong{line-height:250%;}
+.list b{display:inline-block;height:19px;line-height:19px;overflow:hidden;}

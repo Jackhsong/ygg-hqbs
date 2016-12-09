@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper  
+   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">  
+    <mapper namespace="LogisticsMapper">  
+     
+     <select id="findDetailByChannelAndNumber" parameterType="map" resultType="LogisticsDetailEntity">
+        SELECT operate_time as operateTime ,
+        `content` as `content`
+        FROM logistics_detail 
+        WHERE logistics_channel=#{channel}
+        AND logistics_number=#{number}
+        ORDER BY operate_time DESC
+     </select>
+     
+     <insert id="addOrderLogistics" parameterType="OrderLogisticsEntity" useGeneratedKeys="true" keyProperty="id">
+         INSERT INTO order_logistics(order_id,channel,number,money) 
+         VALUES(#{orderId},#{channel},#{number},#{money})
+     </insert>
+     
+     <select id="findOrderLogisticsByOId" parameterType="int" resultType="OrderLogisticsEntity">
+        SELECT channel as channel ,
+        number as number ,
+        status as status
+        FROM order_logistics
+        WHERE order_id=#{orderId}
+     </select>
+     
+     <select id="findOrderLogisticsByOrderProductRefundId" parameterType="int"  resultType="map">
+        SELECT channel as channel ,
+        number as number ,
+        status as status
+        FROM order_product_refund_logistics
+        WHERE order_product_refund_id=#{orderProductRefundId}
+     </select>
+</mapper>  

@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper  
+   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">  
+    <mapper namespace="TempShoppingCartMapper">  
+    
+    
+    <select id="findLackCartByPIdAndAId" parameterType="map" resultType="TempShoppingCartEntity">
+       SELECT id as id ,
+       product_count as  productCount ,
+       product_id as productId,
+       status  as status ,
+       temp_account_id as tempAccountId 
+       FROM temp_shopping_cart 
+       WHERE temp_account_id=#{tempAccountId} 
+       AND product_id=#{productId} 
+       AND status=5 LIMIT 1
+    </select>
+    
+    <select id="findAllLackCartByAId" parameterType="int" resultType="TempShoppingCartEntity">
+       SELECT product_count as productCount,
+       product_id as productId,
+       id as id,
+       status as status ,
+       temp_account_id as tempAccountId ,
+       update_time as updateTime
+       FROM temp_shopping_cart 
+       WHERE temp_account_id=#{tempaccountid}
+       AND status=5 ORDER BY update_time DESC
+    </select>
+    
+    <select id="findTempAccountIdsAndNoValid" resultType="java.lang.Integer">
+        select d.temp_account_id as tempAccountId 
+        from temp_cart_lock_time as d 
+        where (now() - d.valid_time) &gt;0 
+        and d.is_valid=1
+    </select>
+    
+    
+    <select id="findLockCountByPIdAndAId"   parameterType="map"  resultType="java.lang.Integer">
+       SELECT product_count as productcount 
+       FROM temp_cart_lock_count 
+       WHERE temp_account_id=#{tempAccountId} AND product_id=#{productId} LIMIT 1
+    </select>
+    
+    <select id="findTempLockCountProductIdsByAccountId"  parameterType="int" resultType="java.lang.Integer">
+       select product_id as productId 
+       from temp_cart_lock_count 
+       where temp_account_id=#{tempaccountid}
+    </select>
+    
+    <delete id="deleteLockCountByPIdAndAId"  parameterType="map">
+        DELETE FROM temp_cart_lock_count 
+        WHERE temp_account_id=#{tempAccountId} 
+        AND product_id=#{productId}
+    </delete>
+    
+    <update id="updateIsValidByTempAccountId" parameterType="map">
+         UPDATE temp_cart_lock_time 
+         SET is_valid=#{isValid}
+         WHERE temp_account_id=#{tempAccountId} 
+    </update>
+    
+    <select id="findTmpShoppingCartCountByAccountId" parameterType="int" resultType="java.lang.Integer">
+        select  sum(s.product_count) as productcount 
+        from temp_shopping_cart as s 
+        where s.temp_account_id = #{tempAccountId}  
+        and s.`status` =1 limit 1 
+    </select>
+    
+    <update id="updateShoppingCart" parameterType="map">
+        UPDATE temp_shopping_cart 
+        SET status=#{status},
+            product_count=#{productCount} 
+        WHERE id=#{id}
+    </update>
+    
+    <insert id="addLockTime" parameterType="map">
+       INSERT INTO temp_cart_lock_time(temp_account_id,valid_time) 
+       values(#{tempAccountId},#{validTime,jdbcType=TIMESTAMP})
+    </insert>
+    
+    <update id="updateLockTime" parameterType="map">
+       UPDATE temp_cart_lock_time 
+       SET valid_time=#{validTime,jdbcType=TIMESTAMP},is_valid=1 
+       WHERE temp_account_id=#{tempAccountId}
+    </update>
+    
+    <insert id="addShoppingCart" parameterType="map">
+         INSERT INTO temp_shopping_cart(temp_account_id,product_id,product_count,create_time) 
+         values(#{tempAccountId},#{productId},#{productCount},#{createTime,jdbcType=TIMESTAMP})
+    </insert>
+    
+    <insert id="addLockCount" parameterType="map">
+        INSERT INTO temp_cart_lock_count(temp_account_id,product_id,product_count) 
+        values(#{tempAccountId},#{productId},#{productCount})
+    </insert>
+    
+    <update id="updateLockCount" parameterType="map">
+        UPDATE temp_cart_lock_count 
+        SET product_count=#{productCount} 
+        WHERE temp_account_id=#{tempAccountId}
+        AND product_id=#{productId}
+    </update>
+    
+    <select id="findAllNormalCartByAId" parameterType="int" resultType="TempShoppingCartEntity">
+        SELECT product_count as productCount ,
+        product_id  as productId ,
+        id as id ,
+        status  as status ,
+        temp_account_id as tempAccountId  ,
+        update_time as updateTime
+        FROM temp_shopping_cart 
+        WHERE temp_account_id=#{tempAccountId} AND status=1
+    </select>
+    
+    <select id="findAllNormalCartByAIdExceptPid" parameterType="map" resultType="TempShoppingCartEntity">
+       SELECT product_count as productCount ,
+       product_id as productId , 
+       id as id ,
+       status  as status ,
+       temp_account_id as tempAccountId 
+       FROM temp_shopping_cart 
+       WHERE temp_account_id =#{tempAccountId}
+       AND product_id != #{productId}
+       AND status=1 ORDER BY product_id 
+    </select>
+    
+    <select id="findValidTimeByAid" parameterType="int" resultType="java.sql.Timestamp">
+       SELECT valid_time as validTime
+       from temp_cart_lock_time 
+       WHERE temp_account_id=#{tempaccountId}
+    </select>
+    
+    <select id="findNormalCartByPIdAndAId" parameterType="map" resultType="TempShoppingCartEntity">
+      SELECT id as id,
+      product_count as productCount ,
+      status  as status , 
+      product_id as productId ,
+      temp_account_id as tempAccountId 
+      FROM temp_shopping_cart 
+      WHERE temp_account_id=#{tempAccountId} 
+      AND product_id=#{productId}
+      AND status=1 LIMIT 1
+    </select>
+    
+     <select id="findProductCountByAIdAndPId" parameterType="map" resultType="int">
+       select  product_count as productCount 
+       from temp_shopping_cart c 
+       where  c.temp_account_id  =#{accountId}  
+       and c.product_id =#{productId}  and c.`status` = 1
+    </select>
+ 
+</mapper>  

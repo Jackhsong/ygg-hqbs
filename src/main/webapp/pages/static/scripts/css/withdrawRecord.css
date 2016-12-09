@@ -1,0 +1,17 @@
+*{margin:0;padding:0;}
+a{text-decoration:none;color:#fff;}
+li{list-style-type:none;}
+body{background:#f0f0f0;}
+.main{width:640px;height:100%;margin:0 auto;padding-top:0.54rem;}
+@media screen and (max-width:540px){.main{width:100%;}}
+.main .content{background:#fff;height:4.54rem;margin:0 0.2rem;-webkit-border-radius:6px;-moz-border-radius:6px;-o-border-radius:6px;border-radius:6px;}
+.main .content h1{color:#33383b;font-size:0.49rem;line-height:1.68rem;margin-left:0.2rem;}
+.main .content input{outline:none;-webkit-tap-highlight-color:rgba(0,0,0,0);border:none;border-bottom:2px solid #d6d6d6;margin:0 0.2rem; display:block;width:92%;color:#c6c6c6;font-size:0.65rem;padding:0.2rem;padding-left:0; }
+.main .content .ytx{color:#d6d6d6;font-size:0.41rem;margin-left:0.2rem;line-height:1.49rem;text-align:left;}
+.main .content .ytx span{color:red;font-weight:bold;}
+.main .wa{margin:0.27rem 0.2rem;color:#979ba1;font-size:0.40rem;}
+.main .btn{width:9.52rem;height:1.11rem;margin:0.43rem 0.2rem 0;font-size: 0.49rem;text-align: center;line-height: 1.11rem;background:#000;color:#fff;}
+.black{color:#000;}
+#errorLayer{color:red;font-size:0.2rem; margin:0.1rem; width:100%; text-align:center;}
+.fn-hide{display:none;}
+.unBtn{/* width:9.52rem; */width:92%;font-size:0.5rem;margin:font-size: 0.49rem;text-align: center;line-height: 1.11rem;-webkit-border-radius: 5px;-moz-border-radius: 5px;-o-border-radius: 5px;border-radius: 5px;margin: 0.43rem 0.3rem;background:#adadad;color:#fff;border-top-style: none;border-right-style:none;border-bottom-style: none;border-left-style: none;}

@@ -1,0 +1,327 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper  
+   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">  
+    <mapper namespace="SellerMapper">  
+    
+    <resultMap type="SellerExpandEntity" id="SellerExpandMap">
+    	<id column="id" property="id" />
+    	<result column="seller_id" property="sellerId"/>
+    	<result column="audit_user_id" property="auditUserId"/>
+    	<result column="username" property="username"/>
+    	<result column="password" property="password"/>
+    	<result column="proposal_submit_type" property="proposalSubmitType"/>
+    	<result column="proposal_deduction" property="proposalDeduction"/>
+    	<result column="is_master" property="isMaster"/>
+    	<result column="receive_province_code" property="receiveProvinceCode"/>
+    	<result column="receive_city_code" property="receiveCityCode"/>
+    	<result column="receive_district_code" property="receiveDistrictCode"/>
+    	<result column="receive_detail_address" property="receiveDetailAddress"/>
+    	<result column="receive_person" property="receivePerson"/>
+    	<result column="receive_telephone" property="receiveTelephone"/>
+    	<result column="is_information" property="isInformation"/>
+    	<result column="rc_aliwang" property="rcAliwang"/>
+    	<result column="rc_email" property="rcEmail"/>
+    	<result column="rc_qq" property="rcqq"/>
+    	<result column="rc_contact_mobile" property="rcContactMobile"/>
+    	<result column="rc_contact_person" property="rcContactPerson"/>
+    </resultMap>
+    
+    <select id="findBrandInfoById" parameterType="int"  resultType="SellerEntity">
+      SELECT seller_type as sellerType ,
+      seller_name as sellerName ,
+      send_address as sendAddress ,
+      company_name as companyName ,
+      company_address as companyAddress ,
+      contact_person  as contactPerson  ,
+      contact_phone   as contactPhone
+      FROM seller WHERE id=#{id} LIMIT 1
+    </select>
+    
+    <!-- 根据id列表查询对应的标签image列表 -->
+    <select id="findImagesByIds"   resultType="String">
+     SELECT image 
+     FROM sale_tag 
+     WHERE id IN
+        <foreach item="item" index="index" collection="list" open="(" separator="," close=")">  
+          #{item}  
+        </foreach>
+    </select>
+    
+    <!-- 根据id列表查询对应的标签image列表 -->
+    <select id="findImagesById"  parameterType="int" resultType="String">
+     SELECT   
+      st.image as labels 
+      FROM sale_window sw 
+      INNER JOIN relation_sale_window_and_tag swt on swt.sale_window_id = sw.id
+      INNER JOIN sale_tag  st on swt.sale_tag_id = st.id
+	  AND  sw.id = #{id}
+      AND  st.is_available = 1 
+    </select>
+    
+    
+    <select id="findCurrDisplayNowId" parameterType="map" resultType="Integer">
+         SELECT id 
+         FROM sale_window 
+         WHERE start_time &lt;=#{startTime} AND end_time &gt;=#{endTime} 
+         AND is_display=1
+          AND source_type=1
+         ORDER BY now_order DESC
+    </select>
+    
+    <select id="findCurrDisplayLaterId" parameterType="map" resultType="Integer">
+         SELECT 
+         	id 
+         FROM 
+         	sale_window 
+         WHERE 
+         	start_time=#{startTime} AND end_time &gt;=#{endTime} AND is_display=1 AND source_type=1
+         ORDER BY now_order DESC
+    </select>
+    
+    <sql id="displayNowAndLaterSql">
+         sw.id  as id ,
+         sw.type  as  type ,
+         sw.display_id  as displayId ,
+         sw.name  as  name ,
+         sw.desc  as  `desc`  ,
+         sw.image  as  image ,
+         sw.start_time  as  startTime ,
+         sw.end_time    as  endTime ,
+         sw.is_display  as  isDisplay ,
+         sw.now_order   as  nowOrder  ,
+         sw.later_order as  laterOrder ,
+         sw.create_time as  createTime ,
+         sw.update_time as  updateTime ,
+         sw.sale_time_type as saleTimeType
+    </sql>
+    
+    <resultMap type="SaleWindowEntity" id="saleWindowEntityMap">
+       <id column="id" property="id"/>
+       <collection property="saleTagLabels" column="id" javaType="ArrayList" 
+         ofType="String"  select="findImagesById"></collection>
+    </resultMap>
+    
+    <!-- 查询所有的今日特买商品 -->
+    <select id="findDisplayNowInfos" parameterType="map"   resultMap="saleWindowEntityMap">
+         SELECT 
+         <include refid="displayNowAndLaterSql"/>
+         FROM sale_window sw 
+         WHERE sw.start_time &lt;=#{startTime} AND sw.end_time &gt;=#{endTime} 
+         AND sw.is_display=1
+        AND sw.source_type=1
+         ORDER BY sw.now_order DESC
+    </select>
+    <!-- 
+       	　　以上从From 起保留在此，
+      　　　　　　  FROM sale_window sw 
+         　　　　　　INNER JOIN relation_sale_window_and_tag swt on swt.sale_window_id = swt.id
+        　　　　　　 INNER JOIN sale_tag  st on swt.sale_tag_id = st.id
+           WHERE start_time =#{startTime} AND end_time &gt;=#{endTime} 
+           AND sw.is_display=1 
+           ORDER BY sw.later_order DESC
+           
+           nowdisplay
+           
+           FROM sale_window sw ,relation_sale_window_and_tag swt,sale_tag st 
+		 WHERE swt.sale_window_id = swt.id and swt.sale_tag_id = st.id
+         AND start_time &lt;=#{startTime} AND end_time &gt;=#{endTime} 
+         AND is_display=1 
+         ORDER BY now_order DESC
+          
+          laterdisplay
+         
+         FROM sale_window sw ,relation_sale_window_and_tag swt,sale_tag st 
+		 WHERE swt.sale_window_id = swt.id and swt.sale_tag_id = st.id
+         AND start_time =#{startTime} AND end_time &gt;=#{endTime} 
+         AND is_display=1 
+         ORDER BY later_order DESC
+         
+     -->
+    
+    <!-- 查询所有的即将特买商品 -->
+    <select id="findDisplayLaterInfos" parameterType="map" resultMap="saleWindowEntityMap" >
+         select
+         <include refid="displayNowAndLaterSql"/>
+         FROM sale_window sw  
+         WHERE sw.start_time =#{startTime} AND sw.end_time &gt;=#{endTime} 
+         AND sw.is_display=1
+         AND sale_time_type=#{saleTimeType}
+        AND sw.source_type=1
+         ORDER BY sw.now_order DESC
+    </select>
+    
+     <!-- <select id="findCurrDisplayLaterId" parameterType="map" resultType="SaleWindowEntity">
+         SELECT id  as id ,
+         type  as  type ,
+         display_id  as displayId ,
+         name  as  name ,
+         `desc`  as  `desc`  ,
+         image  as  image ,
+         start_time  as  startTime ,
+         end_time    as  endTime ,
+         is_display  as  isDisplay ,
+         now_order   as  nowOrder  ,
+         later_order as  laterOrder ,
+         create_time as  createTime ,
+         update_time as  updateTime 
+         FROM sale_window 
+         WHERE start_time =#{startTime} AND end_time &gt;=#{endTime} 
+         AND is_display=1 
+         ORDER BY later_order DESC
+    </select> -->
+    
+    <select id="findSaleInfoById" parameterType="int" resultType="SaleWindowEntity">
+         SELECT 
+         start_time as startTime ,
+         end_time as endTime ,
+         type,
+         display_id as displayId
+         FROM sale_window 
+         WHERE id=#{id} LIMIT 1
+    </select>
+    
+    
+    <select id="findSaleInfoByDisplayId" parameterType="map" resultType="SaleWindowEntity">
+        SELECT start_time as startTime , 
+        name as name ,
+        `desc` as `desc`,
+        end_time  as endTime,
+        sale_time_type as saleTimeType
+        FROM sale_window 
+        WHERE display_id=#{displayId}
+        AND source_type=1
+        AND type=#{type} LIMIT 1
+    </select>
+    
+    <!-- 根据id列表查询对应的标签id -->
+    <select id="findTagIdByIds"  parameterType="int"   resultType="SaleWindowEntity">
+       SELECT sale_tag_id FROM relation_sale_window_and_tag WHERE sale_window_id=#{salewindowid}
+    </select>
+    
+    
+    <select id="findDisplayNowInfoByIds"   resultType="SaleWindowEntity">
+     SELECT 
+     type as type ,
+     id,
+     display_id as displayId ,
+     image as image ,
+     name as name ,
+     `desc` as `desc` ,
+     end_time  as 'endTime',
+     sale_flag_id as saleFlagId,
+     is_display_flag as isDisplayFlag
+     FROM sale_window
+     WHERE id IN
+        <foreach item="item" index="index" collection="list" open="(" separator="," close=")">  
+          #{item}  
+        </foreach>
+    </select>
+    
+    <select id="findDisplayLaterInfoByIds"   resultType="SaleWindowEntity">
+     SELECT 
+     id,
+     type as type ,
+     display_id as displayId ,
+     image as image ,
+     name as name ,
+     `desc` as `desc` ,
+     end_time  as 'endTime',
+     start_time  as 'startTime',
+     sale_flag_id as saleFlagId,
+     is_display_flag as isDisplayFlag
+     FROM sale_window
+     WHERE id IN
+        <foreach item="item" index="index" collection="list" open="(" separator="," close=")">  
+          #{item}  
+        </foreach>
+    </select>
+    
+    <select id="findStartEndTimeById"   resultType="map">
+         SELECT 
+         sw.id as swId ,
+         sw.start_time as startTime ,
+         sw.end_time  as endTime,
+         sale_time_type AS  saleTimeType
+         FROM sale_window sw 
+         WHERE sw.id  IN
+        <foreach item="item" index="index" collection="list" open="(" separator="," close=")">  
+          #{item}  
+        </foreach> order by sw.id 
+    </select>
+    
+<!-- 根据id查询订单商家信息 -->
+    <select id="findOrderSellerInfoById" parameterType="int"  resultType="SellerEntity">
+      SELECT 
+      	seller_type AS sellerType,
+      	seller_name AS sellerName,
+      	send_address AS sendAddress
+      FROM 
+      	order_seller 
+      WHERE 
+      	id=#{id} 
+      LIMIT 1
+    </select>
+    
+<!-- 插入订单商家信息 -->
+    <insert id="insertOrderSellerInfo" parameterType="SellerEntity" useGeneratedKeys="true" keyProperty="id">
+    	INSERT INTO order_seller(seller_name,seller_type,send_address) VALUES(#{sellerName},#{sellerType},#{sendAddress})
+    </insert>
+    
+    
+    <select id="findSellerById" parameterType="int" resultType="SellerEntity">
+    	SELECT 
+    		id,
+    		seller_type AS sellerType,
+      		seller_name AS sellerName,
+      		send_address AS sendAddress,
+    		is_birdex AS isBirdex,
+    		send_time_type AS sendTimeType,
+    		is_send_weekend AS isSendWeekend,
+    		bonded_number_type as bondedNumType
+    	FROM 
+    		seller 
+    	WHERE id=#{sellerId} 
+    	LIMIT 1
+    </select>
+
+    <select id="findTodayDisplayId" parameterType="map" resultType="int">
+        SELECT id FROM sale_window WHERE start_time=#{startTime} AND sale_time_type=#{saleTimeType} AND is_display=1 AND source_type=1 ORDER BY now_order DESC
+    </select>
+
+    <select id="findTodayDisplayInfos" parameterType="map" resultMap="saleWindowEntityMap">
+        SELECT
+        <include refid="displayNowAndLaterSql"/>
+        FROM sale_window sw
+        WHERE sw.start_time=#{startTime} AND sw.sale_time_type=#{saleTimeType} AND sw.is_display=1 AND sw.source_type=1 ORDER BY sw.now_order DESC
+    </select>
+
+    <select id="findCurrDisplayNowIdWhereIdNotIn" parameterType="map" resultMap="saleWindowEntityMap">
+        SELECT
+        <include refid="displayNowAndLaterSql"/>
+        FROM
+          sale_window sw
+        WHERE
+          <![CDATA[sw.start_time<=#{nowSaleDate} ]]>
+          <![CDATA[AND sw.end_time>=#{nowSaleDate} ]]>
+          AND sw.is_display=1
+          AND sw.id NOT IN
+          <foreach item="item" index="index" collection="idList" open="(" separator="," close=")">
+            #{item}
+          </foreach>
+        ORDER BY sw.now_order DESC
+    </select>
+    
+    <select id="findSellerExpandBySellerId" parameterType="int" resultMap="SellerExpandMap">
+		select * from seller_expand_1 where seller_id=#{sellerId}
+	</select>
+
+    <select id="findAllSellerPosgageBlacklistId" resultType="map">
+        SELECT seller_id, freight_money FROM seller_blacklist WHERE type=1 AND is_available=1
+    </select>
+
+    <select id="findAllSellerActivitiesBlacklistId" resultType="int">
+        SELECT seller_id FROM seller_blacklist WHERE type=2 AND is_available=1
+    </select>
+    
+</mapper>  

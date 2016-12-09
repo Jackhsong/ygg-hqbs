@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper  
+   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">  
+    <mapper namespace="OrderConfimMapper">  
+     
+     <insert id="addOrderConfirm" parameterType="OrderConfirmEntity" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO order_confirm(number,account_id,temp_account_id,freight_template_id,total_price,seller_id) 
+        VALUES(#{number},#{accountId},#{tempAccountId},#{freightTemplateId},#{totalPrice},#{sellerId})
+     </insert>
+     
+     <sql id="queryAllOrderConfirmSql">
+       id as id ,
+       number as number ,
+       account_id as accountId ,
+       seller_id  as sellerId , 
+       temp_account_id as tempAccountId,
+       freight_template_id as freightTemplateId ,
+       total_price as totalPrice ,
+       is_valid as isValid
+     </sql>
+     <select id="findConfirmByNumberAndAId" parameterType="map" resultType="OrderConfirmEntity">
+       SELECT  
+       <include refid="queryAllOrderConfirmSql"/>
+       FROM order_confirm 
+       WHERE number=#{number} 
+       AND is_valid=1 
+       AND account_id=#{accountId}
+      ORDER BY totalPrice
+     </select>
+     <select id="findConfirmByNumberAndTId" parameterType="map" resultType="OrderConfirmEntity">
+          SELECT 
+          <include refid="queryAllOrderConfirmSql"/>
+          FROM order_confirm 
+          WHERE number=#{number} 
+          AND is_valid=1 
+          AND temp_account_id=#{tempAccountId}
+     </select>
+     <update id="updateOrderConfirm" parameterType="OrderConfirmEntity">
+         UPDATE order_confirm 
+         SET is_valid=#{isValid},
+         freight_template_id=#{freightTemplateId} 
+         WHERE id=#{id}
+     </update>
+
+    <select id="findConfirmByNumber" parameterType="long" resultType="OrderConfirmEntity">
+        SELECT
+          id,
+          account_id AS accountId,
+          temp_account_id AS tempAccountId,
+          freight_template_id AS freightTemplateId,
+          total_price AS totalPrice,
+          is_valid AS isValid,
+          seller_id AS sellerId
+        FROM
+          order_confirm
+        WHERE
+          number=#{number}
+          AND is_valid=1
+    </select>
+     
+</mapper>  

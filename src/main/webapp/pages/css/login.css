@@ -1,0 +1,47 @@
+/* login */
+.reg_frame{ overflow:hidden; width: 100%; padding-top: 0.75em}
+.account,.pwd,.verify,.account_reg,.pwd_reg,.old_reg{ color:#aaa; border-top:1px solid #dbdbdb; height: 24px; width: 100%;  background:#ffffff; line-height: 24px; font-size: 1em; padding: 9px 0}
+.account{  -border-bottom: 1px solid #a4a6ac; }
+.account img,.pwd img,.account_reg img,.pwd_reg img,.old_reg img{ width: 17px; padding:1px 11px 0 15px; }
+.verify img{width: 17px; padding:4px 11px 0 15px;}
+.old_reg img{ padding:4px 11px 0 15px;}
+.pwd{ background:#ffffff ; border-bottom: 1px solid #dbdbdb; border-top: 1px solid #f5f5f5}
+.account input{ color:#aaa; height: 24px; width: 80%; line-height: 24px; font-size: 1em; }
+.pwd input{ color:#aaa; height: 24px; width: 80%; line-height: 24px; font-size: 1em; }
+.pwd{ position: relative;}
+.pwd span{ position: absolute; left: 44px; top: 0; line-height: 42px; font-size: 1em; color:#aaa; display: inline-block; width: 100%; height: 100% }
+
+.login{ height:2.625em; background: #ff3e00; text-align: center; color: #ffffff; line-height: 2.625em; border-radius: 0.1875em; -webkit-border-radius: 0.1875em; -moz-border-radius: 0.1875em; margin: 0.75em; }
+.fpwd{ font-size: 0.75em; padding-right: 1em}
+.fpwd a{ color: #999;}
+
+.grid{ width:100%; height: 2px; background: #dbdbdb; margin-top: 7.75em; position: relative;}
+.grid_tab{  width:106px; text-align: center; background: url(../images/bg1.jpg); font-size: 0.75em; color:#848484; position: absolute; top: -250%; left: 50%; margin-left: -53px} 
+.cooperation{ display: box; display: -webkit-box; display: -moz-box; text-align: center; padding-top: 22px}
+.cooperation dl{ box-flex:1; -webkit-box-flex:1; -moz-box-flex:1; font-size: 14px; color:#848484 }
+.cooperation a{ color:#848484 }
+.cooperation img{ width: 38px}
+.loerror{ display: none;  padding-left:15px; font-size: 12px; padding-top: 10px; color: #ff3e00}
+/* end login */
+
+/* register */
+.account_reg{  background:#ffffff }
+.old_reg{  background:#ffffff; position: relative;}
+.old_reg span{ position: absolute; top: 0; left: 44px; width: 100%; height: 100%; line-height: 45px; font-size: 15px}
+.account_reg input,.old_reg input{  color:#aaa; height: 24px; width: 80%; line-height: 24px; font-size: 1em; }
+.old_reg{ border-bottom: 1px solid #f5f5f5;}
+.pwd_reg{ background:#ffffff ; border-top: none; border-bottom:1px solid #dbdbdb;}
+.pwd_reg input{  color:#aaa; height: 24px; width: 55%; line-height: 24px; font-size: 1em; }
+.pwd_reg a{ color:#fe906d;  font-size: 0.75em; border: 1px solid #fe906d; margin-right: 1em; text-indent: 0; display: block; float: right; width: 78px; height: 22px; line-height: 22px;  -webkit-border-radius:3px; -moz-border-radius:3px; border-radius:3px; text-align: center;}
+.pwd_reg{ position: relative;}
+.pwd_reg span{ position: absolute; left: 44px; top: 0; line-height: 42px; font-size: 15px; color:#aaa; display: inline-block; width: 72%; height: 100%; }
+
+.verify{ border-top: 1px solid #efefef; border-bottom: 1px solid #efefef;  background:#ffffff }
+.verify input{  color:#aaa; height: 24px; width: 50%;  line-height: 24px; font-size: 1em; }
+.verify_a{ color:#fe906d;  font-size: 0.75em; border: 1px solid #fe906d; margin-right: 1em; text-indent: 0; display: block; float: right; width: 78px; height: 22px; line-height: 22px;  -webkit-border-radius:3px; -moz-border-radius:3px; border-radius:3px; text-align: center;}
+.verify_b{ color:#fe906d;  font-size: 0.75em; border: 0px solid #fe906d; margin-right: 1em; text-indent: 0; display: block; float: right; width: 78px; height: 40px; line-height: 40px;  -webkit-border-radius:3px; -moz-border-radius:3px; border-radius:3px; text-align: center;}
+.retry{ color:#fe906d; background: #ffffff;  font-size: 0.75em; border: 1px solid #fe906d; margin-right: 1em; text-indent: 0; display: block; float: right; width: 78px; height: 22px; line-height: 22px;  -webkit-border-radius:3px; -moz-border-radius:3px; border-radius:3px; text-align: center; }
+
+.modresetpwd{ color:#fe906d;  font-size: 0.75em; border: 1px solid #fe906d; margin-right: 1em; display: block; float: right; width: 78px; height: 22px; line-height: 22px;  -webkit-border-radius:3px; -moz-border-radius:3px; border-radius:3px; text-align: center;}
+/* end register */
+.off{ display: none}

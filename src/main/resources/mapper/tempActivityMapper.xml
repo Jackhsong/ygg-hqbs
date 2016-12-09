@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper  
+   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">  
+    <mapper namespace="TempActivityMapper">  
+    
+	<select id="findAllTempActivityDetails" resultType="map">
+		SELECT
+			t1.`name`,
+			t2.id AS productId,
+			t2.`name` AS productName,
+			t2.image1 AS image,
+			t2.market_price AS highPrice,
+			t2.sales_price AS lowPrice,
+			t2.type AS productType
+		FROM
+			temp_activity t1,
+			product t2
+		WHERE
+			t1.product_id = t2.id
+		ORDER BY
+			t1.name_sequence DESC,
+			t1.product_sequence DESC		
+	</select>
+	
+	<select id="findAllActivityNames" resultType="string">
+		SELECT `name` FROM temp_activity GROUP BY `name` ORDER BY name_sequence DESC	
+	</select>
+    
+    <select id="findAnniversaryProductIds" parameterType="int" resultType="int">
+    	SELECT
+    		product_id
+    	FROM
+    		temp_activity_anniversary_product
+    	WHERE
+    		time_type=#{timeType}
+    	ORDER BY sequence DESC
+    </select>
+    
+    <select id="findAnniversaryGroup" resultType="map">
+    	SELECT
+    		activities_common_id,
+    		image as imageUrl
+    	FROM
+    		temp_activity_anniversary_group
+    	ORDER BY sequence DESC
+    </select>
+    
+    <select id="findAnniversaryGroupRecommendProductIds" resultType="int">
+    	SELECT
+    		product_id
+    	FROM
+    		temp_activity_anniversary_recommend
+    	ORDER BY sequence DESC    	
+    </select>
+    
+    <select id="findAnniversaryCurrentProductIds" parameterType="int" resultType="int">
+    	SELECT
+    		product_id
+    	FROM
+    		temp_activity_anniversary_current_product
+    	WHERE
+    		time_type=#{timeType}
+    	ORDER BY sequence DESC    	
+    </select>
+    
+    <select id="findAnniversaryCurrentGroup" resultType="map">
+    	SELECT
+    		activities_common_id,
+    		image as imageUrl
+    	FROM
+    		temp_activity_anniversary_current_group
+    	ORDER BY sequence DESC    	
+    </select>
+    
+    <select id="findAnniversaryCurrentHotTopProductIds" resultType="map">
+    	SELECT
+    		product_id,
+    		type
+    	FROM
+    		temp_activity_anniversary_current_hot_top
+    	ORDER BY type ASC,sequence DESC    	
+    </select>
+</mapper>  

@@ -1,0 +1,39 @@
+/* Coupons */
+body{background:#f2f2f2;font-family:"microsoft yahei";}
+
+.tit_ra,.tit_la{color:#f4f4f4;}
+.list{width:95%;margin:0 auto;margin-top:10px;}
+.list li{width:100%;height:100px;background:url(../images/coupons/redCBg.png) no-repeat; background-size:100% 100%;margin-bottom:10px;}
+.list .amount{color:#fff;width:34%;margin-right:3%;text-align:center;}
+.list .amount i{font-style:normal;font-size:40px;display:inline-block;line-height:250%;}
+.list .amount b{font-family:'microsoft yahei';}
+.list .detail{width:63%;margin-top:15px;position:relative;}
+.list dt{font-size:18px;line-height:150%;}
+.list dd{font-size:13px;line-height:150%;}
+.list .detail{color:#33383b;}
+.noAllowUse{color:#ff3e00;}
+.getCodeForm{width:95%;margin: 0 auto;}
+.titleBox{width:97%;padding:10px 0 10px 3%;background:#fff;border-top:1px solid #d7d7d7;border-bottom:1px solid #d7d7d7;margin-top:10px;}
+.titleBox h4{margin:0;color:#33383b;font-size:1em;font-weight:normal;}
+.getCodeForm{background:#fff;border-bottom:1px solid #d7d7d7;padding:10px 0 10px 3%;width:97%;}
+#couponsCode{font-size:1em;color:#000;padding:5px 0 0 30px;line-height:1em;background:url(../images/coupons/couponIcon.png) no-repeat left center;background-size:23px 90%;background-color:none;}
+#toExchange{font-family:"microsoft yahei";color:#ff3e00;text-align:center;line-height:1em;padding:3px 5px;border:1px solid #ff3e00;border-radius:3px;margin-right:10px;}
+.btnBox{background:#fff;border-top:1px solid #d7d7d7;padding:10px 0;margin:15px auto;}
+#toUse{width:95%;margin:0 auto;display:block;background:#ff3e00;border-radius:3px;text-align:center;padding:10px 0;color:#fff;font-size:23px;}
+#couponsCode{width:60%;}
+#couponsCode::-webkit-input-placeholder { /* WebKit browsers */
+            color: #a4a4a4;
+        }
+        #couponsCode:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+            color: #a4a4a4;
+        }
+        #couponsCode::-moz-placeholder { /* Mozilla Firefox 19+ */
+            color: #a4a4a4;
+        }
+        #couponsCode:-ms-input-placeholder { /* Internet Explorer 10+ */
+            color: #a4a4a4;
+        }
+.radio{position:absolute;width:30px;height:30px;right:10px;top:-10px;}
+.radio i{display:block;width:30px;height:30px;}
+.checked .radio i{background:url(../images/coupons/check.png) no-repeat;background-size:100%;}
+.unCheck .radio i{background:url(../images/coupons/uncheck.png) no-repeat;background-size:100%;}

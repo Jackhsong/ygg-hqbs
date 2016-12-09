@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper  
+   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">  
+    <mapper namespace="CouponDetailMapper">  
+    
+<!--      <cache
+        eviction="FIFO"
+        flushInterval="60000"
+        size="512"
+        readOnly="true" /> -->
+        
+      <select id="findCouponDetailById" parameterType="int" resultType="CouponDetailEntity">
+        SELECT 
+        	`type` as  `type`,
+        	scope_type as scopeType ,
+        	`threshold` as `threshold` ,
+        	`reduce`  as `reduce`,
+        	is_random_reduce as isRandomReduce,
+        	lowest_reduce as lowestReduce,
+        	`desc` AS `desc`,
+        	maximal_reduce as maximalReduce,
+        	scope_id AS scopeId
+        FROM 
+        	coupon_detail 
+        WHERE id=#{id}
+      </select>
+      
+      <select id="findCouponDetailByCouponId" parameterType="int" resultType="CouponDetailEntity">
+ 		SELECT
+			t2.`type` AS `type`,
+			t2.scope_type AS scopeType,
+			t2.`threshold` AS `threshold`,
+			t2.`reduce` AS `reduce`,
+			t2.is_random_reduce as isRandomReduce,
+        	t2.lowest_reduce as lowestReduce,
+        	t2.`desc` AS `desc`,
+        	t2.maximal_reduce as maximalReduce
+		FROM
+			coupon t1,
+			coupon_detail t2
+		WHERE
+			t1.coupon_detail_id = t2.id
+		AND t1.id = #{couponId}     
+      </select>
+     
+</mapper>  

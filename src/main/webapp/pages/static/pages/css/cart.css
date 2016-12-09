@@ -1,0 +1,46 @@
+/* cart */
+.cnotice,.cnoticefail,.amount,.clist{ background: #ffffff; padding-left: 10px; padding-right: 10px}
+/* .cnotice,.cnoticefail,.amount,.clist{ border-bottom: 1px solid #f0f0f0; } */
+.cnotice,.cnoticefail{ color: #31363a; font-size: 12px !important; line-height: 28px; border-bottom:1px solid #ececec;}
+.cnotice img,.cnoticefail img{ width: 11px; vertical-align: middle; }
+.cnotice em,.cnoticefail em{ vertical-align: middle; padding-left: 6px;font-size: 12px;}
+.cnotice span,.cnoticefail span{ color: #ff0000}
+.amount{ font-size: 14px; color: #33383b; line-height: 26px}
+.amount span{ float: right;}
+.amount span span{ color: #ff3e00}
+.clist{ padding-top: 10px; padding-bottom: 4px; position: relative; border-bottom:1px solid #ececec;}
+.clist img{ width: 53px; height: 53px; margin-top: 2px }
+.clist_img{ position: relative;}
+.clist_tit{ float: left; white-space:nowrap; text-overflow:ellipsis; overflow: hidden; font-size: 14px; line-height: 20px; width: 76%; padding-left: 10px}
+.clist_foot{  font-size: 18px; color: #ff0000; line-height: 30px; padding-top: 10px; padding-left: 10px;  float: left; width: 78%; }
+.clist_foot em{ font-size: 15px; }
+.clist_foot img{ width: 16px; height: 18px; float: right; padding-top: 4px; margin-left: 30px; margin-top: 0}
+.cmath{ color: #33383b; font-size: 13px; height: 24px; line-height: 24px; width: 87px; border: 1px solid #d7d7d7; text-align: center; }
+.cmath_c,.cmath_ca{ width: 24px; height: 24px;  border-left: 1px solid #d7d7d7; display: block; float: right; background: #f7f7f7}
+.cmath_ca{ float: left; border: none; border-right: 1px solid #d7d7d7;}
+.csubmit a{ background: #ff3e00; border: 1px solid #f7beac; border-radius:3px; -webkit-border-radius:3px; -moz-border-radius:3px; -ms-border-radius:3px; display: block; margin: 14px 10px 11px 10px; font-size: 17px; line-height: 29px; color: #ffffff; text-align: center; }
+.ctips{ margin-top: 18px; margin-bottom: 116px;}
+.ctips p{ font-size: 12px; line-height: 18px; padding-left: 11px; color: #33383b}
+.chance img,.end img,.ready img{ width: 38px; height: 38px; position: absolute; top: 50%; left:50%; margin-left: -19px; margin-top: -19px }
+.loading{ width: 100%; height: 100%;  position: absolute; top: 0; left: 0;}
+.clist .loading img{ width: 20px; height: 20px; position: absolute; top: 50%; left: 50%; margin-left: -10px; margin-top: -8px }
+
+.emptyadd{ margin-top: 40%; text-align: center; }
+.emptyadd p{ color: #5f646e; padding: 19px 0 16px 0; font-size: 17px}
+.emptyadd span{ display: block; font-size: 14px; padding-bottom: 16px; color: #b5b6b6}
+.emptyadd img{ width: 96px;}
+.emptyadd a{ border:1px solid #ff3e00; border-radius:3px; -webkit-border-radius:3px; -moz-border-radius:3px; -ms-border-radius:3px; font-size: 14px; color: #ff3e00 ; padding: 4px 16px}
+.sinprice{ display: inline;}
+.carttotal{  width:100%;max-width:640px; position: fixed; bottom: -50px; left: 0; color: #ff0000; padding: 0 10px; font-size: 16px; background: #ffffff; line-height: 50px; border-top: 1px solid #e5e5e5; text-align: right;box-sizing: border-box;}
+.carttotal a{  margin-left: 6px; width: 114px; height: 30px; float: right; text-align: center; line-height: 30px; margin-top: 10px; background: #1a1a1a; color: #ffffff; border-radius:3px; -webkit-border-radius:3px; -moz-border-radius:3px; -ms-border-radius:3px;}
+.protips{ display: none; padding: 30px 10px;  width: 64%; background: rgba(0,0,0,0.8); line-height: 29px; position: absolute; top: 80%; left: 50%; margin-left: -33%; border-radius: 3px; -webkit-border-radius: 3px; -moz-border-radius: 3px; -ms-border-radius: 3px; color: #ffffff; font-size: 13px; text-align: center; z-index: 1}
+.pronotice{ display: none; height: 69px; width: 66%; background: rgba(0,0,0,0.8); line-height: 69px; position: absolute; top: 80%; left: 50%; margin-left: -33%; border-radius: 3px; -webkit-border-radius: 3px; -moz-border-radius: 3px; -ms-border-radius: 3px; color: #ffffff; font-size: 13px; text-align: center; z-index: 1}
+/* cart end */
+.tit_cart{ width:1.3em }
+.tit_ra{ top:11px; }
+
+.off{ display: none}
+
+@media screen and (min-width: 650px){
+	.carttotal{left:50%;margin-left:-320px;}
+}

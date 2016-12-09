@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper  
+   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">  
+    <mapper namespace="SmsVerifyMapper">  
+    
+     <select id="findSmsVerifyByMobile" parameterType="map" resultType="SmsVerifyEntity">
+      SELECT id as id ,
+      mobile_number as mobileNumber ,
+      code as code ,
+      type as type ,
+      is_used as isUsed ,
+      valid_time as validTime ,
+      update_time as updateTime
+      from sms_verify WHERE mobile_number=#{mobile} AND type=#{type}
+     </select>
+    
+    
+     <update id="updateSmsVerifyById" parameterType="map" >
+        UPDATE sms_verify 
+        SET code=#{code},
+        is_used=#{isused},
+        valid_time=#{validtime,jdbcType=TIMESTAMP} 
+        where id=#{id}
+     </update>
+     
+     <insert id="addSmsVerify" parameterType="map">
+       INSERT INTO sms_verify(mobile_number,code,type,valid_time,create_time) 
+       VALUES(#{mobilenumber},#{code},#{type},#{validtime,jdbcType=TIMESTAMP},#{createtime,jdbcType=TIMESTAMP})
+     </insert>
+    
+</mapper>  

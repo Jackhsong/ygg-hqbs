@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper  
+   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">  
+    <mapper namespace="ActivityMapper">  
+    
+    <select id="findActivitySimplifyById" parameterType="int"  resultType="ActivitySimplifyEntity">
+		SELECT
+			id,
+			title,
+			`desc`,
+			image,
+			is_available AS isAvailable
+		FROM 
+			activity_simplify 
+		WHERE id=#{id} AND is_available=1
+    </select>
+    
+    <select id="findActivitySimplifyProduct" parameterType="int"  resultType="map">
+		SELECT
+			id,
+			simplify_activity_id AS activityId,
+			title,
+			`desc`,
+			product_id AS productId,
+			image
+		FROM
+			activity_simplify_product
+		WHERE
+			simplify_activity_id = #{activityId}
+		AND is_display = 1
+		ORDER BY sequence DESC, id DESC    	
+    </select>
+    
+    <select id="findActivityCrazyFoodById" parameterType="int" resultType="ActivityCrazyFoodEntity">
+		SELECT
+			id,
+			`name`,
+			start_time AS startTime,
+			end_time AS endTime,
+			limit_times AS limitTimes,
+			share_increase_times AS shareIncreaseTimes,
+			is_available AS isAvailable,
+			create_time AS createTime,
+			update_time AS updateTime
+		FROM
+			activity_crazy_food
+		WHERE is_available=1 AND id=#{activityId}    	
+    </select>
+    
+    <select id="findActivityCrazyFoodRecord" parameterType="map" resultType="map">
+		SELECT
+			activity_id AS activityId,
+			username,
+			left_times AS leftTimes,
+			used_times AS usedTimes,
+			is_wine AS isWine,
+			is_shared AS isShared
+		FROM
+			activity_crazy_food_record
+		WHERE activity_id=#{activityId} AND username=#{username}    	
+    </select>
+    
+    <insert id="insertActivityCrazyFoodRecord" parameterType="map">
+    	INSERT INTO activity_crazy_food_record(activity_id,username,left_times,used_times,is_wine,is_shared,create_time)VALUES(#{activityId},#{username},#{leftTimes},#{usedTimes},#{isWine},#{isShared},now())
+    </insert>
+    
+    <select id="findActivityCrazyFoodPrizeByActivityId" parameterType="int" resultType="ActivityCrazyFoodPrizeEntity">
+		 SELECT
+			id,
+			activity_id AS activityId,
+			type,
+			coupon_id AS couponId,
+			prize_amount AS prizeAmount,
+			probability,
+			valid_days_type AS validDaysType,
+			days
+		FROM
+			activity_crazy_food_prize
+		WHERE 
+			activity_id=#{activityId}
+		AND is_available=1
+		FOR UPDATE
+    </select>
+    
+    <update id="updateActivityCrazyFoodRecord" parameterType="map">
+    	UPDATE activity_crazy_food_record
+    	<trim prefix="SET" suffixOverrides=",">
+    		<if test="leftTimes != null">left_times=#{leftTimes},</if>
+    		<if test="usedTimes != null">used_times=#{usedTimes},</if>
+    		<if test="isWine != null">is_wine=#{isWine},</if>
+    		<if test="isShared != null">is_shared=#{isShared},</if>
+    	</trim>
+		WHERE activity_id=#{activityId} AND username=#{username}
+    </update>
+    
+    <update id="updateActivityCrazyFoodAmount" parameterType="ActivityCrazyFoodPrizeEntity">
+    	UPDATE activity_crazy_food_prize SET prize_amount=prize_amount-1 WHERE id=#{id} AND prize_amount=#{prizeAmount} AND prize_amount>0
+    </update>
+
+	<insert id="insertRedPacketDrawRecord" parameterType="map">
+		INSERT INTO red_packet_draw_record(share_account_id,mobile_number,username,user_image,weixin_openid,coupon_id,reduce)
+		VALUES(#{shareAccountId},#{mobileNumber},#{username},#{userImage},#{weixinOpenid},#{couponId},#{reduce})
+	</insert>
+
+	<select id="findRedPacketDrawRecord" parameterType="map" resultType="map">
+		SELECT
+			mobile_number AS mobileNumber,
+			username ,
+			user_image AS userImage,
+			weixin_openid AS weixinOpenid,
+			coupon_id AS couponId,
+			reduce ,
+			create_time as createTime
+		FROM
+			red_packet_draw_record
+		WHERE
+			1=1
+			<if test="shareAccountId != null"> AND share_account_id=#{shareAccountId} </if>
+			<if test="weixinOpenid != null"> AND weixin_openid=#{weixinOpenid} </if>
+			<if test="mobileNumber != null"> AND mobile_number=#{mobileNumber} </if>
+			ORDER BY create_time, id
+			<if test="max != null"> LIMIT #{start},#{max} </if>
+	</select>
+
+	<select id="countRedPacketDrawRecord" parameterType="map" resultType="int">
+		SELECT
+			count(id)
+		FROM
+			red_packet_draw_record
+		WHERE
+			1=1
+			<if test="shareAccountId != null"> AND share_account_id=#{shareAccountId} </if>
+			<if test="weixinOpenid != null"> AND weixin_openid=#{weixinOpenid} </if>
+			<if test="mobileNumber != null"> AND mobile_number=#{mobileNumber} </if>
+	</select>
+
+	<insert id="insertRedPacketShareRecord" parameterType="map">
+		INSERT INTO red_packet_share_record(share_account_id,is_receive_coupon)
+		VALUES(#{shareAccountId},#{isReceiveCoupon})
+	</insert>
+
+	<select id="findRedPacketShareRecordByShareAccountId" parameterType="int" resultType="map">
+		SELECT
+			share_account_id AS shareAccountId,
+			is_receive_coupon AS isReceiveCoupon
+		FROM
+			red_packet_share_record
+		WHERE
+			share_account_id=#{shareAccountId}
+	</select>
+
+	<update id="updateRedPacketShareRecordByShareAccountId" parameterType="map">
+		UPDATE
+			red_packet_share_record
+		SET
+			is_receive_coupon=#{isReceiveCoupon}
+		WHERE
+			share_account_id=#{shareAccountId}
+	</update>
+	
+	<select id="finActivityCouponPrize" parameterType="map" resultType="int">
+		SELECT id FROM register_mobile_coupon WHERE mobile_number=#{mobileNumber} AND coupon_id=#{couponId} AND source_type=#{sourceType}
+	</select>
+	
+	<select id="findCrazyFoodRecord" parameterType="map" resultType="ActivityCrazyFoodRecordEntity">
+		SELECT
+			id,
+			activity_id AS activityId,
+			username,
+			left_times AS leftTimes,
+			used_times AS usedTimes,
+			is_wine AS isWine,
+			is_shared AS isShared,
+			create_time as createTime,
+			update_time as updateTime
+		FROM
+			activity_crazy_food_record
+		WHERE 
+			activity_id=#{activityId} 
+		AND username=#{username} 		
+	</select>
+
+	<select id="countAccountBuyTimes" parameterType="map" resultType="int">
+		SELECT COUNT(id) FROM `order` WHERE account_id=#{accountId} AND <![CDATA[pay_time>=#{payTime}]]> AND `status` in(2,3,4)		
+	</select>
+	
+	<insert id="insertActivityCrazyFoodRecordNew" parameterType="ActivityCrazyFoodRecordEntity" useGeneratedKeys="true" keyProperty="id">
+    	INSERT INTO activity_crazy_food_record(activity_id,username,left_times,used_times,is_wine,is_shared,create_time)VALUES(#{activityId},#{username},#{leftTimes},#{usedTimes},#{isWine},#{isShared},now())
+	</insert>
+	
+	<update id="updateActivityCrazyFoodPrize" parameterType="map">
+		update activity_crazy_food_prize
+		<trim prefix="SET" suffixOverrides=",">
+			<if test="probability != null">probability=probability+#{probability},</if>
+			<if test="isAvailable != null">is_available=#{isAvailable},</if>
+		</trim>
+		where activity_id=#{activityId} and type=#{type}
+	</update>
+</mapper>  

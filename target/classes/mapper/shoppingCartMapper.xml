@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper  
+   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">  
+    <mapper namespace="ShoppingCartMapper">  
+    
+    
+    <select id="findLackCartByPIdAndAId" parameterType="map" resultType="ShoppingCartEntity">
+       SELECT id as id ,
+       product_count as  productCount ,
+       account_id as accountId ,
+       product_id as productId, 
+       status  as status
+       FROM shopping_cart 
+       WHERE account_id=#{accountId} 
+       AND product_id=#{productId} 
+       AND status=5 LIMIT 1
+    </select>
+    
+    <select id="findAllLackCartByAId" parameterType="int" resultType="ShoppingCartEntity">
+        SELECT product_count as productCount,
+        product_id as productId, 
+        id as id,
+        account_id as accountId ,
+        status as status ,
+        update_time as updateTime
+        FROM shopping_cart 
+        WHERE account_id=#{accountId}
+        AND status=5 ORDER BY update_time DESC
+    </select>
+    
+    <update id="updateShoppingCart" parameterType="map">
+        UPDATE shopping_cart 
+        SET status=#{status},
+            product_count=#{productCount} 
+        WHERE id=#{id}
+    </update>
+    
+    <!-- 查询在无效效时间内，而又时有效的账号ID  -->
+    <select id="findAccountIdsAndNoValid" resultType="java.lang.Integer">
+      select d.account_id  as accountId
+      from cart_lock_time as d 
+      where (now() - d.valid_time) &gt;0 
+      and d.is_valid=1
+    </select>
+    
+    <select id="findLockCountProductIdsByAccountId" parameterType="int" resultType="java.lang.Integer">
+      select product_id as productId 
+      from cart_lock_count 
+      where account_id=#{accountId} 
+    </select>
+    
+    <select id="findLockCountByPIdAndAId" parameterType="map" resultType="java.lang.Integer">
+        SELECT product_count   as productCount
+        FROM cart_lock_count 
+        WHERE account_id=#{accountId} 
+        AND product_id=#{productId} LIMIT 1
+    </select>
+    
+    <delete id="deleteLockCountByPIdAndAId" parameterType="map">
+        DELETE 
+        FROM cart_lock_count 
+        WHERE account_id=#{accountId} 
+        AND product_id=#{productId}
+    </delete>
+    
+    <update id="updateIsValidByAccountId" parameterType="map">
+         UPDATE cart_lock_time 
+         SET is_valid=#{isValid}
+         WHERE account_id=#{accountId} 
+    </update>
+    
+    <select id="findShoppingCartCountByAccountId" parameterType="int" resultType="java.lang.Integer">
+        select  sum(s.product_count) as productcount 
+        from shopping_cart as s 
+        where s.account_id = #{accountId}  
+        and s.`status` =1 limit 1 
+    </select>
+    
+    <select id="findNormalCartByPIdAndAId" parameterType="map" resultType="ShoppingCartEntity">
+       SELECT id as id ,
+       product_count as productCount ,
+       account_id as accountId ,
+       product_id as productId ,
+       status as status
+       FROM shopping_cart 
+       WHERE account_id=#{accountId} 
+       AND product_id=#{productId}
+       AND status=1   LIMIT 1
+    </select>
+    
+    <select id="findAllNormalCartByAId" parameterType="int" resultType="ShoppingCartEntity">
+         SELECT product_count as productCount ,
+         id as id ,
+         account_id as accountId ,
+         status as status ,
+         product_id  as productId ,
+         update_time as updateTime
+         FROM shopping_cart 
+         WHERE account_id=#{accountId} AND status=1
+    </select>
+    
+    <select id="findAllNormalCartByAIdExceptPid" parameterType="map" resultType="ShoppingCartEntity">
+        SELECT product_count as productCount ,
+        product_id as productId ,
+        id  as id ,
+        account_id as accountId ,
+        status as status 
+        FROM shopping_cart 
+        WHERE account_id= #{accountId} 
+        AND product_id != #{productId} 
+        AND status=1 
+        ORDER BY product_id
+    </select>
+    
+    <select id="findValidTimeByAid" parameterType="int" resultType="java.sql.Timestamp">
+       SELECT valid_time as validTime
+       from cart_lock_time 
+       WHERE account_id=#{accountId}
+    </select>
+    
+    <insert id="addShoppingCart" parameterType="map">
+       INSERT INTO shopping_cart(account_id,product_id,product_count,create_time)
+        values(#{accountId},#{productId},#{productCount},#{createTime,jdbcType=TIMESTAMP})
+    </insert>
+    
+    <insert id="addInvalidLockTime" parameterType="int" >
+         INSERT INTO cart_lock_time(account_id,valid_time,is_valid) 
+         values(#{accountId},now(),0)
+    </insert>
+     
+    <insert id="addLockTime" parameterType="map">
+        INSERT INTO cart_lock_time(account_id,valid_time) 
+        values(#{accountId},#{validTime,jdbcType=TIMESTAMP})
+    </insert>
+    
+    <update id="updateLockTime" parameterType="map">
+       UPDATE cart_lock_time 
+       SET valid_time=#{validTime,jdbcType=TIMESTAMP},is_valid=1 
+       WHERE account_id=#{accountId}
+    </update>
+    
+    <insert id="addLockCount" parameterType="map">
+        INSERT INTO cart_lock_count(account_id,product_id,product_count) 
+        values(#{accountId},#{productId},#{productCount})
+    </insert>
+    
+    <update id="updateLockCount" parameterType="map">
+        UPDATE cart_lock_count 
+        SET product_count=#{productCount} 
+        WHERE account_id=#{accountId} 
+        AND product_id=#{productId}
+    </update>
+    
+    <select id="findProductCountByAIdAndPId" parameterType="map" resultType="int">
+       select  product_count as productCount 
+       from shopping_cart c 
+ 	   where  c.account_id = #{accountId} 
+ 	   and c.product_id = #{productId} 
+ 	   and c.`status` = 1 
+    </select>
+    
+    
+    
+</mapper>  

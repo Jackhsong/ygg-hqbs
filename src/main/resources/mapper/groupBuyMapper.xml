@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper  
+   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">  
+<mapper namespace="GroupBuyMapper">
+
+	<resultMap type="GroupProductCodeEntity" id="GroupProductCode">
+    	<id column="id" property="id" />
+    	<result column="product_id" property="productId" />
+    	<result column="code" property="code" />
+    	<result column="is_succeed" property="isSucceed" />
+    	<result column="is_available" property="isAvailable" />
+    	<result column="create_time" property="createTime" />
+    </resultMap>
+    
+    <select id="findGroupProdutByPara" parameterType="map" resultMap="GroupProductCode">
+    	SELECT 
+    		* 
+    	FROM 
+    		group_product_code 
+    	WHERE
+    		1=1
+    		<if test="id != null"> AND id=#{id} </if>
+     		<if test="productId != null"> AND product_id=#{productId} </if>
+     		<if test="code != null">AND code=#{code} </if>
+     		<if test="isSucceed != null">AND is_succeed=#{isSucceed} </if>
+     		<if test="isAvailable != null">AND is_available=#{isAvailable} </if>
+    </select>
+    
+    <select id="findGroupAccountInfoByPara" parameterType="map" resultType="map">
+    	SELECT 
+    		gai.is_head AS isHead,
+    		gai.succeed_time AS succeedTime,
+    		gai.is_available AS isAvailable,
+    		gai.create_time AS createTime,	
+    		a.name,
+    		a.nickname,
+    		a.image AS image
+    	FROM 
+    		group_account_info gai,
+    		account a
+    	WHERE
+    		gai.account_id=a.id
+    		<if test="id != null"> AND gai.id=#{id} </if>
+    		<if test="groupProductCodeId != null"> AND gai.group_product_code_id=#{groupProductCodeId} </if>
+     		<if test="accountId != null"> AND gai.account_id=#{accountId} </if>
+     		<if test="productId != null"> AND gai.product_id=#{productId} </if>
+     		<if test="code != null">AND gai.code=#{code} </if>
+     		<if test="isHead != null">AND gai.is_head=#{isHead} </if>
+     		<if test="isAvailable != null">AND gai.is_available=#{isAvailable} </if>
+     	ORDER BY gai.is_head DESC,gai.create_time,gai.id
+    </select>
+     
+</mapper>  

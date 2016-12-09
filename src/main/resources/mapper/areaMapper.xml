@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper  
+   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">  
+    <mapper namespace="AreaMapper">  
+    
+    <!-- 查询所有的省份信息 -->
+    <select id="findBrandInfoById"   resultType="ProvinceEntity">
+      SELECT province_id as provinceId,name as name
+      FROM province
+    </select>
+    
+    <select id="findFreightInfoByFreightId" parameterType="int" resultType="map">
+       SELECT province_id as province_id ,freight_money as freight_money
+       FROM relation_freight_template_and_province 
+       WHERE freight_template_id=#{freightId}
+    </select>
+    
+    <select id="findMoneyByFIdAndPId" parameterType="map" resultType="int">
+        SELECT freight_money as freightMoney
+        FROM relation_freight_template_and_province 
+        WHERE freight_template_id=#{freightId} 
+        AND province_id=#{provinceId} LIMIT 1
+    </select>
+    
+    <select id="findAllProvinceInfo"   resultType="ProvinceEntity">
+      SELECT province_id as provinceId,name as name
+      FROM province
+    </select>
+    
+    <!-- 查询所有的市信息 -->
+    <select id="findAllCityInfo"   resultType="CityEntity">
+      SELECT city_id as cityId,province_id as provincId ,name as name
+      FROM city
+    </select>
+    
+    <select id="findAllCityByPID" parameterType="map" resultType="CityEntity" >
+       SELECT city_id as cityId,province_id as provincId ,name as name
+       FROM city WHERE province_id =#{provinceId}
+    </select>
+    
+    <select id="findAllDistrictByCId" parameterType="map" resultType="DistrictEntity">
+      SELECT city_id as cityId ,district_id as districtId,name as name
+      FROM district WHERE  city_id=#{cityId}
+    </select>
+    
+    <!-- 查询所有的区信息 -->
+    <select id="findAllDistrictInfo"   resultType="DistrictEntity">
+      SELECT city_id as cityId ,district_id as districtId,name as name
+      FROM district
+    </select>
+    
+    <select id="findProvinceNameById"  parameterType="String"  resultType="String">
+       select name as name
+       from province p where p.province_id=#{provinceId}
+    </select>
+    
+    <select id="findCityNameById"  parameterType="String"  resultType="String"> 
+       select name as name 
+       from city p  
+       where p.city_id=#{cityId} 
+    </select>
+    
+    <select id="findDistinctNameById"  parameterType="String"  resultType="String"> 
+       select name as name 
+       from district p    
+       where p.district_id=#{districtId} 
+    </select>
+    
+</mapper>  

@@ -1,0 +1,471 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper
+   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">  
+    <mapper namespace="OrderMapper">  
+     
+    <!--  order表的ID主键值 已经有值了，注意：mapper接口返回值依然是成功插入的记录数，但不同的是主键值已经赋值到领域模型实体的id中了。-->
+    <insert id="addOrder" parameterType="OrderEntity" useGeneratedKeys="true" keyProperty="id" >
+      INSERT INTO `order`(type,number,same_batch_number,batch_number,account_id,receive_address_id,freight_money,total_price,real_price,create_time,seller_id,order_seller_id,app_channel,source_channel_id,account_coupon_id,coupon_price,account_point,check_status)
+      VALUES(4,#{number},#{sameBatchNumber},#{batchNumber},#{accountId},#{receiveAddressId},#{freightMoney},#{totalPrice},#{realPrice},now(),#{sellerId},#{orderSellerId},#{appChannel},#{sourceChannelId},#{accountCouponId},#{couponPrice},#{accountPoint},#{checkStatus})
+    </insert> 
+    <insert id="addOrderSourceChannel" parameterType="OrderSourceChannel" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO `order_source_channel`(mark) 
+        VALUES(#{mark})
+    </insert>
+    <select id="findOrderSourceChannelByMark" parameterType="String" resultType="OrderSourceChannel">
+       SELECT id as id ,
+       `name` as `name` ,
+       `mark` as `mark` 
+       FROM `order_source_channel` 
+       WHERE `mark`= #{mark} LIMIT 1 
+    </select>
+     <insert id="addLockCount" parameterType="map">
+       INSERT INTO order_lock_count(order_id,product_id,product_count) 
+       values(#{orderId},#{productId},#{productCount})
+     </insert>
+     
+     <insert id="addOrderProductByEntity" parameterType="OrderProductEntity" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO order_product(order_id,product_id,product_count,small_image,short_name,sales_price,partner_distribution_price,cost,medium_image) 
+        values(#{orderId},#{productId},#{productCount},#{smallImage},#{shortName},#{salesPrice},#{partnerDistributionPrice},#{cost},#{mediumImage})
+     </insert>
+     
+     <insert id="addLockTime" parameterType="map">
+        INSERT INTO order_lock_time(order_id,valid_time) 
+        values(#{orderId},#{validTime})
+     </insert>
+     
+     <sql id="allOrderAttributeSqlId">
+         id as id,
+         number as number,
+         batch_number AS batchNumber,
+         seller_id as sellerId,
+         order_seller_id as orderSellerId,
+         receive_address_id as receiveAddressId ,
+         total_price as totalPrice ,
+         real_price as realPrice ,
+         freight_money as freightMoney ,
+         pay_channel as payChannel ,
+         status as status ,
+         create_time as createTime ,
+         pay_time  as payTime,
+         coupon_price AS couponPrice,
+         account_point AS accountPoint,
+         account_coupon_id AS accountCouponId,
+         app_version as appVersion,
+         app_channel as appChannel,
+         account_id as accountId,
+         receive_time as receiveTime
+     </sql>
+     
+     <select id="findOrderById" parameterType="int" resultType="OrderEntity">
+        SELECT 
+        <include refid="allOrderAttributeSqlId"/>
+        FROM `order` WHERE id =#{orderId}
+     </select>
+     
+     <select id="findNotPayOrderByAIdAndStatus" parameterType="map" resultType="OrderEntity">
+        SELECT 
+        <include refid="allOrderAttributeSqlId"/>
+        FROM `order` WHERE account_id =#{accountId} and status=#{status}
+     </select>
+     
+     <update id="updateOrderUserCancel" parameterType="map">
+         UPDATE `order` SET status=#{status} 
+         WHERE id=#{orderId} AND account_id=#{accountId}
+     </update>
+     
+     <update id="updateOrderSuccess" parameterType="map">
+         UPDATE `order` SET receive_time=#{receiveTime},status=#{status} 
+         WHERE id=#{orderId} AND account_id=#{accountId}
+     </update>
+     
+     <update id="updateOrderFreeze" parameterType="map">
+         UPDATE `order` SET is_freeze=#{isFreeze} WHERE id=#{orderId}
+     </update>
+     
+     <insert id="insertOrderFreeze" parameterType="int">
+        INSERT INTO order_freeze(order_id,freeze_time)
+        values(#{orderId},now())
+     </insert>
+     
+     <update id="updateOrderFreezeRecord" parameterType="map">
+         UPDATE 
+         	`order_freeze` 
+         SET 
+        	freeze_time=now(),
+        	unfreeze_time=#{unfreezeTime},
+        	status=#{status}
+        WHERE id=#{id}
+     </update>
+     
+     <select id="findOrderFreezeByOrderId" parameterType="int" resultType="map">
+        SELECT 
+        	id,
+        	order_id as orderId,
+        	freeze_time as freezeTime,
+        	unfreeze_time as unfreezeTime,
+        	status
+        FROM 
+        	order_freeze 
+        WHERE 
+        	order_id =#{orderId}
+     </select>
+     
+     <select id="findNotPayOrderByIds" resultType="OrderEntity">
+         SELECT 
+         <include refid="allOrderAttributeSqlId"/>
+         FROM `order` WHERE id IN 
+         <foreach item="item" index="index" collection="list" open="(" separator="," close=")">  
+          #{item}  
+         </foreach>
+         AND status=1 
+     </select>
+     
+    <select id="findNotPayOrderByOIdAndStatus"  resultType="OrderEntity">
+         SELECT 
+         <include refid="allOrderAttributeSqlId"/>
+         FROM `order` WHERE id IN 
+         <foreach item="item" index="index" collection="list" open="(" separator="," close=")">  
+          #{item}  
+         </foreach>
+    </select> 
+     
+     <select id="findAllOrderStatusByIds"  resultType="OrderEntity">
+          SELECT 
+          id as id ,
+          number as number,
+          status as status 
+          FROM `order` WHERE id IN 
+         <foreach item="item" index="index" collection="list" open="(" separator="," close=")">  
+          #{item}  
+         </foreach>
+     </select>
+     
+     <select id="findPayCouponByOrderIds" resultType="map">
+        SELECT 
+        SUM(real_price) as real_price,
+        SUM(account_point) as account_point,
+        account_coupon_id,
+        account_id,
+        app_version
+        FROM `order` WHERE id IN 
+        <foreach item="item" index="index" collection="list" open="(" separator="," close=")">  
+          #{item}  
+         </foreach>
+     </select>
+     
+     <select id="existsroductBlacklist" parameterType="map" resultType="int">
+     	SELECT 
+     		id 
+     	FROM 
+     		product_blacklist 
+     	WHERE 
+     		type=#{type}
+     		AND product_id IN(SELECT product_id FROM order_product WHERE order_id=#{orderId})
+     	LIMIT 1
+     </select>
+     
+     <select id="findLockProductIdsByOId" parameterType="int" resultType="int">
+         SELECT product_id as productId
+         FROM order_lock_count
+         WHERE order_id=#{orderId}
+     </select>
+     
+     <select id="findLockCountInfosByOId" parameterType="int" resultType="map">
+        SELECT product_count,product_id 
+        FROM order_lock_count 
+        WHERE order_id=#{orderId}
+     </select>
+     
+     <update id="updateLockTime" parameterType="map">
+       UPDATE `order_lock_time` 
+       SET valid_time=#{validTime},is_valid=#{isValid}
+       WHERE order_id=#{orderId}
+     </update>
+     
+     <delete id="deleteLockCount" parameterType="map">
+        DELETE FROM order_lock_count 
+        where product_id=#{productId} AND order_id=#{orderId}
+     </delete>
+
+    <!-- 一半写别名，一半不写。。。cao -->
+     <select id="findOrderProductInfosByOId" parameterType="int" resultType="map">
+         SELECT 
+         id  as id ,
+         product_count,
+         product_id  ,
+         small_image as smallImage ,
+         short_name  as shortName  ,
+         sales_price as salesPrice ,
+         partner_distribution_price
+         FROM order_product WHERE order_id=#{orderId}
+     </select>
+     
+     <select id="findYesDeliveryOrders" resultType="map">
+        select 
+        o.id as Id ,
+        o.account_id  as accountId ,
+        o.`status` as `status` ,
+        o.send_time as sendTime
+        from `order` o, seller s  where o.seller_id = s.id 
+        and s.seller_type not  in (1) 
+        and  o.`status` =3  
+        and  date_sub(curdate(), INTERVAL 30 DAY) >=  date(o.`send_time`) 
+     </select>
+     
+     <select id="findYesDeliveryMoreThan15Orders" resultType="map">
+        select 
+        o.id as Id ,
+        o.account_id  as accountId ,
+        o.`status` as `status` ,
+        o.send_time as sendTime
+        from `order` o, seller s  where o.seller_id = s.id 
+        and s.seller_type in (1) 
+        and  o.`status` =3  
+        and  date_sub(curdate(), INTERVAL 15 DAY) >=  date(o.`send_time`)
+     </select>
+     
+     <select id="findOrderProductInfosById" parameterType="int" resultType="map">
+         SELECT 
+         id  as id ,
+         order_id as orderId ,
+         product_count,product_id  ,
+         small_image as smallImage ,
+         short_name  as shortName  ,
+         sales_price as salesPrice 
+         FROM order_product WHERE id=#{id} LIMIT 1 
+     </select>
+     
+     <select id="findValidTimeByOid" parameterType="int" resultType="java.sql.Timestamp">
+         SELECT valid_time  as validTime
+         from order_lock_time 
+         WHERE order_id=#{orderId}
+     </select>
+     
+     <update id="updateOrderPayChannel" parameterType="map">
+         UPDATE `order` SET pay_channel=#{payChannel} 
+         WHERE id=#{orderId} AND account_id=#{accountId}
+     </update>
+     
+     <select id="findCountByStatus" parameterType="map" resultType="int">
+          SELECT count(*) as count FROM `order` 
+          WHERE status IN
+          <foreach collection="status" index="index" item="item" open=" (" separator="," close=")"> 
+             #{item} 
+          </foreach>
+          AND account_id=#{accountId} AND is_delete=0
+     </select>
+     
+     <select id="findOrderByStatusAndPage" parameterType="map" resultType="OrderEntity">
+         SELECT 
+         <include refid="someOrderAttributeSqlId"></include>
+         FROM `order` WHERE status IN 
+          <foreach collection="status" index="index" item="item" open=" (" separator="," close=")"> 
+             #{item} 
+          </foreach> 
+          AND account_id=#{accountId} 
+          AND is_delete=0 ORDER BY update_time DESC 
+          LIMIT #{start} , #{page} 
+     </select>
+     
+     <select id="findOrderRefund" parameterType="map" resultType="OrderEntity">
+         SELECT 
+         <include refid="someOrderAttributeSqlId"></include>
+         FROM `order` WHERE `status` =4
+          AND is_member_order=0
+          AND account_id=#{accountId} 
+          AND TO_DAYS(NOW()) - TO_DAYS(receive_time) &lt;= 30  
+          ORDER BY id DESC
+     </select>
+     
+     <select id="findOrderRefund2" parameterType="map" resultType="OrderEntity">
+         SELECT 
+         <include refid="someOrderAttributeSqlId"></include>
+         FROM `order` WHERE `status` IN 
+          <foreach collection="status" index="index" item="item" open=" (" separator="," close=")"> 
+             #{item} 
+          </foreach> 
+          AND account_id=#{accountId}
+          AND is_member_order=0
+          ORDER BY id DESC
+     </select>
+     
+     <sql id="someOrderAttributeSqlId">
+         id as id ,
+         total_price as totalPrice,
+         real_price as realPrice,
+         number as number ,
+         create_time as createTime,
+         pay_time as  payTime,
+         pay_channel as payChannel ,
+         status as status,
+         is_member_order as isMemberOrder
+     </sql>
+     
+     <select id="findAllRealPriceByAid" parameterType="int" resultType="float">
+     	 SELECT SUM(real_price) as real_price
+     	 FROM `order` WHERE account_id=#{accountId} and status in (2,3,4)
+     </select>
+     
+     <select id="findSumPriceByOrderIds"  resultType="float">
+         SELECT SUM(real_price) as totalprice
+         FROM `order` WHERE id IN 
+         <foreach item="item" index="index" collection="list" open="(" separator="," close=")">  
+          #{item}  
+         </foreach>
+     </select>
+     
+     
+     <update id="updateOrderNotDelivery" parameterType="map">
+       UPDATE `order` 
+       SET pay_time=#{payTime},status=#{status},batch_number=number
+       WHERE id=#{orderId}
+     </update>
+     
+     
+     <select id="findOrderStatusCount" parameterType="map" resultType="int">
+       select count(1) as count 
+       from `order` 
+       where 1=1 
+       <if test="status !=null and status !=0 "> <!-- 0表示查全部 -->
+        and `status`=#{status}
+       </if>
+       and account_id = #{accountId} 
+       and YEAR(create_time)=YEAR(NOW())
+     </select>
+     
+     <select id="findProductCostByProductId" parameterType="int" resultType="map">
+     	SELECT 
+     		pb.submit_type,
+     		pb.wholesale_price,
+     		pb.deduction,
+     		pb.proposal_price,
+     		pb.self_purchase_price,
+     		pb.hqbs_wholesale_price  
+     	FROM 
+     		product p, 
+     		product_base pb 
+     	WHERE 
+     		p.product_base_id=pb.id 
+     		AND p.id=#{productId};
+     </select>
+     
+     <select id="findBirdexOrderLogisticsByOrderId" parameterType="int" resultType="map">
+     	SELECT operate_time,content FROM birdex_order_logistics WHERE order_id=#{orderId} GROUP BY `status` ORDER BY operate_time DESC,`status` DESC
+     </select>
+
+    <update id="resetOrderCouponAndIntegral" parameterType="int">
+        UPDATE
+          `order`
+        SET
+          account_point=0,
+          account_coupon_id=0,
+          coupon_price=0.00,
+          real_price=total_price
+        WHERE
+          id=#{orderId}
+    </update>
+
+    <select id="findOrderInfoById" parameterType="int" resultType="map">
+        SELECT
+            number,
+            batch_number AS batchNumber,
+            account_id AS accountId,
+            account_point AS accountPoint,
+            account_coupon_id AS accountCouponId
+        FROM
+          `order`
+        WHERE
+          id=#{id}
+    </select>
+
+    <select id="findOrderIdByStatusAndAccountCouponId" parameterType="int" resultType="int">
+        SELECT
+          id
+        FROM
+          `order`
+        WHERE
+          status IN (1,2,3,4)
+          AND account_coupon_id=#{accountCouponId}
+        LIMIT 1
+    </select>
+
+    <select id="countHistoryOrderByAccountIdAndProductId" parameterType="map" resultType="int">
+        select
+          sum(op.product_count)
+        from
+          `order` o,
+          order_product op
+        where
+          op.order_id=o.id
+          and op.product_id=#{productId}
+          and o.status in(1,2,3,4)
+          and o.account_id=#{accountId}
+    </select>
+     
+     <update id="updateOrderExpireTime" parameterType="map">
+     	update `order` set expire_time=#{expireTime} where id=#{id}
+     </update>
+     
+     <select id="findAllRealPriceByAidAndBid" parameterType="map" resultType="float">
+		SELECT
+			SUM(op.sales_price)
+		FROM
+			`order` o,
+			order_product op,
+			product p
+		WHERE
+			o.id = op.order_id
+		AND op.product_id = p.id
+		AND o.`status` IN (2, 3, 4)
+		AND o.account_id =#{accountId}
+		AND p.brand_id IN
+		<foreach collection="brandIdList" index="index" item="item" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</select>
+	
+	<select id="findAllRealPriceByAidAndBidAndPayTime" parameterType="map" resultType="float">
+		SELECT
+			SUM(op.sales_price)
+		FROM
+			`order` o,
+			order_product op,
+			product p
+		WHERE
+			o.id = op.order_id
+		AND op.product_id = p.id
+		AND o.account_id =#{accountId}
+		<![CDATA[AND o.pay_time>=#{payTimeBegin}]]>
+		<![CDATA[AND o.pay_time<=#{payTimeEnd}]]>
+		AND p.brand_id IN
+		<foreach collection="brandIdList" index="index" item="item" open="(" separator="," close=")">
+			#{item}
+		</foreach>		
+	</select>
+	
+	
+	<select id="findAllRealPriceByAidAndPayTime" parameterType="map" resultType="float">
+		SELECT 
+			SUM(real_price)
+		FROM 
+			`order` 
+		WHERE 
+			account_id =#{accountId}
+		<![CDATA[AND pay_time>=#{payTimeBegin}]]>
+		<![CDATA[AND pay_time<=#{payTimeEnd}]]>
+	</select>
+	<!--获取用户订单的最大金额订单-->
+	<select id="getOneRealPriceByAid" parameterType="int" resultType="map">
+		SELECT SUM(real_price) as realPrice ,same_batch_number as same_batch_number 
+     	 	FROM `order` WHERE account_id=#{accountId} and status in (2,3,4) and same_batch_number!=0 group by same_batch_number  order by realPrice desc limit 1;
+     </select>
+     <select id="getHqbsDrawByProductId" parameterType="int" resultType="map">
+     	SELECT 
+     		p.bs_commision as bsCommision 
+     	FROM 
+     		product p
+     	WHERE  p.id=#{productId}
+     </select>
+</mapper>  

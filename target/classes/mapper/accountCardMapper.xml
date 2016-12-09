@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper  
+   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">  
+    <mapper namespace="AccountCardMapper">  
+    
+    
+     <insert id="insertAccountCard" parameterType="AccountCartEntity" useGeneratedKeys="true" keyProperty="id">
+       INSERT INTO account_card(account_id,type,bank_type,card_number,card_name) 
+       VALUES(#{accountId},#{type},#{bankType},#{cardNumber},#{cardName} )
+     </insert>
+     
+     <update id="updateAccountCard" parameterType="AccountCartEntity" >
+        update account_card 
+        set type=#{type},bank_type=#{bankType},card_number=#{cardNumber},card_name=#{cardName} 
+        where id =#{id}
+     </update>
+     
+     <select id="queryAccountCard" parameterType="int" resultType="AccountCartEntity">
+        select 
+        <include refid="AccountCardSqlId" />
+		from account_card c where c.account_id = #{accountId}  
+     </select>
+     
+     <select id="queryAccountCardByOrderRefundProductId" parameterType="int" resultType="AccountCartEntity"> 
+        select 
+        <include refid="AccountCardSqlId" />
+        from account_card c ,  order_product_refund  opr 
+        where opr.id = #{id}  
+        and opr.account_card_id = c.id  
+     </select>
+     
+     <select id="queryAccountCardById" parameterType="int" resultType="AccountCartEntity">
+        select  
+        <include refid="AccountCardSqlId" />
+		from account_card c where c.id =  #{id}  
+     </select> 
+     
+     <delete id="deleteAccountCard" parameterType="int">
+       delete from account_card   
+       where id = #{id}
+     </delete>
+     
+     <select id="isExistAccountCard" parameterType="int" resultType="int">
+        select count(1) count from account_card c where c.id =#{id}
+     </select>
+     
+     <select id="isExistAccountType" parameterType="map" resultType="int" >
+       select count(1) count from account_card c where c.account_id =#{accountId} and c.type=#{type}
+     </select>
+     
+     <sql id="AccountCardSqlId">
+		c.account_id as accountId , 
+		c.id as id ,
+		c.type  as  type  ,
+		c.bank_type as bankType ,
+		c.card_number  as cardNumber ,
+		c.card_name  as cardName
+     </sql>
+     
+</mapper>  

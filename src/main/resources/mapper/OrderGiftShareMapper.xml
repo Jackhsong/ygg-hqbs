@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper  
+   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">  
+    <mapper namespace="OrderGiftShareMapper">
+
+    <insert id="addMobileByWeixinOpenId" parameterType="map">
+        INSERT INTO activities_order_gift_mobile(mobile_number, weixin_openid)
+        VALUES(#{mobileNumber}, #{wxOpenId})
+    </insert>
+
+     <select id="findMobileByWeixinOpenId" parameterType="string" resultType="string">
+        select 
+          mobile_number
+		from
+		  activities_order_gift_mobile
+        where weixin_openid = #{weixinOpenid}
+     </select>
+
+    <select id="findRecordByWXIdAndGiftId" parameterType="map" resultType="map">
+        select
+          mobile_number as mobileNumber,
+          username,
+          head_image as headImage,
+          reduce_price as reducePrice,
+          create_time as createTime
+        from
+          activities_order_gift_record
+        where
+          activities_order_gift_id = #{activitiesOrderGiftId}
+          and weixin_openid = #{weixinOpenid}
+    </select>
+
+    <select id="findRecordByMobileAndGiftId" parameterType="map" resultType="map">
+        select
+          mobile_number as mobileNumber,
+          username,
+          head_image as headImage,
+          reduce_price as reducePrice,
+          create_time as createTime
+        from
+          activities_order_gift_record
+        where
+          activities_order_gift_id = #{activitiesOrderGiftId}
+          and mobile_number = #{mobileNumber}
+    </select>
+
+    <select id="findRecordByGiftId" parameterType="int" resultType="map">
+        select
+            mobile_number as mobileNumber,
+            username,
+            head_image as headImage,
+            reduce_price as reducePrice,
+            create_time as createTime
+        from
+          activities_order_gift_record
+        where
+          activities_order_gift_id = #{activitiesOrderGiftId}
+        order by id desc
+        limit 20
+    </select>
+
+    <select id="findActivitiesOrderGiftById" parameterType="int" resultType="ActivitiesOrderGiftEntity">
+        SELECT
+          id,
+          order_same_batch_number AS orderSameBatchNumber,
+          share_account_id AS shareAccountId,
+          success_coupon_id AS successCouponId,
+          share_coupon_id AS shareCouponId,
+          validity_time AS validityTime,
+          total_num AS totalNum,
+          left_num AS leftNum,
+          is_success AS isSuccess
+        FROM
+          activities_order_gift
+        WHERE
+          id=#{id}
+        FOR UPDATE
+    </select>
+
+    <!-- 插入订单红包领取记录 -->
+    <insert id="insertActivitiesOrderGiftRecord" parameterType="map" >
+        INSERT INTO activities_order_gift_record(activities_order_gift_id, weixin_openid, mobile_number, username, head_image, reduce_price)
+        VALUES(#{activitiesOrderGiftId}, #{weixinOpenid}, #{mobileNumber}, #{username}, #{headImage}, #{reducePrice})
+    </insert>
+
+    <update id="updateActivitiesOrderGiftById" parameterType="map">
+        update activities_order_gift
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="leftNum != null">left_num=#{leftNum},</if>
+            <if test="isSuccess != null">is_success=#{isSuccess},</if>
+        </trim>
+        where `id`=#{id}
+    </update>
+
+    <update id="updateMobilePhone" parameterType="map">
+        update activities_order_gift_mobile
+        set mobile_number=#{mobileNumber}
+        where `weixin_openid`=#{weixinOpenid}
+    </update>
+
+    <delete id="deleteMobile" parameterType="string">
+        DELETE FROM activities_order_gift_mobile WHERE mobile_number=#{mobileNumber}
+    </delete>
+     
+</mapper>  

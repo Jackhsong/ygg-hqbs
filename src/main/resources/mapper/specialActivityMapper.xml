@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper  
+   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">  
+<mapper namespace="SpecialActivityMapper">  
+	<select id="findSpecialActivityById" parameterType="int" resultType="SpecialActivityEntity">
+		SELECT
+			id,
+			title,
+			`desc`,
+			image,
+			image_width AS imageWidth,
+			image_height AS imageHeight,
+			is_available AS isAvailable,
+			create_time AS createTime
+		FROM
+			special_activity
+		WHERE  id=#{id}
+		AND is_available = 1
+	</select>
+	
+	
+	<select id="findSpecialActivityLayout" parameterType="int" resultType="map">
+		SELECT
+			id,
+			special_activity_id AS saId,
+			short_title AS shortTitle,
+			long_title AS longTitle,
+			`desc`,
+			is_display AS isDisplay,
+			sequence,
+			create_time AS createTime
+		FROM
+			special_activity_layout
+		WHERE
+			is_display = 1
+		AND	special_activity_id = #{activityId}
+		ORDER BY sequence DESC
+		LIMIT 9
+	</select>
+	
+	<select id="findSpecialActivityLayouProduct" parameterType="int" resultType="map">
+		SELECT
+			id,
+			special_activity_layout_id AS layoutId,
+			display_type AS displayType,
+			one_image AS oneImage,
+			one_type AS oneType,
+			one_display_id AS oneDisplayId,
+			one_desc AS oneDesc,
+			one_height AS oneHeight,
+			one_width AS oneWidth,
+			two_image AS twoImage,
+			two_type AS twoType,
+			two_display_id AS twoDisplayId,
+			two_desc AS twoDesc,
+			two_width AS twoWidth,
+			two_height AS twoHeight,
+			sequence AS sequence
+		FROM
+			special_activity_layout_product
+		WHERE
+			is_display = 1
+		AND special_activity_layout_id = #{layoutId}
+		ORDER BY sequence DESC
+	</select>
+
+	<select id="findSpecialActivityNewById" parameterType="int" resultType="SpecialActivityNewEntity">
+		SELECT
+		 	id,title,image,is_available AS isAvailable
+		FROM special_activity_new WHERE id=#{id} AND is_available=1
+	</select>
+
+	<select id="findSpecialActivityNewProductByActIdAndType" parameterType="map" resultType="map">
+		SELECT
+			title,
+			keyword,
+			`desc`,
+			product_id AS productId
+		FROM
+			special_activity_new_product
+		WHERE
+			special_activity_new_id=#{specialActivityNewId}
+			AND type=#{type}
+			AND is_display=1
+		ORDER BY sequence DESC
+	</select>
+
+	<select id="countSpecialActivityNewProductByActIdAndType" parameterType="map" resultType="int">
+		SELECT
+			count(id)
+		FROM
+			special_activity_new_product
+		WHERE
+			special_activity_new_id=#{specialActivityNewId}
+			AND type=#{type}
+			AND is_display=1
+	</select>
+
+	<select id="findSpecialActivityGroupById" parameterType="int" resultType="SpecialActivityGroupEntity">
+		SELECT
+			id,
+			title,
+			is_available as isAvailable
+		FROM
+			special_activity_group
+		WHERE
+			id=#{id}
+	</select>
+	
+	<select id="findSpecialActivityGroupProductByActIdAndType" parameterType="map" resultType="map">
+		SELECT * FROM special_activity_group_product WHERE special_activity_group_id=#{activityId} AND type=#{type} AND is_display = 1 ORDER BY sequence DESC
+	</select>
+	
+	<select id="findSpecialActivityModelById" parameterType="int" resultType="SpecialActivityModelEntity">
+		select
+			id,
+			title,
+			image,
+			image_width as imageWidth,
+			image_height as imageHeight,
+			is_available as isAvailable
+		from
+			special_activity_model
+		where
+			id=#{id}
+	</select>
+	
+	<select id="findSpecialActivityModelLayoutsBysamId" parameterType="int" resultType="SpecialActivityModelLayoutEntity">
+		select
+			id,
+			special_activity_model_id as specialActivityModelId,
+			title,
+			image,
+			image_width as imageWidth,
+			image_height as imageHeight,
+			is_display as isDisplay,
+			sequence
+		from
+			special_activity_model_layout
+		where
+			special_activity_model_id = #{id}
+		and is_display=1
+		order by sequence
+	</select>
+	
+
+	<select id="findSpecialActivityModelLayoutProductsByLayoutId" parameterType="int" resultType="SpecialActivityModelLayoutProductEntity">
+		select
+			id,
+			special_activity_model_layout_id as specialActivityModelLayoutId,
+			product_id as productId,
+			`desc`,
+			is_display as isDisplay,
+			sequence
+		from
+			special_activity_model_layout_product
+		where
+			special_activity_model_layout_id=#{id}
+		and is_display=1
+		order by sequence
+	</select>
+</mapper>  

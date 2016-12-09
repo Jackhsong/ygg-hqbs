@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper  
+   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">  
+    <mapper namespace="ProductMapper">  
+    
+    <!-- <cache eviction="LRU" 
+    flushInterval="60000" 
+    size="512" 
+    readOnly="true"> 
+	</cache> -->
+	<resultMap type="ProductBaseEntity" id="ProductBaseMap">
+		<id column="id" property="id"/>
+		<result column="seller_id" property="sellerId"/>
+		<result column="brand_id" property="brandId"/>
+		<result column="gege_image_id" property="gegeImageId"/>
+		<result column="gege_say" property="gegeSay"/>
+		<result column="code" property="code"/>
+		<result column="barcode" property="barcode"/>
+		<result column="name" property="name"/>
+		<result column="submit_type" property="submitType"/>
+		<result column="wholesale_price" property="wholesalePrice"/>
+		<result column="deduction" property="deduction"/>
+		<result column="proposal_price" property="proposalPrice"/>
+		<result column="total_stock" property="totalStock"/>
+		<result column="sale_stock" property="saleStock"/>
+		<result column="distribution_stock" property="distributionStock"/>
+		<result column="mall_stock" property="mallStock"/>
+		<result column="available_stock" property="availableStock"/>
+		<result column="net_volume" property="netVolume"/>
+		<result column="place_of_origin" property="placeOfOrigin"/>
+		<result column="manufacturer_date" property="manufacturerDate"/>
+		<result column="storage_method" property="storageMethod"/>
+		<result column="durability_period" property="durabilityPeriod"/>
+		<result column="people_for" property="peopleFor"/>
+		<result column="food_method" property="foodMethod"/>
+		<result column="use_method" property="useMethod"/>
+		<result column="tip" property="tip"/>
+		<result column="pcDetail" property="pcDetail"/>
+		<result column="image1" property="image1"/>
+		<result column="image2" property="image2"/>
+		<result column="image3" property="image3"/>
+		<result column="image4" property="image4"/>
+		<result column="image5" property="image5"/>
+		<result column="medium_image" property="mediumImage"/>
+		<result column="small_image" property="smallImage"/>
+		<result column="remark" property="remark"/>
+		<result column="create_time" property="createTime"/>
+		<result column="is_available" property="isAvailable"/>
+		<result column="update_time" property="updateTime"/>
+		<result column="self_purchase_price" property="selfPurchasePrice"/>
+		<result column="type" property="type"/>
+		<result column="sale_flag_id" property="saleFlagId"/>
+		<result column="quality_promise_type" property="qualityPromiseType"/>
+		<result column="deliver_area_desc" property="deliverAreaDesc"/>
+		<result column="deliver_area_type" property="deliverAreaType"/>
+		<result column="seller_deliver_area_template_id" property="sellerDeliverAreaTemplateId"/>
+		<result column="expire_date" property="expireDate"/>
+		<result column="is_automatic_adjust_stock" property="isAutomaticAdjustStock"/>
+		<result column="selling_point" property="sellingPoint"/>
+		<result column="proposal_sales_price" property="proposalSalesPrice"/>
+		<result column="proposal_market_price" property="proposalMarketPrice"/>
+	</resultMap>	
+	
+	<select id="findAllProductIds"   resultType="java.lang.Integer">
+	   select p.id as productId from product p 
+	</select>
+
+    <select id="findProductInfoById" parameterType="int"  resultType="ProductEntity">
+      SELECT 
+	      id as  id ,
+	      product_base_id as productBaseId,
+	      brand_id as brandId ,
+	      freight_template_id as  freightTemplateId ,
+	      seller_id  as sellerId ,
+	      name  as  name ,
+	      short_name as shortName ,
+	      `desc`  as  `desc` ,
+	      market_price as  marketPrice ,
+	      sales_price  as salesPrice ,
+	      image1  as image1 ,
+	      image2  as image2 ,
+	      image3  as image3 ,
+	      image4  as image4 ,
+	      image5  as image5 ,
+	      net_volume as netVolume ,
+	      place_of_origin as placeOfOrigin ,
+	      storage_method  as storageMethod ,
+	      manufacturer_date  as manufacturerDate ,
+	      durability_period  as durabilityPeriod ,
+	      people_for  as peopleFor ,
+	      food_method  as foodMethod ,
+	      use_method   as useMethod ,
+	      tip  as  tip  ,
+	      pc_detail  as  pcDetail  ,
+	      is_available as isAvailable ,
+	      create_time  as createTime ,
+	      update_time  as updateTime ,
+	      start_time as startTime,
+	      end_time as endTime,
+	      is_off_shelves as isOffShelves,
+	      type as type,
+	      gege_image_id as gegeImageId,
+	      activities_status as activitiesStatus,
+	      return_distribution_proportion_type AS returnDistributionProportionType
+      FROM 
+      	product 
+      WHERE id=#{id} LIMIT 1
+    </select>
+    
+    
+    <select id="findMobileDetailInfoByProductId" parameterType="int"  resultType="ProductMobileDetailEntity">
+       SELECT id as id ,
+       product_id as productId ,
+       content  as content ,
+       content_type  as contentType ,
+       height  as height ,
+       width   as width ,
+       is_link  as isLink ,
+       link  as  link ,
+       link_type as linkType ,
+       `order`  as `order`
+       FROM product_mobile_detail 
+       WHERE product_id=#{productid} ORDER BY `order` DESC
+    </select>
+    
+    <select id="findProductPartById" parameterType="int" resultType="ProductEntity">
+      SELECT freight_template_id as freightTemplateId,
+      seller_id as sellerId ,
+      id as id ,
+      start_time as startTime,
+      end_time as endTime,
+      is_off_shelves as isOffShelves,
+      type as type
+      FROM product WHERE id=#{id} LIMIT 1
+    </select>
+    
+    <select id="findDisplayHotProduct" resultType="map">
+    	SELECT 
+    		type,
+    		product_id 
+    	FROM 
+    		product_hot 
+    	WHERE 
+    		is_display=1 
+    	ORDER 
+    		BY sequence 
+    	DESC 
+    		LIMIT 10
+    </select>
+    <select id="findGegeImageById" parameterType="int" resultType="string">
+		SELECT image FROM gege_image_product WHERE id = #{id} AND is_available = 1   	
+    </select>
+    
+    <select id="findProductWelfareByProductId" parameterType="int" resultType="map">
+    	SELECT limit_price AS limitPrice,limit_num AS limitNum,brand_ids as brandIds, pay_time_begin as payTimeBegin, pay_time_end as payTimeEnd FROM product_gege_welfare WHERE product_id=#{productId}
+    </select>
+    
+    <select id="findProductBaseById" parameterType="int" resultMap="ProductBaseMap">
+    	select * from product_base where id=#{id}
+    </select>
+    
+   	<select id="findDeliverAreaInfosByBpId" parameterType="int" resultType="map">
+    	SELECT province_code,city_code,district_code FROM relation_product_base_deliver_area WHERE product_base_id=#{baseId}
+    </select>
+    
+</mapper>  

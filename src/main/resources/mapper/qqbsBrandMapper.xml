@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper  
+   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">  
+<mapper namespace="QqbsBannerMapper">
+	<resultMap type="QqbsBannerWindowEntity" id="BrandMap">
+    	<id column="id" property="id" />
+    	<result column="sale_time_type" property="saleTimeType" />
+    	<result column="type" property="type" />
+		<result column="display_id" property="displayId" />
+    	<result column="desc" property="desc" />
+    	<result column="image" property="image" />
+    	<result column="start_time" property="startTime" />
+    	<result column="end_time" property="endTime" />
+    	<result column="is_display" property="isDisplay" />
+    	<result column="order" property="order" />
+    	<result column="create_time" property="createTime" />
+    </resultMap>
+    
+<!-- 插入品牌信息 -->
+    <insert id="save" parameterType="BrandEntity" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO brand (`name`, `image`, `return_distribution_proportion_type`,
+		 `is_available`, `activity_type`, `activity_display_id`,
+		  `is_show_activity`, `create_time`,
+		  category_first_id,state_id,hot_spots,introduce)
+		VALUES (#{name}, #{image},#{returnDistributionProportionType},
+		 #{isAvailable}, #{activityType},
+		  #{activityDisplayId}, 
+		  #{isShowActivity}, 
+		  #{createTime},
+		  #{categoryFirstId},#{stateId},#{hotSpots},#{introduce})
+    </insert>
+    
+<!-- 更新品牌信息 -->
+    <update id="update" parameterType="map">
+     	UPDATE `brand` 
+     	<set>
+          <if test="name != null"> name=#{name}, </if>
+          <if test="image != null"> image=#{image}, </if>
+          <if test="activityType != null"> activity_type=#{activityType}, </if>
+          <if test="activityDisplayId != null"> activity_display_id=#{activityDisplayId}, </if>
+          <if test="isShowActivity != null"> is_show_activity=#{isShowActivity}, </if>
+          <if test="returnDistributionProportionType != null"> return_distribution_proportion_type=#{returnDistributionProportionType}, </if>
+          <if test="isAvailable != null">is_available=#{isAvailable}, </if>
+          <if test="categoryFirstId != null">category_first_id=#{categoryFirstId}, </if>
+          <if test="stateId != null">state_id=#{stateId}, </if>
+          <if test="hotSpots != null">hot_spots=#{hotSpots}, </if>
+          <if test="introduce != null">introduce=#{introduce} </if>
+     	</set>
+     	where id=#{id}
+     </update>
+     
+	 <!-- 查询品牌信息 -->
+     <select id="findAllBrandByPara" parameterType="map"  resultMap="BrandMap">
+     	SELECT * FROM `qqbs_banner_window` 
+     	WHERE is_display = 1 and <![CDATA[start_time < now()]]> and <![CDATA[end_time > now()]]> order by `order` desc
+     </select>
+     
+<!-- 统计品牌数量 -->
+     <select id="countBrandByPara" parameterType="map" resultType="int">
+    	SELECT COUNT(id) FROM brand WHERE 1=1 
+    	<if test="isAvailable != null">and is_available=#{isAvailable} </if>
+    	<if test="name != null"> and name like #{name} </if>
+    </select>
+    
+    <select id="countBrandByName" parameterType="map" resultType="int">
+    	SELECT COUNT(id) FROM brand WHERE 1=1 
+    	<if test="name != null"> and name=#{name} </if>
+    </select>
+    <!-- 删除 -->
+	<delete id="delete" parameterType="int">
+		DELETE FROM brand WHERE id=#{id}
+	</delete>
+</mapper>

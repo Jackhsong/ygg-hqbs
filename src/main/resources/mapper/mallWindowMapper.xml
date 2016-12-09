@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper  
+   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">  
+    <mapper namespace="MallWindowMapper">  
+    
+     <select id="findDisplayMallWindow" parameterType="map" resultType="MallWindowEntity">
+     	SELECT 
+     		id,
+     		mall_page_id as mallPageId,
+     		name,
+     		image 
+     	FROM 
+     		mall_window 
+     	WHERE 
+     		is_display=1
+     	<if test="id != null">AND id=#{id} </if>
+     	ORDER BY sequence DESC 
+		<if test="limitNum != null">LIMIT #{limitNum}</if>     	
+     </select>
+     
+     <select id="findMallPageById" parameterType="int" resultType="map">
+     	SELECT 
+     		name 
+     	FROM 
+     		mall_page 
+     	WHERE 
+     		id=#{id}
+     	LIMIT 1
+     </select>
+     
+     <select id="findAllMallPageFloorById" parameterType="int" resultType="map">
+     	SELECT 
+     		id,
+     		name 
+     	FROM 
+     		mall_page_floor 
+     	WHERE 
+     		mall_page_id=#{mallPageId} 
+     		AND is_display=1 
+     	ORDER BY sequence DESC
+     </select>
+     
+     <select id="findProductIdsByMallPageFloorId" parameterType="int" resultType="int">
+     	SELECT 
+     		product_id
+     	FROM 
+     		relation_mall_page_floor_and_product 
+     	WHERE 
+     		mall_page_floor_id=#{mallPageFloorId}
+     	ORDER BY `sequence` DESC
+     </select>
+     
+</mapper>  

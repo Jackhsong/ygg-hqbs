@@ -1,0 +1,26 @@
+/* mycenter */
+.mycenter{ position: relative; text-align: center;}
+.mycenter_img{ width:100%; }
+.userinfo{ position: absolute; top: 50%; margin-top: -50px; left: 50%; margin-left: -50px; color: #fff;  width: 100px; height: 100px }
+.userimg{ width: 72px; height: 72px; border-radius:50%; -webkit-border-radius:50%; -moz-border-radius:50%;}
+.userinfo p{ padding-top: 12px; font-size: 12px}
+.c_login,.c_register{ position: absolute;  top:50%; margin-top: -16px; display: block; width: 110px; height: 30px; border: 1px solid #fff; text-align: center; line-height: 30px; color: #fff; border-radius:3px; -webkit-border-radius:3px; -moz-border-radius:3px;}
+.c_login{  left:34px; }
+.c_register{  right: 34px}
+.c_order{ height:39px; border-top: 1px solid #ddd; border-bottom: 1px solid #b6b6b6; background: #ffffff url(../images/myorder.png) no-repeat 15px 12px; margin-top: 10px; line-height: 42px; text-indent: 48px}
+.c_order_list{ height: 46px; padding-top: 12px;  background: #fff; border-bottom: 1px solid #ddd; border-top: 1px solid #b6b6b6; display: box; display: -webkit-box; display: -moz-box; width: 100%;}
+.c_order_list dl{ box-flex:1; -webkit-box-flex:1; -moz-box-flex:1; text-align: center; }
+.c_order_list img{ width: 18px}
+.c_order_list em{ position: relative;}
+.c_order_list p{ width: 18px; height: 18px; background: #ff1919; position: absolute; top:-50%; color: #fff; font-size: 10px; line-height: 18px; text-align: center; right: -80%; border-radius:50%; -webkit-border-radius:50%; -moz-border-radius:50%;}
+.c_order_list dd{ font-size: 0.75em; color: #636770; margin-top: 4px}
+.lista,.listb,.listc{  height: 42px; line-height: 42px; border-top:1px solid #ddd; border-bottom:1px solid #ddd; margin-top: 0.75em; text-indent: 48px; }
+.lista{ background: #ffffff url(../images/profile.png) no-repeat 15px 12px}
+.listb{ background: #ffffff url(../images/contact.png) no-repeat 15px 12px}
+.listb span{ color: #868991; font-size: 0.75em; margin-left: 0.75em}
+.listc{ background: #ffffff url(../images/about.png) no-repeat 15px 12px}
+.tst{ width: 72px; height: 72px; background: red}
+.logout{ background: #ff3e00; display: block; height: 40px; color: #ffffff; line-height: 40px; text-align: center; margin: 0.75em 10px 0 10px; border-radius:3px; -webkit-border-radius:3px; -moz-border-radius:3px; -ms-border-radius:3px;}
+/* end mycenter */
+.off{ display: none}
+

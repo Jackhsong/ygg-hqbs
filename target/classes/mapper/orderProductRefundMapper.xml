@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper  
+   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">  
+    <mapper namespace="OrderProductRefundMapper">  
+    
+    
+     
+     <insert id="insertOrderProductRefund" parameterType="OrderProductRefundEntity" useGeneratedKeys="true" keyProperty="id">
+        insert into order_product_refund(card_type,bank_type,card_number,card_name,account_id,order_id,order_product_id,count,apply_money,real_money,type,`status`,`explain`,image1,image2,image3,refund_pay_type,create_time,account_card_id,financial_affairs_card_id)
+        values(#{cardType},#{bankType},#{cardNumber},#{cardName},#{accountId},#{orderId},#{orderProductId},#{count},#{applyMoney},#{realMoney},#{type},#{status},#{explain},#{image1},#{image2},#{image3},#{refundPayType},now(),#{accountCardId},#{financialAffairsCardId})
+     </insert>
+     
+     <update id="updateOrderProductRefundInfo" parameterType="OrderProductRefundEntity" >
+       update order_product_refund 
+       set  `count` = #{count} ,
+       apply_money = #{applyMoney} ,
+       `type` = #{type} ,
+       `explain` = #{explain} ,
+       image1 = #{image1},
+       image2 = #{image2},
+       image3 = #{image3} ,
+       card_type =#{cardType} ,
+       bank_type =#{bankType} ,
+       card_number=#{cardNumber} ,
+       card_name =#{cardName} ,
+       `status` = 1 ,
+       create_time = now()
+       where id = #{id} 
+     </update>
+     
+     <select id="queryOrderProductRefundById" parameterType="int" resultType="OrderProductRefundEntity">
+       select 
+       <include refid="getOrderProductRefundCondition"></include>
+       from order_product_refund  opr 
+       where opr.id = #{id}
+     </select>
+     
+     <select id="queryOrderRefundCountByAccountId" parameterType="int" resultType="int">
+       select 
+       count(1) as count 
+       from order_product_refund  opr  
+       where account_id=#{accountId} 
+       and `status` NOT IN (4,5,6)
+     </select>
+     
+     <select id="queryAllOrderProductRefund" parameterType="map" resultType="OrderProductRefundEntity">
+        select 
+       <include refid="getOrderProductRefundCondition"></include>
+       from order_product_refund  opr  
+       where account_id=#{accountId} 
+       and `status` &lt;&gt; 6 
+       order by opr.create_time desc
+     </select>
+     
+     <select id="queryOPRInfosByOrderProductId" parameterType="map" resultType="map">
+        select 
+        id   as   id  ,
+        `apply_money` as `applyMoney`,
+        type  as type ,
+        `real_money` as `realMoney`,
+        `status`  as `status`
+        from order_product_refund  opr 
+        where opr.order_product_id = #{orderProductId} 
+        and opr.status IN 
+        <foreach collection="status" index="index" item="item" open=" (" separator="," close=")"> 
+             #{item} 
+        </foreach>
+        ORDER BY create_time DESC
+       LIMIT 1 
+     </select>
+     
+     <sql id="getOrderProductRefundCondition">
+       id as id ,
+       card_type as cardType ,
+       bank_type as bankType ,
+       card_number as cardNumber ,
+       card_name  as  cardName ,
+       account_id  as accountId ,
+       order_id   as orderId ,
+       order_product_id  as orderProductId ,
+       count  as count ,
+       apply_money  as applyMoney ,
+       real_money   as realMoney ,
+       type   as type ,
+       `status`  as `status` ,
+       `explain` as `explain` ,
+       image1  as image1 ,
+       image2  as image2 ,
+       image3  as image3 ,
+       check_time  as checkTime ,
+       create_time as createTime,
+       refund_pay_type as refundPayType,
+       account_card_id as accountCardId
+     </sql>
+     
+     <select id="queryOrderProductById" parameterType="int" resultType="OrderProductEntity"> 
+         select id as id , 
+		order_id as orderId ,
+		product_id as productId ,
+		product_count  as productCount ,
+		small_image   as  smallImage ,
+		short_name  as  shortName ,
+		sales_price  as  salesPrice  
+		from order_product 
+        where id =#{id}
+     </select>
+     
+     
+     <select id="isOrderProductRefundExist" parameterType="int" resultType="int">
+        select 
+        count(1) as count
+        from order_product_refund  opr 
+        where opr.id = #{id}   
+     </select>
+     
+<!-- 更新退款退货信息 -->
+    <update id="updateOrderProductRefund" parameterType="map">
+     	UPDATE `order_product_refund` 
+     	<set>
+          <if test="status != null"> status=#{status}</if>
+     	</set>
+     	where id=#{id}
+     </update>
+     
+     <select id="queryOrderProductExists" parameterType="OrderProductRefundEntity" resultType="int">
+       select count(1) as count 
+        from order_product_refund opr
+        where  opr.account_id =#{accountId} 
+        and opr.order_id = #{orderId} 
+        and opr.order_product_id = #{orderProductId} 
+        and opr.`status` != 6 
+     </select>
+     
+     <select id="findOrderProductRefundIdByPidAndOidAndAid" parameterType="map" resultType="int">
+		SELECT
+			opr.id
+		FROM
+			order_product op,
+			order_product_refund opr
+		WHERE
+			op.id = opr.order_product_id
+		AND op.order_id = opr.order_id
+		AND op.order_id=#{orderId}
+		AND op.product_id=#{productId}
+		AND opr.account_id=#{accountId}
+		ORDER BY opr.id DESC
+		LIMIT 1
+     </select>
+     
+     <select id="findOrderProductIdByPidAndOid" parameterType="map" resultType="int">
+     	SELECT id FROM order_product WHERE order_id=#{orderId} and product_id=#{productId} ORDER BY id DESC LIMIT 1
+     </select>
+
+    <select id="findRefundsByOrderId" parameterType="int" resultType="map">
+        select
+          id,
+          order_product_id as orderProductId,
+          count
+        from
+          order_product_refund
+        where
+          order_id=#{orderId}
+          and status in(1,2,3,4)
+    </select>
+    
+    <select id="findOrderIdByOrderProductRefundId" parameterType="map" resultType="int">
+          select order_id from order_product_refund where id=#{orderProductRefundId};
+    </select>
+
+</mapper>  

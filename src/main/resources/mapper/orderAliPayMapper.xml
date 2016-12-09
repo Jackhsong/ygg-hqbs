@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper  
+   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">  
+    <mapper namespace="OrderAliPayMapper">  
+    
+    <insert id="replaceIntoOrderAliPay" parameterType="OrderAliPayEntity" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO order_ali_pay(order_id,pay_mark,create_time) VALUES(#{orderId},#{payMark},now())
+    </insert> 
+     
+     <update id="updateOrderAliPay" parameterType="OrderAliPayEntity">
+        UPDATE order_ali_pay 
+        SET is_pay=#{isPay},pay_tid=#{payTid} 
+        WHERE order_id=#{orderId}
+     </update>
+     
+     <select id="findOrderAliPayByMark" parameterType="map" resultType="OrderAliPayEntity">
+        SELECT id as id ,order_id as orderId ,is_pay as isPay
+        FROM order_ali_pay 
+        WHERE pay_mark=#{payMark}
+     </select>
+     
+     <select id="findOrderAliPayByOrderId" parameterType="int" resultType="OrderAliPayEntity">
+        SELECT id as id ,order_id as orderId ,is_pay as isPay,pay_mark as payMark
+        FROM order_ali_pay 
+        WHERE order_id=#{orderId}
+     </select>
+     
+</mapper>  

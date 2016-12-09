@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper  
+   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">  
+    <mapper namespace="CustomLayoutMapper">  
+    
+    <select id="findCustomLayoutsByLayoutIds" parameterType="list" resultType="CustomLayoutEntity">
+    	SELECT 
+    		id,
+    		display_type AS displayType,
+    		one_image AS oneImage,
+    		one_type AS oneType ,
+    		one_display_id AS oneDisplayId ,
+    		one_remark AS oneRemark ,
+    		one_width AS oneWidth,
+    		one_height AS oneHeight,
+    		two_image AS twoImage,
+    		two_type AS twoType,
+    		two_display_id AS twoDisplayId,
+    		two_remark AS twoRemark,
+    		two_width AS twoWidth,
+    		two_height AS twoHeight 
+    	FROM 
+    		custom_layout 
+    	WHERE 
+    		is_display=1 
+    		AND id IN
+    			<foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+					#{item}
+				</foreach>
+    </select>
+    
+    <select id="findDisplayCustomRegion" resultType="map">
+    	SELECT 
+    		title,
+    		id 
+    	FROM 
+    		custom_region 
+    	WHERE 
+    		is_display=1 
+    	ORDER BY sequence DESC
+    </select>
+    
+    <select id="findLayoutIdByRegionId" parameterType="int" resultType="int">
+    	SELECT 
+    		custom_layout_id 
+    	FROM 
+    		relation_custom_region_layout 
+    	WHERE 
+    		custom_region_id=#{customRegionId}
+    		ORDER BY `order` DESC
+    </select>
+     
+</mapper>  

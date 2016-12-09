@@ -1,0 +1,1 @@
+<#include "../common/indexShare.ftl">

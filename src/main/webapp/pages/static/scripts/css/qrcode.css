@@ -1,0 +1,23 @@
+*{margin:0;padding:0;}
+a{text-decoration:none;color:#fff;}
+li{list-style-type:none;}
+img{ vertical-align: middle; }
+.main{width: 640px; margin:0 auto;position:relative;}
+@media screen and (max-width:640px){.main{width:100%;}}
+.main .bg{width:100%;min-height:100%;position:absolute;z-index:2;left:0;top:0;background:url(../images/qrcode.jpg) no-repeat;background-size:100% auto;}
+.main .bg .code{position:absolute;z-index:5;width:3.2rem;height:3.2rem;top:4.9rem;left:50%;margin-left: -1.6rem;color:#fff;font-size: 16px;}
+.main .bg .touxiang{position:absolute;z-index:5;width:1rem;height:1rem;left:50%;bottom:1.7rem;margin-left: -.5rem}
+.main .bg .code img,.main .bg .touxiang img{width:100%;}
+.main .bg .codeun{width:100%;left:0;margin:0;text-align: center;}
+@media screen and (min-width: 360px) and (max-width: 480px){
+	.main .bg .touxiang{bottom:1.65rem;}
+}
+@media screen and (min-width: 540px) and (max-width: 640px){
+	.main .bg .touxiang{bottom:1.6rem;}
+}
+@media screen and (min-width: 640px) and (max-width: 700px){
+	.main .bg .touxiang{bottom:1.5rem;}
+}
+@media screen and (min-width: 700px){
+	.main .bg .touxiang{bottom:1.4rem;}
+}

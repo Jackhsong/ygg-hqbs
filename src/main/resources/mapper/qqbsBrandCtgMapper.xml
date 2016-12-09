@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper  
+   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">  
+<mapper namespace="QqbsBrandCtgMapper">
+
+	<!-- 获取品牌 -->
+     <select id="getQqbsBrands" resultType="QqbsBrandEntity">
+		SELECT
+			qbc.`ID` AS ctgId,
+			qb.`ID` as brandId,
+			qbc.`NAME` AS ctgName,
+			qb.`NAME` AS brandName,
+			qbc.`ORDER` AS ctgOrder,
+			qb.`ORDER` AS brandOrder,
+			qb.`IMAGE` as image,
+			qb.activities_common_id AS brandActivitiesCommonId
+		FROM
+			ygg_sale_platform.qqbs_brand_category qbc,
+			ygg_sale_platform.qqbs_brand qb
+		WHERE
+			qbc.id = qb.qqbs_brand_category_id
+			AND qbc.is_display = 1
+			AND qb.is_display = 1
+		ORDER BY
+			qbc.`ORDER` DESC,
+			qb.`ORDER` DESC;
+    </select>
+
+</mapper>

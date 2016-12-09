@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <meta content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+   <meta content="yes" name="apple-mobile-web-app-capable"/>
+   <meta content="yes" name="apple-touch-fullscreen"/>
+   <meta content="telephone=no,email=no" name="format-detection">
+   <title>左岸城堡</title>
+   <link href="../images/favicon.ico" rel="shortcut icon">
+   <link href="${rc.contextPath}/pages/css/base.css" rel="stylesheet" type="text/css"/>
+   <link href="${rc.contextPath}/pages/css/home.css" rel="stylesheet" type="text/css"/>
+   <link href="${rc.contextPath}/pages/css/swiper.css" rel="stylesheet" type="text/css"/>
+   <#include "../common/indexShare.ftl">
+</head>
+<body>
+    <!-- <div id="defaultImgX"><img src="${rc.contextPath}/scripts/images/imgplace01.png"/></div> -->
+	<div class="main" id="main">
+		<!--banner start-->
+		<div id="banner">
+			<div class="swiper-container">
+			    <ul class="swiper-wrapper clearfix">
+			            <#if bannerList ? exists>
+			                 <#list bannerList as bl >
+		                     <li class="swiper-slide">
+				        	    <a href="${(bl.url)?if_exists}" style="background-image: url('${(bl.image)?if_exists}')">
+				        	    	<!-- <img src="${(bl.image)?if_exists}"> -->
+				        	    </a>
+				             </li>
+			                 </#list>
+				         <#else><!-- 没有banner时，显示一个默认img -->
+				        <li class="swiper-slide">
+					        <a href="javascript:void(0)" style="background-image: url(${yggcontextPath}/pages/images/goods/1.jpg)">
+					        	<img src="${yggcontextPath}/pages/images/goods/1.jpg" style="width:100%">
+					        </a>
+					    </li>
+				        </#if>
+
+			    </ul>
+		   		<div class="pagination"></div>
+		   </div>
+		</div>
+		<!--banner End-->
+		<!--商品列表 start-->
+		<div id="productList">
+			<#if saleList ? exists>
+		    <#list saleList as productList>
+		    <p></p>
+			<a href="${productList.url}">
+				<div class="imgX imglazyload" style="background-image:url(${rc.contextPath}/scripts/images/imgplace01.png)" data-original="${productList.image}" >
+					<!-- <img src="${rc.contextPath}/scripts/images/imgplace01.png" data-original="${productList.image}"  class="imglazyload"/> -->
+					<#if productList.status='2'>
+					<div class="timeBg01" value="${productList. endSecond}">
+						<span class="clock"></span><span>剩</span><span class="day"> 0 天</span><span class="timeX"><span class="hour">00:</span> <span class="minute">00:</span> <span class="second">00</span></span><span>结束</span></span>
+				    </div>
+					<div class="chance"></div>
+					<#elseif productList.status='3'>
+					<div class="finish"></div>
+					<#elseif productList.status='4'>
+					<div class="timeBg01" value="${productList. endSecond}">
+						<span class="clock"></span><span class="day"> 0 天</span><span class="timeX"><span class="hour">00:</span> <span class="minute">00:</span> <span class="second">00</span></span><span>后开始</span></span>
+				    </div>
+					<div class="begin"></div>
+					<#else>
+					<div class="timeBg01" <#if productList_index gt 2 > style="display:none" </#if> value="${productList. endSecond}">
+						<span class="clock"></span><span>剩</span><span class="day"> 0 天</span><span class="timeX"><span class="hour">00:</span> <span class="minute">00:</span> <span class="second">00</span></span><span>结束</span></span>
+				    </div>
+					</#if>
+				</div>
+				<div class="bottomX clearfix">
+					<div class="fn-fl">
+					<img src="${rc.contextPath}/scripts/images/imgplace01.png" data-original="${productList.flagImage}"  class="imglazyload"/>
+					<span class="text01">${productList.leftDesc}</span>
+					</div>
+					<div class="fn-fr">${productList.rightDesc}</div>
+				</div>
+			</a>
+			</#list>
+			</#if>
+		</div>
+		<!--商品列表 End-->
+
+		<div class="topbar" style="display:none;">
+			<img src="${rc.contextPath}/pages/images/return.png">
+			<div class="listcount vertical-center-outer">
+				<span class="vertical-center">
+					<p class="currentcount">2</p>
+					<p class="listall">20</p>
+				</span>
+			</div>
+		</div>
+	</div>
+
+	<script src="${rc.contextPath}/scripts/js/jquery-1.11.2.min.js"></script>
+	<script src="${rc.contextPath}/pages/js/touch.js"></script>
+
+	<!--底部导航 Start-->
+	<input type="hidden" id="navFooterToPage" value="0"/>
+	<#include "../common/navFooter.ftl">
+	<!--底部导航 End-->
+	<div class="tongjicnzz" style="display:none;">
+		<#include "../common/tongjicnzz.ftl">
+	</div>
+</body>
+
+
+<script type="text/javascript">
+
+var topValue = 0,// 上次滚动条到顶部的距离
+    interval = null;// 定时器
+
+function onCount() {
+    // 判断此刻到顶部的距离是否和1秒前的距离相等
+    if(document.documentElement.scrollTop == topValue) {
+        $(".listcount").hide().prev().fadeIn();
+        clearInterval(interval);
+        interval = null;
+    }
+}
+
+$(function(){
+
+
+    function solidtu(){
+    	// 初始化焦点图的高宽
+        var $this = $(".swiper-wrapper");
+        var $li = $this.find("li");
+        var $vw = $(window).width();
+        if($vw >= 640){
+            $vw = 640;
+        }
+        var tu_length = $li.length;
+        $li.width($vw)
+        var tu_w = $li.width() ;
+        var list_w = tu_w * tu_length;
+        var sum = 5/3;
+
+	    $(".swiper-wrapper").height($vw/sum);
+        $this.width(list_w*2);
+
+    }
+    solidtu();
+    $(window).resize(function(){
+    	solidtu();
+    })
+
+
+		 function imgHeightSet(){
+            var _height = $("#productList .imgX").find("img").height();
+            $("#productList .imgX").height(_height);
+            var _bannerheight = $("#banner").find("img").height();
+            $("#banner .swiper-container").height(_bannerheight);
+        }//图片根据屏幕宽等比例缩放
+
+		var test = setTimeout(function(){
+			// imgHeightSet();
+	       $(".imglazyload").picLazyLoad({//图片懒加载
+	           threshold: 600,
+	           placeholder: ''
+		    });
+	    },500);
+
+
+		function mySwiper(){
+			var mySwiper = new Swiper('.swiper-container',{
+		    	pagination: '.pagination',
+			    paginationClickable: true,
+			    moveStartThreshold: 100,
+			    autoplayStopOnLast:true,
+			    autoplayDisableOnInteraction:false,
+			    loop:true,
+				autoplay:4000,
+				moveStartThreshold:0.1
+	        });
+
+		}//图片轮播
+		mySwiper();
+
+		/*function picLazyLoadFn(){
+			var img1 = new Image(); //创建一个Image对象，实现图片的预下载
+		    img1.src = "${rc.contextPath}/scripts/images/imgplace01.png";
+		    if (img1.complete) { // 如果图片已经存在于浏览器缓存，直接调用回调函数
+		    	var _defaultImgX = img1.src;
+				location.href = location.href + "#" + (new Date).getTime(),
+		        window.onhashchange = function() {
+		             _winScrollTop = $(window).scrollTop();
+		              $(".imglazyload").picLazyLoad({//图片懒加载
+				           threshold: _winScrollTop,
+				           placeholder: _defaultImgX
+				       	});
+		        }();
+		    }
+
+		}//图片懒加载;
+		picLazyLoadFn();*/
+
+		//窗口滚动时事件处理
+		var listCount = $("#productList a").length,
+			countTxt = $(".listall"),
+			countCurrent = $(".currentcount"),
+			listTop = $("#productList").offset().top,
+			differTop = 0,endTop = 0,count = 0,
+			listH = $("#productList a").height(),
+			startnum = parseInt($(window).height()/listH),
+			docTop = $(document).scrollTop(),
+			otherH = $("#banner").height() + $("#footBar").height(),
+			endH = $("body").height()-$(window).height();
+
+   		countTxt.text(listCount);
+
+		if(docTop > listTop){
+			startnum = parseInt(($(window).height()+docTop-otherH)/listH);
+			if(startnum > listCount){
+				startnum = listCount;
+			}
+		}
+   		countCurrent.text(startnum);
+
+
+
+		$(window).scroll(function(){
+			$(".listcount").show().prev().hide();
+			docTop=$(window).scrollTop();
+			if(docTop>300){
+				$('.topbar').fadeIn();
+			}else{
+				$('.topbar').fadeOut();
+			}
+
+			// //根据滚动的距离大小加减商品显示的数额
+
+			var tnum = parseInt(($(window).height()+docTop-otherH)/listH);
+			if(tnum <1 || tnum > listCount) return false;
+			countCurrent.text(tnum);
+
+
+			if(interval == null)// 未发起时，启动定时器，1秒1执行
+                interval = setInterval("onCount()", 1000);
+            topValue = document.documentElement.scrollTop;
+
+		});
+
+
+
+		//返回顶部
+		$('.topbar').click(function(){
+			$('html,body').animate({scrollTop:'0'},800);
+			return false;
+		});
+
+		//滑动时显示商品数量
+		touch.on("body","dragstart drag",function(){
+	   		$(".listcount").show().prev().hide();
+	   	})
+	   	touch.on("body","dragend",function(){
+	   		if(docTop == endH){
+	   			$(".listcount").hide().prev().fadeIn();
+	   		}
+
+	   	})
+
+		function brandCdown(time,id){
+			var day_elem = $(id).find('.day');
+			var hour_elem = $(id).find('.hour');
+			var minute_elem = $(id).find('.minute');
+			var second_elem = $(id).find('.second');
+			var end_time = time;
+
+			if (end_time > 0) {
+				var day = Math.floor((end_time / 3600) / 24);
+				var hour = Math.floor((end_time / 3600) % 24);
+				var minute = Math.floor((end_time / 60) % 60);
+				var second = Math.floor(end_time % 60);
+				if(day==0){
+					$(day_elem).text('');
+				}else{
+					$(day_elem).html('<span class="dayNum">'+day+'</span>天');//计算天
+				}
+
+				$(hour_elem).text((hour<10?'0'+hour:hour)+':');//计算小时
+				$(minute_elem).text((minute<10?'0'+minute:minute)+':');//计算分钟
+				$(second_elem).text(second<10?'0'+second:second);//计算秒杀
+				// window.location.href=requestmodifyurl ;
+			} else {
+				//时间到达后执行操作
+				//$(day_elem).text('0天');//计算天
+				$(hour_elem).text('00:');//计算小时
+				$(minute_elem).text('00:');//计算分钟
+				$(second_elem).text('00');//计算秒杀
+
+				clearInterval(timer) ;
+				 window.location.href=requestmodifyurl ;  // requestmodifyurl 是brandhtml.ftl 中的变量
+				// document.refreshFormBrand.submit();  // 倒计时到期后刷新页面
+			}
+		}
+
+		function countDownTimeX(){
+		         var _productListX = $("#productList");
+		         var _goodsTime = _productListX.find(".timeBg01");
+
+		         $.each(_goodsTime,function(i) {
+		        	 	var stime_i=　_goodsTime.eq(i).attr("value");
+						var sid_i= _goodsTime.eq(i);
+						var timer12 = setInterval(function(){
+							stime_i--;
+							brandCdown(stime_i,sid_i);
+						},980);
+						brandCdown(stime_i,sid_i);
+		        });
+		 }
+	   countDownTimeX();//倒计时请求
+
+
+	})
+</script>
+<!-- <script src="${rc.contextPath}/pages/js/h5self-adaption.js" type="text/javascript"></script> -->
+<script src="${rc.contextPath}/scripts/js/imglazyLoad.js" type="text/javascript"></script>
+<script src="${rc.contextPath}/pages/js/swiper.min.js" type="text/javascript"></script>
+</html>

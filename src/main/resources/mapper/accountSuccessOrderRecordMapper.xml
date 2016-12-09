@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper  
+   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">  
+    <mapper namespace="AccountSuccessOrderRecordMapper">
+    
+    <insert id="addAccountSuccessOrderRecord" parameterType="AccountSuccessOrderRecordEntity" useGeneratedKeys="true" keyProperty="id">
+       INSERT INTO account_success_order_record(account_id,order_id,real_price,total_real_price,operate_type)
+       VALUES(#{accountId},#{orderId},#{realPrice},#{totalRealPrice},#{operateType})
+     </insert>
+</mapper>  

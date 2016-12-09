@@ -1,0 +1,157 @@
+html{font-family:sans-serif;-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%}
+body{margin:0}
+article,aside,details,figcaption,figure,footer,header,hgroup,main,menu,nav,section,summary{display:block}
+audio,canvas,progress,video{display:inline-block;vertical-align:baseline}
+audio:not ([controls] ){display:none;height:0}
+[hidden],template{display:none}
+a{background-color:transparent}
+a:active,a:hover{outline:0}
+abbr[title]{border-bottom:1px dotted}
+b,strong{font-weight:bold}
+dfn{font-style:italic}
+h1{font-size:2em;margin:.67em 0}
+mark{background:#ff0;color:#000}
+small{font-size:80%}
+sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}
+sup{top:-0.5em}
+sub{bottom:-0.25em}
+img{border:0}
+svg:not (:root ){overflow:hidden}
+figure{margin:1em 40px}
+hr{box-sizing:content-box;height:0}
+pre{overflow:auto}
+code,kbd,pre,samp{font-family:monospace,monospace;font-size:1em}
+button,input,optgroup,select,textarea{color:inherit;font:inherit;margin:0}
+button{overflow:visible}
+button,select{text-transform:none}
+button,html input[type="button"],input[type="reset"],input[type="submit"]{-webkit-appearance:button;cursor:pointer}
+button[disabled],html input[disabled]{cursor:default}
+button::-moz-focus-inner,input::-moz-focus-inner{border:0;padding:0}
+input{line-height:normal}
+input[type="checkbox"],input[type="radio"]{box-sizing:border-box;padding:0}
+input[type="number"]::-webkit-inner-spin-button,input[type="number"]::-webkit-outer-spin-button{height:auto}
+input[type="search"]{-webkit-appearance:textfield;box-sizing:content-box}
+input[type="search"]::-webkit-search-cancel-button,input[type="search"]::-webkit-search-decoration{-webkit-appearance:none}
+fieldset{border:1px solid #c0c0c0;margin:0 2px;padding:.35em .625em .75em}
+legend{border:0;padding:0}
+textarea{overflow:auto}
+optgroup{font-weight:bold}
+table{border-collapse:collapse;border-spacing:0}
+td,th{padding:0}
+html{font-size:62.5%;font-family:Helvetica,HelveticaNeue,Arial,Verdana,Sans-serif;background-color:#f0f0f0}
+body{font-size:1.4rem;margin:auto}
+h1,h2,h3,h4,h5,h6{margin:0}
+a{text-decoration:none}
+ul{margin:0;padding:0}
+ul,li,ul li{list-style:none}
+p{margin:0}
+.clearfix:after{content:".";display:block;height:0;clear:both;visibility:hidden}
+.mt13{margin-top:13px}
+.fr{float:right}
+.fl{float:left}
+.icon{display:block;width:28px;height:26px;margin:auto;background:url("../images/icon_spries.png") no-repeat;background-size:50px}
+.badge{position:absolute;right:8px;top:-4px;width:16px;height:16px;line-height:16px;background-color:#ff1919;color:#fff;font-size:11px;font-style:normal;text-align:center;border-radius:50%;text-overflow:ellipsis;overflow:hidden}
+.btn{font-size:14px;color:#fff;width:100%;line-height:32px;border:0;border-radius:3px;background-color:#1a1a1a}
+.pc{max-width:540px;margin:auto}
+.header{position:relative;height:36px;font-size:16px;color:#f4f4f4;background-color:#737373}
+.header .title{font-size:14px;line-height:36px;text-align:center;font-weight:normal;}
+.header-btn{position:absolute;left:0;top:0;display:block;height:36px;line-height:36px;width:50px;text-align:center}
+.header .return{text-indent:-999em;background:url("../images/header_return.png") no-repeat 50% 50%;background-size:20px}
+.header .app-return{text-indent:-999em;background:url("../images/header_app_return.png") no-repeat 50% 50%;background-size:13px}
+.header .manage,.header .save{left:auto;right:0;display:inline-block;color:#fff;font-size:1.2rem}
+.refund-btn{padding:3px;color:#f00;font-size:1.3rem;border:1px solid #f00;border-radius:3px}
+.refund-btn-text{border:0;padding:0}
+.orders-list .orders-item{margin-top:13px;color:#33383b;border-top:1px solid #ededed;border-bottom:1px solid #ededed;background-color:#fff}
+.orders-list .orders-status{line-height:38px}
+.orders-list .orders-status .status{float:left;width:76px;margin-right:10px;font-size:1.5rem;text-align:center;white-space:nowrap;text-overflow:ellipsis;overflow:hidden;border-right:1px solid #ededed}
+.orders-list .orders-status .total-price{font-size:1.3rem}
+.orders-list .orders-status .total-price span{color:#f00}
+.orders-list .orders-goods{padding:10px;font-size:1.2rem;border-top:1px solid #b7b7b7}
+.orders-list .orders-goods .thumb{float:left;width:60px;height:60px}
+.orders-list .orders-goods .thumb img{width:100%;height:100%}
+.orders-list .orders-goods .summary{padding-left:70px;padding-right:70px}
+.orders-list .orders-goods .title{color:#33383b}
+.orders-list .orders-goods .unit-price{margin-top:10px}
+.orders-list .orders-goods .unit-price small{color:#909090;font-family:sans-serif}
+.orders-list .orders-property{padding:10px;color:#5d626b;font-size:1.2rem;border-top:1px solid #ececec}
+.order-msg{padding:10px;font-size:1.1rem;line-height:1.5;color:#fff;background-color:#5e6b85;border-bottom:1px solid #808a9e}
+.order-msg .order-status{font-size:1.5rem;background:url("../images/goods_detail_spries.png") no-repeat;background-size:50px;background-position:0 -296px;padding-left:18px}
+.order-msg .order-status.apply{padding-left:26px;background:url("../images/goods_detail_spries.png") no-repeat;background-size:50px;background-position:-30px 4px}
+.order-msg .order-status.money{background:url("../images/goods_detail_spries.png") no-repeat;background-size:50px;background-position:0 -346px}
+.goods-msg,.return-msg{margin-top:10px}
+.goods-msg .goods-title,.return-msg .goods-title,.goods-msg .return-title,.return-msg .return-title{padding:10px;font-size:1.7rem;font-weight:100;color:#33383b;background-color:#e8e8e8;border-top:1px solid #dbdbdb;border-bottom:1px solid #dbdbdb}
+.goods-msg .btns,.return-msg .btns{padding:15px 10px}
+.goods-msg-body,.goods-msg-view{padding:0 10px;font-size:1.4rem;background-color:#fff;border-bottom:1px solid #e6e6e6}
+.goods-msg-body>li,.goods-msg-view>li{padding:10px 0}
+.goods-msg-body>li .title,.goods-msg-view>li .title{float:left;color:#c1c1c7;font-size:1.4rem}
+.goods-msg-body>li .desc,.goods-msg-view>li .desc{text-align:right}
+.goods-msg-body>li input,.goods-msg-view>li input,.goods-msg-body>li select,.goods-msg-view>li select{float:right;width:70%;text-align:right;border:0;padding:0;outline:none;-webkit-appearance:none;padding-right:1.5rem;}
+.goods-msg-body>li select,.goods-msg-view>li select{width:auto;direction:rtl}
+.goods-msg-body>li .thumb,.goods-msg-view>li .thumb{width:60px;height:60px}
+.goods-msg-body>li .summary,.goods-msg-view>li .summary{text-align:left;padding-left:70px;font-size:1.2rem}
+.goods-msg-body>li .summary p,.goods-msg-view>li .summary p{margin-bottom:5px;font-weight:400}
+.goods-msg-body>li .summary span,.goods-msg-view>li .summary span{color:#909090}
+.goods-msg-body>li .refund-notice,.goods-msg-view>li .refund-notice{float:right;width:66%;height:40px;border:0;resize:none;overflow:auto;padding-right:1.5rem}
+.goods-msg-body>li .refund-type,.goods-msg-view>li .refund-type{float:right;border-radius:2px;background-clip:border-box}
+.goods-msg-body>li .refund-type li,.goods-msg-view>li .refund-type li{float:left;min-width:72px;padding:0 4px;line-height:20px;text-align:center;border:1px solid #f00}
+.goods-msg-body>li .refund-type li:nth-child(1),.goods-msg-view>li .refund-type li:nth-child(1){border-top-left-radius:2px;border-bottom-left-radius:2px}
+.goods-msg-body>li .refund-type li+li,.goods-msg-view>li .refund-type li+li{border-top-right-radius:2px;border-bottom-right-radius:2px}
+.goods-msg-body>li .refund-type .cur,.goods-msg-view>li .refund-type .cur{color:#fff;background-color:#f00}
+.goods-msg-body>li .refund-upload,.goods-msg-view>li .refund-upload{float:right}
+.goods-msg-body>li .refund-upload .img-box,.goods-msg-view>li .refund-upload .img-box{position:relative;float:left;width:65px;height:65px;border:1px solid #5c6062}
+.goods-msg-body>li .refund-upload .img-box+.img-box,.goods-msg-view>li .refund-upload .img-box+.img-box{margin-left:10px}
+.goods-msg-body>li .refund-upload .img-box .box,.goods-msg-view>li .refund-upload .img-box .box{position:relative;overflow:hidden;width:100%;height:100%;background:url('../images/good_fileupload_add.jpg') no-repeat;background-size:cover}
+.goods-msg-body>li .refund-upload .thumb,.goods-msg-view>li .refund-upload .thumb{width:100%;height:100%}
+.goods-msg-body>li .refund-upload input,.goods-msg-view>li .refund-upload input{position:absolute;left:0;top:0;opacity:0;font-size:100px}
+.goods-msg-body>li .refund-upload .tips,.goods-msg-view>li .refund-upload .tips{position:absolute;bottom:0;left:0;right:0;font-size:10px;text-align:center;border-top:1px solid #5c6062;background-color:rgba(255,255,255,0.5)}
+.goods-msg-body>li .refund-upload .remove,.goods-msg-view>li .refund-upload .remove{position:absolute;top:-10px;right:-10px;display:none;width:25px;height:25px;background:url("../images/goods_detail_spries.png") no-repeat;background-size:50px;background-position:4px -400px}
+.goods-msg-body>li .refund-upload .uploaded .remove,.goods-msg-view>li .refund-upload .uploaded .remove{display:block}
+.goods-msg-body>li .set-account,.goods-msg-view>li .set-account{float:right;width:100%;color:#f00}
+.goods-msg-body>li .set-account i,.goods-msg-view>li .set-account i{display:inline-block;margin-left:4px;width:8px;height:14px;background:url("../images/goods_detail_spries.png") no-repeat;background-size:50px;background-position:0 -50px;vertical-align:bottom}
+.goods-msg-body li+li,.goods-msg-view li+li{border-top:1px solid #f0f0f0}
+.goods-msg-view>li .title,.goods-msg-view>li .desc{color:#5d626b}
+.refund-tips{padding:10px 10px 10px 30px;font-size:1.2rem;color:#31363a;background-color:#fff;box-sizing:border-box;background:url("../images/goods_detail_spries.png") no-repeat;background-size:50px;background-position:10px -190px}
+.refund-tips .time{color:#f26352}
+.refund-tips.done{background:url("../images/goods_detail_spries.png") no-repeat;background-size:50px;background-position:10px -239px}
+.return-msg{color:#33383b;font-size:1.4rem;line-height:1.428;background-color:#fff;border-bottom:1px solid #dfdfdf}
+.return-msg dl{padding:10px}
+.return-msg dt{float:left}
+.return-msg dd{margin-left:0;padding-left:5em}
+.express-msg .form-group{height:42px;padding:0 10px;line-height:42px;border-bottom:1px solid #ececec;background-color:#fff}
+.express-msg .form-group input,.express-msg .form-group select{float:right;width:100%;height:42px;text-align:right;border:0;padding:0;outline:none;-webkit-appearance:none}
+.express-msg .form-group select{width:auto;direction:rtl}
+.express-msg .form-group label{float:left}
+.express-msg .form-group .desc{float:right}
+.express-msg .btn{display:inline-block;text-align:center}
+.index-box{margin-top:13px;background-color:#fff}
+.index-box-title{padding:13px;font-size:16px;color:#33383b;border-bottom:1px solid #b7b7b7}
+.index-box-title span{padding-left:8px;border-left:2px solid #f26352}
+.index-box-title small{padding-left:10px;font-size:10px;color:#636872}
+.index-box-con{padding:6px 12px}
+.index-box-con .icon-online{width:18px;height:16px;background-position:0 0}
+.index-box-con .icon-phone{width:16px;height:16px;background-position:0 -33px}
+.index-box-con .icon-autorefund{width:17px;height:16px;background-position:0 -67px}
+.index-box-con .icon-refundprosse{width:16px;height:16px;background-position:0 -100px}
+.index-box-btn{position:relative;display:inline-block;padding:5px}
+.index-box-btn>a{display:inline-block;width:100%;height:100%;color:#636872;font-size:12px}
+.index-box-btn>a:active{color:#f16251}
+.index-box-btn>a span{display:inline-block;padding-top:4px}
+.index-box-list .avatar{float:left;width:27px;height:27px}
+.index-box-list p{margin:0;padding-left:33px;font-size:11px}
+.index-box-list+.index-box-list{margin-top:6px}
+.account-list,.account-manage-list{margin-top:13px;border-top:1px solid #d8d8d8;border-bottom:1px solid #d8d8d8}
+.account-list .account-item,.account-manage-list .account-item{padding:0 10px;font-size:1.4rem;line-height:44px;color:#33383b;background-color:#fff}
+.account-list .account-item a,.account-manage-list .account-item a{color:#33383b}
+.account-list .account-item+.account-item,.account-manage-list .account-item+.account-item{border-top:1px solid #d8d8d8}
+.account-list .account-item .type,.account-manage-list .account-item .type{float:left;color:#33383b}
+.account-list .account-item .account,.account-manage-list .account-item .account{position:relative;padding-right:30px;text-align:right;font-size:1.2rem;text-overflow:ellipsis;white-space:nowrap;overflow:hidden}
+.account-list .account-item .account-add,.account-manage-list .account-item .account-add{float:right;width:100%;box-sizing:border-box;font-size:1.4rem;color:#f00}
+.account-list .account-item .account:after,.account-manage-list .account-item .account:after{position:absolute;right:0;top:10px;content:"";display:none;width:23px;height:23px;background:url("../images/goods_detail_spries.png") no-repeat;background-size:50px;background-position:0 -100px}
+.account-list .account-item.cur .account:after,.account-manage-list .account-item.cur .account:after{display:block}
+.account-manage-list .account-item .account:after{display:block;background-position:6px -144px}
+.account-bank-add .form-group,.account-alipay-add .form-group{height:42px;padding:0 10px;line-height:42px;border-bottom:1px solid #ececec;background-color:#fff}
+.account-bank-add .form-group .title,.account-alipay-add .form-group .title{float:left;color:#c1c1c7;font-size:1.5rem}
+.account-bank-add .form-group .title:before,.account-alipay-add .form-group .title:before{content:"*";padding-right:5px;font-family:sans-serif;color:#f00;font-size:12px}
+.account-bank-add .form-group input,.account-alipay-add .form-group input,.account-bank-add .form-group select,.account-alipay-add .form-group select{float:right;width:70%;height:42px;text-align:right;border:0;padding:0;outline:none;-webkit-appearance:none}
+.account-bank-add .form-group select,.account-alipay-add .form-group select{direction:rtl;width:auto}
+.account-bank-add .btns,.account-alipay-add .btns{padding:10px}

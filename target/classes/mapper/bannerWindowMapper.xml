@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper  
+   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">  
+    <mapper namespace="BannerWindowMapper">  
+    
+    <select id="findCurrDisplayBannerId" parameterType="map"  resultType="java.lang.Integer">
+      SELECT id 
+      FROM banner_window 
+      WHERE 
+      start_time &lt;=#{startTime} AND end_time &gt;=#{endTime} 
+      AND is_display=1 ORDER BY `order` DESC
+
+    </select>
+    
+    <!--  如果参数的类型是List, 则在使用时，collection属性要必须指定为 list -->
+    <select id="findDisplayBannerInfoByIds"   resultType="BannerWindowEntity">
+      SELECT type,display_id,image 
+      FROM banner_window 
+      WHERE id IN  
+        <foreach item="item" index="index" collection="list" open="(" separator="," close=")">  
+          #{item}  
+        </foreach>
+    </select>
+    
+    <select id="findDisplayBannerInfoById" parameterType="int"   resultType="BannerWindowEntity">
+      SELECT 
+      	type,
+      	display_id AS displayId,
+      	image 
+      FROM 
+      	banner_window 
+      WHERE 
+      	id=#{id}
+    </select>
+    
+    <!-- 查询所有可显示的banner -->
+    <select id="findDisplayBannersInfo" parameterType="map"  resultType="BannerWindowEntity">
+      SELECT id as id ,
+      type as type ,
+      display_id as displayId , 
+      image  as image ,
+      `desc`  as  `desc` ,
+      start_time  as startTime ,
+      end_time  as  endTime ,
+      is_display  as isDisplay ,
+      `order`  as  'order' , 
+      create_time  as createTime ,
+      update_time  as updateTime
+      FROM banner_window 
+      WHERE 1=1
+      AND start_time &lt; #{startTime}
+      AND end_time &gt; #{endTime,jdbcType=TIMESTAMP}
+      AND is_display=1 ORDER BY `order` DESC
+    </select>
+    
+    <select id="findBannerInfoById" parameterType="int"  resultType="BannerWindowEntity">
+      SELECT start_time,end_time 
+      FROM banner_window 
+      WHERE id=#{id} LIMIT 1
+    </select>
+    
+</mapper>  
